@@ -6,7 +6,7 @@
 ### 📤 프로젝트 열기
 * 프로젝트를 하나 생성하고 IntelliJ에서 원격 저장소를 연결해줍니다
 * ```git init``` // 저장소 생성
-* ```git remote add origin https://github.com/HIUMC/UMC-9th-Spring-Study.git```  //저장소 내 컴퓨터 <-> 원격 연결
+* ```git remote add origin https://github.com/HIUMC/UMC-10th-Spring-Study.git```  //저장소 내 컴퓨터 <-> 원격 연결
 * ```git pull origin main```
 * IntelliJ의 terminal에서 자신의 branch로 checkout을 해주세요
     * ```git checkout origin [본인 github 아이디]```  //브랜치 개념 모른다면 구글링. 자신만의 공간을 만든다고 생각하시면 됩니다.
@@ -16,7 +16,7 @@
 위의 방식이 어렵다면 깃 Clone 하는 방법을 검색해보기
 
 ### 🏡 작업공간 생성
-* UMC-9th-Spring-Study (프로젝트 루트 디렉토리)
+* UMC-10th-Spring-Study (프로젝트 루트 디렉토리)
     * 본인 github 아이디명의 디렉토리 (본인 github 아이디로 설정해주세요!)
         * 해당 강의 디렉토리나 워크북명 (강의 이름으로 설정해주세요!)
             * 스프링 소스코드 or 워크북 공부하면서 배운 것 등등...
@@ -25,7 +25,7 @@
 | 본인 github 아이디명의 디렉토리부터 만들고 시작하시면 됩니다! 😊
 ```
 │
-├─ UMC-9th-Spring-Study
+├─ UMC-10th-Spring-Study
 │     │
 │     ├─ github 아이디명 (dir)
 │     │     │ 
@@ -46,7 +46,7 @@
 │     │          └─ .. 이하 동일 
 │     │ 
 │     │      //예시
-│     ├─ nsh0919 (dir)
+│     ├─ LeeJeongHeon02 (dir)
 │     │     │ 
 |     |     |
 │     │     ├─  스프링 입문 (dir)
@@ -96,6 +96,7 @@
 * 해당 주차의 강의를 듣거나 작업을 모두 끝냈다면, 프로젝트 변경 사항을 remote repository(github repository)에 push 합니다
     * ```git push origin [본인 github 아이디 브랜치 명]``` : git에 등록되어 있는 origin(github repository)에 있는 자신의 branch로 프로젝트의 변경 사항을 반영합니다
 * push를 완료했다면 스터디 repository에서 pull request를 진행합니다
-    * 링크: https://github.com/HIUMC/UMC-9th-Spring-Study/pulls
+    * 링크: https://github.com/HIUMC/UMC-10th-Spring-Study/pulls
 * PR(Pull Request)시 메세지 제목은 다음과 같이 ```[이름/닉네임] 1주차 정리내용 제출.``` 라고 적은 후 ```create pull request``` 버튼을 눌러주세요
 * PR : ```base: [본인 해당 class 브랜치]``` <- ```compare: [본인 github 아이디]```
+
