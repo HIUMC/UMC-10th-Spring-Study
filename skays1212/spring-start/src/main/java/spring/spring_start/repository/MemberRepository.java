@@ -1,9 +1,11 @@
 package spring.spring_start.repository;
 
+import org.springframework.stereotype.Repository;
 import spring.spring_start.domain.Member;
 
 import java.util.List;
 import java.util.Optional;
+
 
 public interface MemberRepository {
     Member save(Member member);
