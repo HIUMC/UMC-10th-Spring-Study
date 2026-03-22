@@ -1,10 +1,10 @@
-package spring.spring_intro;
+package spring.spring_start;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringIntroApplicationTests {
+class SpringStartApplicationTests {
 
 	@Test
 	void contextLoads() {

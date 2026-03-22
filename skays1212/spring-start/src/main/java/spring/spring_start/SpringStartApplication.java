@@ -1,13 +1,13 @@
-package spring.spring_intro;
+package spring.spring_start;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringIntroApplication {
+public class SpringStartApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringIntroApplication.class, args);
+		SpringApplication.run(SpringStartApplication.class, args);
 	}
 
 }

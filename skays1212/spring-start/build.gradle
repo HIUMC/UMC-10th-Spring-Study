@@ -19,9 +19,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web' // webmvc -> web으로 수정
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-test' // 통합 테스트 라이브러리 하나로 수정
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	testImplementation 'org.springframework.boot:spring-boot-starter-thymeleaf-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
