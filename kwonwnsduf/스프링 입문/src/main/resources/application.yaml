@@ -1,16 +1,11 @@
 spring:
-  application:
-    name: hello-spring
-
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
+    url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
+    password:
 
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        format_sql: true # SQL을 한 줄이 아닌 보기 좋게 포맷팅해서 출력
+      ddl-auto: create
+    show-sql: true
