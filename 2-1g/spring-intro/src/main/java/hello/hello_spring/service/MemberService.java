@@ -12,7 +12,11 @@ import java.util.Optional;
 /// command+shift+t로 test파일을 바로 만들 수 있음
 public class MemberService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+    // 외부에서 memberRepository 주입 - DI
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     /// 회원가입
     /// 조건: 같은 이름의 회원 불가능
