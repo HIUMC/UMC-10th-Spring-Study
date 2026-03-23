@@ -6,10 +6,10 @@ import org.springframework.stereotype.Controller;
 
 ///  @Controller 어노테이션을 붙이면
 /// 코드를 실행할 때 해당 컨트롤러 객체를 생성하여
-/// Spring Container의 Spring bin이 들고 있게 해준다
-/// - Spring Container에서 Spring bin이 관리된다
+/// Spring Container의 Spring bean이 들고 있게 해준다
+/// - Spring Container에서 Spring bean이 관리된다
 /// Component Scan 방식
-/// Spring bin에 등록할 때에는 Single Tone으로 관리한다 즉,
+/// Spring bean에 등록할 때에는 Single Tone으로 관리한다 즉,
 /// 유일하게 하나만 등록한고, 공유한다
 @Controller
 public class MemberController {

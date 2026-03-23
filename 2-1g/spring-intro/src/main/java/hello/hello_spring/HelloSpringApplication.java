@@ -1,5 +1,5 @@
 // hello.hello_spring 하위 패키지만
-// Spring bin에
+// Spring bean에
 // Component로 등록됨
 package hello.hello_spring;
 

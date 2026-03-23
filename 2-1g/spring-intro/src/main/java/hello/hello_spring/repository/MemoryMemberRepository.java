@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 // Spring Container에 객체를 저장하기 위한 어노테이션
-@Repository
+//@Repository
 public class MemoryMemberRepository implements MemberRepository {
 
     private static Map<Long,Member> store = new HashMap<>();

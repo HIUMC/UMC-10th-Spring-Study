@@ -14,7 +14,7 @@ import java.util.Optional;
 /// command+shift+t로 test파일을 바로 만들 수 있음
 
 // Spring Container에 Service 객체를 등록하기 위한 어노테이션
-@Service
+//@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
