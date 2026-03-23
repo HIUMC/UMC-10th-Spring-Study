@@ -3,14 +3,18 @@ package hello_spring.service;
 import hello_spring.domain.Member;
 import hello_spring.repository.MemberRepository;
 import hello_spring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service // 스프링 컨테이너에 멤버 서비스로 등록해줌
 public class MemberService {
     // 테스트 케이스 단축키 : cmd + shift + T
     private final MemberRepository memberRepository;
 
+    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
