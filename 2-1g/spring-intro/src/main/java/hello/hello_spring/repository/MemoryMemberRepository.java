@@ -1,9 +1,12 @@
 package hello.hello_spring.repository;
 
 import hello.hello_spring.domain.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+// Spring Container에 객체를 저장하기 위한 어노테이션
+@Repository
 public class MemoryMemberRepository implements MemberRepository {
 
     private static Map<Long,Member> store = new HashMap<>();

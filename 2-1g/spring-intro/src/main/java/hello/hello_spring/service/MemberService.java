@@ -3,6 +3,8 @@ package hello.hello_spring.service;
 import hello.hello_spring.domain.Member;
 import hello.hello_spring.repository.MemberRepository;
 import hello.hello_spring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +12,15 @@ import java.util.Optional;
 /// Service 파일은 Repository와 다르게
 /// 비즈니스와 가까운 용어로 함수를 만드는게 좋음
 /// command+shift+t로 test파일을 바로 만들 수 있음
+
+// Spring Container에 Service 객체를 등록하기 위한 어노테이션
+@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
     // 외부에서 memberRepository 주입 - DI
+    // Spring Container에 있는 memberRepository를 주입해줌
+    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
