@@ -1,11 +1,8 @@
 package spring.spring_start.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import spring.spring_start.domain.Member;
 import spring.spring_start.repository.MemberRepository;
-import spring.spring_start.repository.MemoryMemberRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,16 +12,16 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
+
     /**
      * 회원 가입
      */
     public Long join(Member member) {
-        validateDuplicateMember(member); //중복 회원 검증
 
+        validateDuplicateMember(member); // 중복 회원 검증
         memberRepository.save(member);
         return member.getId();
     }
@@ -36,6 +33,9 @@ public class MemberService {
                 });
     }
 
+    /**
+     * 전체 회원 조회
+     */
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
@@ -43,4 +43,5 @@ public class MemberService {
     public Optional<Member> findOne(Long memberId) {
         return memberRepository.findById(memberId);
     }
+
 }
