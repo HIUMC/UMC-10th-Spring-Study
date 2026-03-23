@@ -8,14 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class MemberService {
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    // 테스트 케이스 단축키 : cmd + shift + T
+    private final MemberRepository memberRepository;
+
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     // 회원가입
     public Long join(Member member) {
     // 같은 이름이 있는 중복 회원 X
     // Optional<Member> result = memberRepository.findByName(member.getName()); cmd + option + v : return 바로 해줌
     // orElseGet 많이 씀
-    // result.ifPresent( m -> { // ifPresent : 값이 있으면
+    // result.ifPresent( m -> { ifPresent : 값이 있으면
     // throw new IllegalStateException("이미 존재하는 회원입니다.");
     // });
         validateDuplicateMember(member); // ctrl + t -> refactor 탭 -> 메소드 추출
