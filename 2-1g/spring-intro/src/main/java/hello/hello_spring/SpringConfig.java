@@ -3,6 +3,8 @@ package hello.hello_spring;
 import hello.hello_spring.repository.MemberRepository;
 import hello.hello_spring.repository.MemoryMemberRepository;
 import hello.hello_spring.service.MemberService;
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +16,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringConfig {
 
+    private EntityManager em;
+
+    @Autowired
+    public SpringConfig(EntityManager em) {
+        this.em = em;
+    }
+
     /// Bean 어노테이션을 사용해서 Spring Bean에 객체 등록
     @Bean
     public MemberService memberService() {
@@ -24,4 +33,5 @@ public class SpringConfig {
     public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
+
 }
