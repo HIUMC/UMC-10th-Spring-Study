@@ -16,11 +16,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringConfig {
 
+    /*
     private EntityManager em;
 
     @Autowired
     public SpringConfig(EntityManager em) {
         this.em = em;
+    }
+    */
+
+    private MemberRepository memberRepository;
+    @Autowired
+    public void SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     /// Bean 어노테이션을 사용해서 Spring Bean에 객체 등록
