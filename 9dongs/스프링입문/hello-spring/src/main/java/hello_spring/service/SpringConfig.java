@@ -1,8 +1,10 @@
 package hello_spring.service;
 
 import hello_spring.repository.JdbcMemberRepository;
+import hello_spring.repository.JpaMemberRepository;
 import hello_spring.repository.MemberRepository;
 import hello_spring.repository.MemoryMemberRepository;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +15,11 @@ import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
 
-    private DataSource dataSource;
+    private EntityManager em;
 
     @Autowired
-    public SpringConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public SpringConfig(EntityManager em) {
+        this.em = em;
     }
 
     @Bean
@@ -31,6 +33,7 @@ public class SpringConfig {
         // return new MemoryMemberRepository(); : 다른 코드 수정 안하고 SpringConfig를 고치는 것 만으로 DI 변경 가능
         // return new JdbcMemberRepository(dataSource);
         // 객체지향 다향성 활용 -> 개방 폐쇄 원칙 (OCP) ( 기능을 변경해도 기존 코드 변경 x = 확장은 O, 변경,수정은 X )
-        return new JdbcMemberRepository(dataSource);
+        // return new JdbcMemberRepository(dataSource);
+        return new JpaMemberRepository(em);
     }
 }
