@@ -1,5 +1,6 @@
 package hello_spring.service;
 
+import hello_spring.aop.TimeTraceAop;
 import hello_spring.repository.JdbcMemberRepository;
 import hello_spring.repository.JpaMemberRepository;
 import hello_spring.repository.MemberRepository;
@@ -27,13 +28,18 @@ public class SpringConfig {
         return new MemberService(memberRepository);
     }
 
-    // @Bean
-    // public MemberRepository memberRepository() {
+//    @Bean
+//    public TimeTraceAop timeTraceAop() {
+//        return new TimeTraceAop();
+//    }
 
-        // return new MemoryMemberRepository(); : 다른 코드 수정 안하고 SpringConfig를 고치는 것 만으로 DI 변경 가능
-        // return new JdbcMemberRepository(dataSource);
-        // 객체지향 다향성 활용 -> 개방 폐쇄 원칙 (OCP) ( 기능을 변경해도 기존 코드 변경 x = 확장은 O, 변경,수정은 X )
-        // return new JdbcMemberRepository(dataSource);
-        // return new JpaMemberRepository(em);
-    // }
+//     @Bean
+//     public MemberRepository memberRepository() {
+//
+//         return new MemoryMemberRepository(); : 다른 코드 수정 안하고 SpringConfig를 고치는 것 만으로 DI 변경 가능
+//         return new JdbcMemberRepository(dataSource);
+//         객체지향 다향성 활용 -> 개방 폐쇄 원칙 (OCP) ( 기능을 변경해도 기존 코드 변경 x = 확장은 O, 변경,수정은 X )
+//         return new JdbcMemberRepository(dataSource);
+//         return new JpaMemberRepository(em);
+//     }
 }
