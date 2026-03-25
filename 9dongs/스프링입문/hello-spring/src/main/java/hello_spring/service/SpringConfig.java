@@ -15,25 +15,25 @@ import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
 
-    private EntityManager em;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public SpringConfig(EntityManager em) {
-        this.em = em;
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Bean
     public MemberService memberService() {
-        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
-    public MemberRepository memberRepository() {
+    // @Bean
+    // public MemberRepository memberRepository() {
 
         // return new MemoryMemberRepository(); : 다른 코드 수정 안하고 SpringConfig를 고치는 것 만으로 DI 변경 가능
         // return new JdbcMemberRepository(dataSource);
         // 객체지향 다향성 활용 -> 개방 폐쇄 원칙 (OCP) ( 기능을 변경해도 기존 코드 변경 x = 확장은 O, 변경,수정은 X )
         // return new JdbcMemberRepository(dataSource);
-        return new JpaMemberRepository(em);
-    }
+        // return new JpaMemberRepository(em);
+    // }
 }
