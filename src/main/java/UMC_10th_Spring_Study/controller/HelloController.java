@@ -1,4 +1,4 @@
-package UMC_10th_Spring_Study.demo.controller;
+package UMC_10th_Spring_Study.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
