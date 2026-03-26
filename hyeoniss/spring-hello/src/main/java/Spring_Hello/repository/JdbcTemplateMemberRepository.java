@@ -1,16 +1,12 @@
-package UMC_10th_Spring_Study.repository;
+package Spring_Hello.repository;
 
-import UMC_10th_Spring_Study.domain.Member;
-import org.springframework.beans.factory.annotation.Autowired;
+import Spring_Hello.domain.Member;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import javax.sql.DataSource;
-import java.awt.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

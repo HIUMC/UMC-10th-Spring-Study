@@ -1,4 +1,4 @@
-package UMC_10th_Spring_Study;
+package Spring_Hello;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,17 +1,9 @@
-package UMC_10th_Spring_Study;
+package Spring_Hello;
 
-import UMC_10th_Spring_Study.aop.TimeTraceAop;
-import UMC_10th_Spring_Study.domain.Member;
-import UMC_10th_Spring_Study.repository.*;
-import UMC_10th_Spring_Study.service.MemberService;
-import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import Spring_Hello.repository.*;
+import Spring_Hello.service.MemberService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.sql.DataSource;
-import java.util.List;
-import java.util.Optional;
 
 @Configuration
 public class SpringConfig {

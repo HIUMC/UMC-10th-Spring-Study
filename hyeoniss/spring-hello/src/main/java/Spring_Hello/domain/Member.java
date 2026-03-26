@@ -1,10 +1,9 @@
-package UMC_10th_Spring_Study.domain;
+package Spring_Hello.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jdk.jfr.Enabled;
 
 @Entity
 public class Member {

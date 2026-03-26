@@ -1,7 +1,7 @@
-package UMC_10th_Spring_Study.repository;
+package Spring_Hello.repository;
 
 
-import UMC_10th_Spring_Study.domain.Member;
+import Spring_Hello.domain.Member;
 
 import java.util.List;
 import java.util.Optional;

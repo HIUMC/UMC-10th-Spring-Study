@@ -1,34 +1,20 @@
-package UMC_10th_Spring_Study.service;
+package Spring_Hello.service;
 
-import UMC_10th_Spring_Study.domain.Member;
-import UMC_10th_Spring_Study.repository.MemberRepository;
-import UMC_10th_Spring_Study.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import Spring_Hello.domain.Member;
+import Spring_Hello.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.StatusResultMatchersExtensionsKt.isEqualTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MemberServiceTest {
-
-    MemberService memberService;
-    MemoryMemberRepository memberRepository;
-
-    @BeforeEach
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);  //di
-    }
-
-    @AfterEach
-    public void afterEach() {
-        memberRepository.clearStore();
-    }
+@SpringBootTest
+@Transactional
+public class MemberServiceIntegrationTest {
+    @Autowired MemberService memberService;
+    @Autowired MemberRepository memberRepository;
 
     @Test
     void 회원가입() {

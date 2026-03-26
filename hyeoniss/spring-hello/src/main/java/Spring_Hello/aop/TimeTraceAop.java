@@ -1,4 +1,4 @@
-package UMC_10th_Spring_Study.aop;
+package Spring_Hello.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeTraceAop {
 
-    @Around("execution(* UMC_10th_Spring_Study..*(..))")
+    @Around("execution(* Spring_Hello..*(..))")
       public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         System.out.println("START: " + joinPoint.toString());

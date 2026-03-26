@@ -1,7 +1,7 @@
-package UMC_10th_Spring_Study.controller;
+package Spring_Hello.controller;
 
-import UMC_10th_Spring_Study.domain.Member;
-import UMC_10th_Spring_Study.service.MemberService;
+import Spring_Hello.domain.Member;
+import Spring_Hello.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

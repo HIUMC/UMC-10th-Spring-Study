@@ -1,4 +1,4 @@
-package UMC_10th_Spring_Study.controller;
+package Spring_Hello.controller;
 
 public class MemberForm {
     private String name;

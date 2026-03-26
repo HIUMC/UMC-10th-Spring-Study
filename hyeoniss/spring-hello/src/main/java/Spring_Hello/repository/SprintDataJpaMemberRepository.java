@@ -1,6 +1,6 @@
-package UMC_10th_Spring_Study.repository;
+package Spring_Hello.repository;
 
-import UMC_10th_Spring_Study.domain.Member;
+import Spring_Hello.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
