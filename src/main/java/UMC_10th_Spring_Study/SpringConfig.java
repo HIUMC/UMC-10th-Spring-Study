@@ -1,5 +1,6 @@
 package UMC_10th_Spring_Study;
 
+import UMC_10th_Spring_Study.aop.TimeTraceAop;
 import UMC_10th_Spring_Study.domain.Member;
 import UMC_10th_Spring_Study.repository.*;
 import UMC_10th_Spring_Study.service.MemberService;
@@ -38,6 +39,11 @@ public class SpringConfig {
     public MemberService memberService() {
         return new MemberService(memberRepository);
     }
+
+//    @Bean
+//    public TimeTraceAop timeTraceAop() {
+//        return new TimeTraceAop();
+//    }
 
 //    @Bean
 //    public MemberRepository memberRepository() {
