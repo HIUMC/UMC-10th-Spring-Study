@@ -1,6 +1,5 @@
 package UMC_10th_Spring_Study.controller;
 
-import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

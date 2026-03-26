@@ -5,10 +5,12 @@ import UMC_10th_Spring_Study.repository.MemberRepository;
 import UMC_10th_Spring_Study.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public class MemberService {
     
     private final MemberRepository memberRepository;
