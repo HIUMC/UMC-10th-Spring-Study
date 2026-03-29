@@ -27,7 +27,9 @@ public class AppConfig {
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
+    // 만약 할인 정책을 바꾸려면, 이 부분만 고치면 됨
+    // OCP 원칙이 매우 잘 지켜짐
     private static DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
