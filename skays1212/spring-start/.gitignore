@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -35,15 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-.idea/
-.DS_Store
-
-build/
-.gradle/
-out/
-bin/
-*.iml
-
-.AppleDouble
-.LSOverride
