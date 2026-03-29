@@ -1,0 +1,16 @@
+// hello.hello_spring 하위 패키지만
+// Spring bean에
+// Component로 등록됨
+package hello.hello_spring;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class HelloSpringApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(HelloSpringApplication.class, args);
+	}
+
+}
