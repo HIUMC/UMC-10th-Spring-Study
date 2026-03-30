@@ -9,7 +9,7 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
 
-    private final MemberRepository memberRepository=new MemoryMemberRepository();
+    //private final MemberRepository memberRepository=new MemoryMemberRepository();
     //구체적인 코드를 의존하고 있음 .
    // private final DiscountPolicy discountPolicy=new FixDiscountPolicy();
 
@@ -19,9 +19,18 @@ public class OrderServiceImpl implements OrderService {
     //인터페이스에만 의존함
     //-> NullPointException이 생김 !
 
-    private DiscountPolicy discountPolicy;
+    //private DiscountPolicy discountPolicy;
     //해결방법 -> 누군가가 클라이언트인 OrderServiceImpl에  DiscountPolicy의 구현객체를
     //대신 생성하고 주입해주어야 함
+
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId,String itemName,int itemPrice) {
