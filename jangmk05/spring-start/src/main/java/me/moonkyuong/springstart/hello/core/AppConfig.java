@@ -2,6 +2,7 @@ package me.moonkyuong.springstart.hello.core;
 
 import me.moonkyuong.springstart.hello.core.discount.DiscountPolicy;
 import me.moonkyuong.springstart.hello.core.discount.FixDiscountPolicy;
+import me.moonkyuong.springstart.hello.core.discount.RateDiscountPolicy;
 import me.moonkyuong.springstart.hello.core.member.MemberRepository;
 import me.moonkyuong.springstart.hello.core.member.MemberService;
 import me.moonkyuong.springstart.hello.core.member.MemberServiceImpl;
@@ -22,6 +23,7 @@ public class AppConfig {
         return new MemoryMemberRespository();
     }
     public DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+        // return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
