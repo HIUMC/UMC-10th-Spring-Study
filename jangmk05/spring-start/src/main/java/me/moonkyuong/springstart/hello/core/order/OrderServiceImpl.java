@@ -8,10 +8,19 @@ import me.moonkyuong.springstart.hello.core.member.MemberRepository;
 import me.moonkyuong.springstart.hello.core.member.MemoryMemberRespository;
 
 public class OrderServiceImpl implements OrderService{
-    private final MemberRepository memberRepository = new MemoryMemberRespository();
+    // private final MemberRepository memberRepository = new MemoryMemberRespository();
+    private final MemberRepository memberRepository;
+
     // private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     // private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
-    private DiscountPolicy discountPolicy;
+    // private DiscountPolicy discountPolicy;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy
+            discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
