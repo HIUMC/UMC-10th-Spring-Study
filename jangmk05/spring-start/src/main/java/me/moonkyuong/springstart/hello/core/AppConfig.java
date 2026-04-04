@@ -5,7 +5,7 @@ import me.moonkyuong.springstart.hello.core.discount.RateDiscountPolicy;
 import me.moonkyuong.springstart.hello.core.member.MemberRepository;
 import me.moonkyuong.springstart.hello.core.member.MemberService;
 import me.moonkyuong.springstart.hello.core.member.MemberServiceImpl;
-import me.moonkyuong.springstart.hello.core.member.MemoryMemberRespository;
+import me.moonkyuong.springstart.hello.core.member.MemoryMemberRepository;
 import me.moonkyuong.springstart.hello.core.order.OrderService;
 import me.moonkyuong.springstart.hello.core.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ public class AppConfig {
     }
     @Bean
     public MemberRepository memberRepository() {
-        return new MemoryMemberRespository();
+        return new MemoryMemberRepository();
     }
     @Bean
     public DiscountPolicy discountPolicy() {
