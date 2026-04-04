@@ -8,7 +8,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/spring-hello" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -59,6 +59,7 @@
       <updated>1774532122539</updated>
       <workItem from="1774532123670" duration="6000" />
       <workItem from="1774532188307" duration="479000" />
+      <workItem from="1775014887564" duration="159000" />
     </task>
     <servers />
   </component>
