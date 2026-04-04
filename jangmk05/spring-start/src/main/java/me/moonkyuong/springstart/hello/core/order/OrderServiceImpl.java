@@ -8,6 +8,11 @@ public class OrderServiceImpl implements OrderService{
     // private final MemberRepository memberRepository = new MemoryMemberRespository();
     private final MemberRepository memberRepository;
 
+    // 추가
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
+
     // private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     // private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
     // private DiscountPolicy discountPolicy;
