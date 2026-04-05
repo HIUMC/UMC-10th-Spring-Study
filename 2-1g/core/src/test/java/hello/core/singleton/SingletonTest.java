@@ -5,6 +5,8 @@ import hello.core.member.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class SingletonTest {
 
@@ -44,5 +46,24 @@ public class SingletonTest {
 
         // isSameAs --> ==
         // isEqualTo --> equals 메서드
+
+        // 그렇다면 모든 객체 클래스 코드를 싱글톤으로 수정? ㄴㄴ
+        // 스프링 컨테이너를 쓰면 기본적으로 싱글톤으로 관리해줌
+    }
+
+    @Test
+    @DisplayName("스프링 컨테이너와 싱글톤")
+    void springContainer() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+
+        MemberService memberService1 = ac.getBean("memberService", MemberService.class);
+        MemberService memberService2 = ac.getBean("memberService", MemberService.class);
+
+        // 둘이 같은 객체!
+        System.out.println("memberService1 = " + memberService1);
+        System.out.println("memberService2 = " + memberService2);
+
+        Assertions.assertThat(memberService1).isSameAs(memberService2);
     }
 }
