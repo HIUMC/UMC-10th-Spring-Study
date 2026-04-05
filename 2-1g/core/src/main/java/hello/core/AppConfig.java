@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 /// 즉, 서비스 파일에 구현체를 주입하는 별도의 설정 파일
 /// 애플리케이션 동작에 필요한 구현 객체를 생성, 생성자를 통해 주입 - DI
 
+// Configuration 어노테이션을 빼면, CGLIB을 사용하지 않음! 싱글톤 관리 불가
 @Configuration
 public class AppConfig {
 
@@ -26,6 +27,8 @@ public class AppConfig {
     /// 스프링은 Bean을 싱글톤으로 관리해준다고 했는데,
     /// 코드를 보면 new를 통해 각 객체를 생성해주고 있는 것처럼 보인다
     /// 과연 싱글톤이 지켜질까? - ㅇㅇ
+    /// 스프링이라고 해서 초기화하는 자바 코드까지 어쩔 순 없을텐데 어떻게?
+    /// 바이트코드 조작해주는 CGLIB이라는 라이브러리를 사용
     @Bean
     public MemberService memberService() {
         System.out.println("call AppConfig.memberService");
