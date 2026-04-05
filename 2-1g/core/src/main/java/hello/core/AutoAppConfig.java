@@ -1,5 +1,8 @@
 package hello.core;
 
+import hello.core.member.MemberRepository;
+import hello.core.member.MemoryMemberRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -14,4 +17,11 @@ import org.springframework.context.annotation.FilterType;
 )
 public class AutoAppConfig {
     // @ComponentScan을 사용하면 @Bean으로 명시적으로 등록하지 않아도 됨
+
+    // 자동 빈 등록 vs 수동 빈 등록 -> 수동 빈 등록이 우선
+    // 하지만 이렇게 이름이 같은 빈이 등록되지 않도록 하는 것이 좋음
+    @Bean(name = "memoryMemberRepository")
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
 }
