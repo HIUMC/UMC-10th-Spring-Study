@@ -54,8 +54,9 @@ public class SingletonTest {
     @Test
     @DisplayName("스프링 컨테이너와 싱글톤")
     void springContainer() {
+        // 스프링 컨테이너에 등록된 빈은 자동으로 싱글톤으로 관리된다
+        // 싱글톤의 단점은 지우고, 장점만 살려주는 스프링 컨테이너
         ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-
 
         MemberService memberService1 = ac.getBean("memberService", MemberService.class);
         MemberService memberService2 = ac.getBean("memberService", MemberService.class);
