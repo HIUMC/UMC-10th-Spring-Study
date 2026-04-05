@@ -25,7 +25,7 @@ class StatefulServiceTest {
         // Thread A - 사용자A가 주문 금액 조회
         // 객체를 싱글톤으로 관리하기 때문에 당연히 A가 아닌 B의 가격이 나옴
         // !!- 싱글톤 객체는 stateful하게 관리하면 절대 안됨 -!!
-        // !!- 스프링 빈은 항상 stateless하게 설계 -!! 
+        // !!- 스프링 빈은 항상 stateless하게 설계 -!!
         int price = statefulService1.getPrice();
         System.out.println("price of userA = " + price);
         Assertions.assertThat(price).isEqualTo(20000);
