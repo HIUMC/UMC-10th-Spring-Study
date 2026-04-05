@@ -3,7 +3,10 @@ package me.moonkyuong.springstart.hello.core.order;
 import me.moonkyuong.springstart.hello.core.discount.DiscountPolicy;
 import me.moonkyuong.springstart.hello.core.member.Member;
 import me.moonkyuong.springstart.hello.core.member.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderServiceImpl implements OrderService{
     // private final MemberRepository memberRepository = new MemoryMemberRespository();
     private final MemberRepository memberRepository;
@@ -18,6 +21,7 @@ public class OrderServiceImpl implements OrderService{
     // private DiscountPolicy discountPolicy;
     private final DiscountPolicy discountPolicy;
 
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy
             discountPolicy) {
         this.memberRepository = memberRepository;
