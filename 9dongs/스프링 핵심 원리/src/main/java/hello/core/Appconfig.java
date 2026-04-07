@@ -3,6 +3,7 @@ package hello.core;
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
+import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
@@ -17,18 +18,24 @@ import org.springframework.context.annotation.Configuration;
 @Configuration // 스프링으로 전환
 public class Appconfig {
 
+    // @Bean memberService -> new MemoryMemberRepository()
+    // @Bean orderService -> new MemoryMemberRepository()
+
     @Bean
     public MemberService memberService() {
+        System.out.println("Appconfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
-    public static @NonNull MemoryMemberRepository memberRepository() {
+    public MemberRepository memberRepository() {
+        System.out.println("Appconfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
     @Bean
     public OrderService orderService() {
+        System.out.println("Appconfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
