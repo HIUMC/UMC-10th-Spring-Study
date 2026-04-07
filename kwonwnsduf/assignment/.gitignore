@@ -1,0 +1,40 @@
+### Build ###
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IDE (IntelliJ, STS, VSCode) ###
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### Env ###
+.env
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
