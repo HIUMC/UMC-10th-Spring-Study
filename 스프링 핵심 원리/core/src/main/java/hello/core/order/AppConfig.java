@@ -16,16 +16,19 @@ public class AppConfig {
     //매서드 명을 통해 역할이 다 드러남.
     @Bean
     public MemberService memberService(){
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository()); // 생성자 주입..?
     }
 
     @Bean
     public MemberRepository memberRepository(){
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
     @Bean
     public OrderService orderService(){
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
@@ -33,6 +36,6 @@ public class AppConfig {
     public DiscountPolicy discountPolicy(){
         return new FixDiscountPolicy();
     }
-    
+
 
 }
