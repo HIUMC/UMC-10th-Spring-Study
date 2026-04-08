@@ -12,29 +12,33 @@ import spring.core.order.OrderService;
 import spring.core.order.OrderServiceImpl;
 
 
-@Configuration //스프링컨테이너에 빈이 등록됨
-public class AppConfig { //앱 환경설정? 관심사의 분리
-//여기만 바꾸면 됨 이제
-
+@Configuration
+public class AppConfig {
     @Bean
     public MemberService memberService() {
-        return new MemberServiceImpl(memberRepository()); //생성자로 설정
-    }
-
-    @Bean
-    public MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
+    //1번
+        System.out.println("call AppConfig.memberService");
+        return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
     public OrderService orderService() {
-        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    //1번
+        System.out.println("call AppConfig.orderService");
+        return new OrderServiceImpl(
+                memberRepository(),
+                discountPolicy());
+    }
+
+    @Bean
+    public MemberRepository memberRepository() {
+    //2번? 3번?
+        System.out.println("call AppConfig.memberRepository");
+        return new MemoryMemberRepository();
     }
 
     @Bean
     public DiscountPolicy discountPolicy() {
-//        return new FixDiscountPolicy();
-         return new RateDiscountPolicy();
+        return new RateDiscountPolicy();
     }
-
 }
