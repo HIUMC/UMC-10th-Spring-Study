@@ -6,7 +6,9 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 //DIP를 잘 지키고 있음
 public class OrderServiceImpl implements OrderService{
     //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
@@ -26,4 +28,9 @@ public class OrderServiceImpl implements OrderService{
 
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
+
+    public MemberRepository getMemberRepository(){
+        return memberRepository;
+    }
 }
+
