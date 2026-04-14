@@ -1,21 +1,27 @@
 package me.moonkyuong.springstart.hello.core.order;
 
 import me.moonkyuong.springstart.hello.core.discount.DiscountPolicy;
-import me.moonkyuong.springstart.hello.core.discount.FixDiscountPolicy;
-import me.moonkyuong.springstart.hello.core.discount.RateDiscountPolicy;
 import me.moonkyuong.springstart.hello.core.member.Member;
 import me.moonkyuong.springstart.hello.core.member.MemberRepository;
-import me.moonkyuong.springstart.hello.core.member.MemoryMemberRespository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderServiceImpl implements OrderService{
     // private final MemberRepository memberRepository = new MemoryMemberRespository();
     private final MemberRepository memberRepository;
+
+    // 추가
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 
     // private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     // private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
     // private DiscountPolicy discountPolicy;
     private final DiscountPolicy discountPolicy;
 
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy
             discountPolicy) {
         this.memberRepository = memberRepository;
