@@ -5,10 +5,13 @@ import hello.core.member.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 import static org.assertj.core.api.Assertions.*;
 
-
+@Primary
+@Component
 class RateDiscountPolicyTest {
 
     RateDiscountPolicy rateDiscountPolicy = new RateDiscountPolicy();
