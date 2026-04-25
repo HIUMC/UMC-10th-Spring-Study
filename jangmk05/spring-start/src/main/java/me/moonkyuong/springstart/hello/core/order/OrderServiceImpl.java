@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OrderServiceImpl implements OrderService{
-    private  MemberRepository memberRepository;
-    private  DiscountPolicy discountPolicy;
+    @Autowired private  MemberRepository memberRepository;
+    @Autowired private  DiscountPolicy discountPolicy;
     // 추가
 
     public MemberRepository getMemberRepository() {
