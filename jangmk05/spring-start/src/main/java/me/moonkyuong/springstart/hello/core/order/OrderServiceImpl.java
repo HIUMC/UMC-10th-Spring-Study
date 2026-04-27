@@ -11,6 +11,10 @@ public class OrderServiceImpl implements OrderService{
     private final  MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
+
     @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy
             discountPolicy) {
