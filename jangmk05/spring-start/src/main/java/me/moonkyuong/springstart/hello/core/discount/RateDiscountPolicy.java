@@ -1,10 +1,12 @@
 package me.moonkyuong.springstart.hello.core.discount;
 
+import me.moonkyuong.springstart.hello.core.annotation.MainDiscountPolicy;
 import me.moonkyuong.springstart.hello.core.member.Grade;
 import me.moonkyuong.springstart.hello.core.member.Member;
 import org.springframework.stereotype.Component;
 
 @Component
+@MainDiscountPolicy
 public class RateDiscountPolicy implements DiscountPolicy{
     private int discountPercent = 10; //10% 할인
     @Override
