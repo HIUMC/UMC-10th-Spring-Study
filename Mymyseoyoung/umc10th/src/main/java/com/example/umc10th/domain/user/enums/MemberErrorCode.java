@@ -1,15 +1,15 @@
-package com.example.umc10th.domain.mission.exception.code;
+package com.example.umc10th.domain.user.enums;
 
-import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+
 @Getter
 @AllArgsConstructor
-public enum MissionSuccessCode implements BaseSuccessCode
+public enum MemberErrorCode implements BaseErrorCode {
 
-{
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER404_1", "해당 유저를 찾을 수 없습니다."),
     USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "USER409_1", "이미 존재하는 유저입니다.");
     private final HttpStatus status;
