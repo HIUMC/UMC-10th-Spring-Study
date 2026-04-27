@@ -1,5 +1,7 @@
 package me.moonkyuong.springstart.hello.core.order;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import me.moonkyuong.springstart.hello.core.discount.DiscountPolicy;
 import me.moonkyuong.springstart.hello.core.member.Member;
 import me.moonkyuong.springstart.hello.core.member.MemberRepository;
@@ -7,20 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
+@Getter
 public class OrderServiceImpl implements OrderService{
     private final  MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    public MemberRepository getMemberRepository() {
-        return memberRepository;
-    }
-
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy
-            discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
