@@ -2,10 +2,9 @@ package me.moonkyuong.springstart.hello.core.autowired;
 
 import me.moonkyuong.springstart.hello.core.member.Member;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.de.siegmar.fastcsv.util.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.test.context.bean.override.convention.TestBean;
+import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
