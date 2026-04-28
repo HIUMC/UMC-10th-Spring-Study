@@ -13,6 +13,14 @@ java {
 	}
 }
 
+//lombok 설정 추가 시작
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+//lombok 설정 추가 끝
+
 repositories {
 	mavenCentral()
 }
@@ -28,6 +36,8 @@ dependencies {
 
 }
 
-tasks.named('test') {
+
+
+test {
 	useJUnitPlatform()
 }
