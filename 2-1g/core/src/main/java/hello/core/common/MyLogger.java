@@ -4,12 +4,13 @@ package hello.core.common;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-@Scope(value = "request")
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 // HTTP 요청 당 하나씩 생성, 요청이 끝나는 시점에 소멸된다
 // uuid가 있기 때문에 다른 HTTP 요청과 구분할 수 있다.
 public class MyLogger {
