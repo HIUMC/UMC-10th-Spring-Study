@@ -16,5 +16,6 @@ public class MissionService {
     }
 
     public MissionResDTO.Info updateMemberMission(MissionReqDTO.Status request) {
+        return null;
     }
 }
