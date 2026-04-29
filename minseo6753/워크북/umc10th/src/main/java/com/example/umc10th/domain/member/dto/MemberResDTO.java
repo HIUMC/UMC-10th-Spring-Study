@@ -24,4 +24,9 @@ public class MemberResDTO {
             EupMyeonDong eupMyeonDong
     ) {
     }
+
+    public record MissionCount(
+            Integer missionCount
+    ) {
+    }
 }

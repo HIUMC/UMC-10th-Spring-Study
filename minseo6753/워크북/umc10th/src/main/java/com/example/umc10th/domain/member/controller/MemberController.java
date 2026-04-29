@@ -32,10 +32,21 @@ public class MemberController {
     @PatchMapping("/eup-myeon-dong")
     public ApiResponse<MemberResDTO.Location> updateLocation(
             @RequestBody MemberReqDTO.Location request
-    ){
+    ) {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
                 memberService.updateLocation(request)
         );
     }
+
+    @GetMapping("/mission-count")
+    public ApiResponse<MemberResDTO.MissionCount> getMissionCount(
+            //토큰
+    ) {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                memberService.getMissionCount()
+        );
+    }
+
 }

@@ -17,4 +17,8 @@ public class MemberService {
     public MemberResDTO.Location updateLocation(MemberReqDTO.Location request) {
         return null;
     }
+
+    public MemberResDTO.MissionCount getMissionCount() {
+        return null;
+    }
 }
