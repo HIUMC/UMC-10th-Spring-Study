@@ -13,4 +13,8 @@ public class MemberService {
     public MemberResDTO.Location getLocation() {
         return null;
     }
+
+    public MemberResDTO.Location updateLocation(MemberReqDTO.Location request) {
+        return null;
+    }
 }

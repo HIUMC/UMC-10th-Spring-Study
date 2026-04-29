@@ -18,4 +18,9 @@ public class MemberReqDTO {
             Boolean agreeMarketing
     ) {
     }
+
+    public record Location(
+            String eupMyeonDong
+    ) {
+    }
 }
