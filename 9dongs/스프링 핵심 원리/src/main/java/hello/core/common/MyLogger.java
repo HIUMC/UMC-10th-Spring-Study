@@ -4,13 +4,15 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.Setter;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-@Scope(value = "request") // request가 들어와서 나갈 때 까지가 생존 범위
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS) // request가 들어와서 나갈 때 까지가 생존 범위
 public class MyLogger {
+
     private String uuid;
     private String requestURL;
 
