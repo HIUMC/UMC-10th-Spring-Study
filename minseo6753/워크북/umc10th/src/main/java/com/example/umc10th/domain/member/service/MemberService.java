@@ -9,4 +9,8 @@ public class MemberService {
     public MemberResDTO.Info signup(MemberReqDTO.SignUp request) {
         return null;
     }
+
+    public MemberResDTO.Location getLocation() {
+        return null;
+    }
 }
