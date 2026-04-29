@@ -22,7 +22,8 @@ public class BeanLifeCycleTest {
         // @Bean으로 등록시에만
         // destroyMethod 기본값 : 추론 -> 종료 메서드는 따로 등록해주지 않아도 close, shutdown 같은거 찾아서 실행
         // 종료 안하려면 "" 빈 문자열로
-        @Bean(initMethod = "init", destroyMethod = "close")
+        // @Bean(initMethod = "init", destroyMethod = "close")
+        @Bean
         public NetworkClient networkClient(){
             // 객체 생성 한 다음 수정자 주입을 통해 url이 존재하게 됨 -> 생성 단계에서 호출 하면 값이 없음.
             NetworkClient networkClient = new NetworkClient();

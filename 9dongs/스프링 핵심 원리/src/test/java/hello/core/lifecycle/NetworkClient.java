@@ -1,5 +1,8 @@
 package hello.core.lifecycle;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
 //public class NetworkClient implements InitializingBean, DisposableBean {
 public class NetworkClient {
 
@@ -42,13 +45,14 @@ public class NetworkClient {
 //        disconnect();
 //    }
 
+    @PostConstruct
     public void init() {
         System.out.println("NetworkClient.afterPropertiesSet");
         connect();
         call("초기화 연결 메세지");
     }
 
-
+    @PreDestroy
     public void close() {
         System.out.println("NetworkClient.destroy");
         disconnect();
