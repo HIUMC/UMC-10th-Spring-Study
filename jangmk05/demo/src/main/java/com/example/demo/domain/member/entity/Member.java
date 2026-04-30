@@ -1,7 +1,13 @@
 package com.example.demo.domain.member.entity;
 
+import com.example.demo.domain.member.enums.Gender;
+import com.example.demo.domain.member.enums.Preference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -18,15 +24,25 @@ public class Member {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "profile_url")
-    private String profileUrl;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    private Gender gender;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "birth")
+    private LocalDate birth;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    @Column(name = "address")
+    private String address;
 
-    @Column(name = "point")
-    private Integer point;
+    @ElementCollection(targetClass = Preference.class)
+    @CollectionTable(
+            name = "member_preference",
+            joinColumns = @JoinColumn(name = "member_id")
+    )
+    @Enumerated(EnumType.STRING)
+    @Column(name = "preferences")
+    private Set<Preference> preferences;
+
+    @Column(name = "agreement")
+    private boolean agreement;
 }
