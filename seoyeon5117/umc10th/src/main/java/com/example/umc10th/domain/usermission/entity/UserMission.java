@@ -1,6 +1,6 @@
 package com.example.umc10th.domain.usermission.entity;
 
-import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.usermission.enums.UserMissionStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class UserMission {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "member_id", nullable = false)
@@ -29,7 +29,7 @@ public class UserMission {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MissionStatus status;
+    private UserMissionStatus status;
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

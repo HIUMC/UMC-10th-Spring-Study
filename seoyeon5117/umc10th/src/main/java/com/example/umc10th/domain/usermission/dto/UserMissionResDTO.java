@@ -1,6 +1,6 @@
 package com.example.umc10th.domain.usermission.dto;
 
-import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.usermission.enums.UserMissionStatus;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -11,21 +11,24 @@ public class UserMissionResDTO {
     public record CreateUserMission(
             Long userMissionId,
             LocalDateTime createdAt
-    ) {}
+    ) {
+    }
 
     @Builder
     public record GetUserMission(
             Long userMissionId,
             Long memberId,
             Long missionId,
-            MissionStatus status,
+            UserMissionStatus status,
             LocalDateTime createdAt
-    ) {}
+    ) {
+    }
 
     @Builder
     public record UpdateUserMissionStatus(
             Long userMissionId,
-            MissionStatus status,
+            UserMissionStatus status,
             LocalDateTime updatedAt
-    ) {}
+    ) {
+    }
 }

@@ -13,4 +13,10 @@ public class MissionReqDTO {
             Long missionId
     ) {
     }
+
+    public record UpdateMission(
+            String content,
+            Integer point
+    ) {
+    }
 }

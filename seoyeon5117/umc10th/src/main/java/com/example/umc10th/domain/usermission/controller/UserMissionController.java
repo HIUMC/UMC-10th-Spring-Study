@@ -1,8 +1,8 @@
 package com.example.umc10th.domain.usermission.controller;
 
-import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.usermission.dto.UserMissionReqDTO;
 import com.example.umc10th.domain.usermission.dto.UserMissionResDTO;
+import com.example.umc10th.domain.usermission.enums.UserMissionStatus;
 import com.example.umc10th.domain.usermission.enums.UserMissionSuccessCode;
 import com.example.umc10th.domain.usermission.service.UserMissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
@@ -23,7 +23,7 @@ public class UserMissionController {
     @GetMapping
     public ApiResponse<List<UserMissionResDTO.GetUserMission>> getUserMissions(
             @RequestParam Long memberId,
-            @RequestParam MissionStatus status
+            @RequestParam UserMissionStatus status
     ) {
         BaseSuccessCode code = UserMissionSuccessCode.USER_MISSION_GET;
         return ApiResponse.onSuccess(code, userMissionService.getUserMissions(memberId, status));

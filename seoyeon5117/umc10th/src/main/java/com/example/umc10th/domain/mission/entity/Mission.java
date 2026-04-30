@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class Mission {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long missionId;
 
     @Column(name = "store_id", nullable = false)
     private Long storeId;
