@@ -8,10 +8,7 @@ import com.example.mission4.global.apiPayload.ApiResponse;
 import com.example.mission4.global.apiPayload.code.BaseSuccessCode;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +20,7 @@ public class ReviewController {
     // 마이페이지 리뷰 작성 // reviewId 반환
     @PostMapping("stores/{storeId}/reviews")
     public ApiResponse<ReviewResDTO.MyPageReview> myPageReview(
+            @PathVariable Long storeId,
             @RequestBody ReviewReqDTO.MyPageReview dto
             ) {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_REGISTERED;
