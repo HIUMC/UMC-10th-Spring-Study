@@ -29,14 +29,16 @@ public class MemberService {
 
     }
 
-    public Long signup(MemberReqDTO.SignUp dto) {
+    public MemberResDTO.SignUp signup(MemberReqDTO.SignUp dto) {
 
         Member newMember = MemberConverter.toSignUp(dto); // dto -> Entity
 
         memberRepository.save(newMember);
         // 이미 같은 회원이 존재하면 에러 반환하는 코드 필요 (현재는 구현 불가)
 
-        return newMember.getId();
+        return MemberResDTO.SignUp.builder()
+                .memberId(newMember.getId())
+                .build();
 
     }
 }

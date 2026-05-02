@@ -16,6 +16,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "member_food")
 public class MemberFood {
 
+    // 중간 테이블 (다대다)
+    // Member (N) ←——— MemberFood ———→ (N) Food
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

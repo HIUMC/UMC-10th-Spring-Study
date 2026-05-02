@@ -38,7 +38,7 @@ public class MemberController {
 
     // 유저 회원가입 - 유저 id 반환
     @PostMapping("/users/signup")
-    public ApiResponse<Long> signup(
+    public ApiResponse<MemberResDTO.SignUp> signUp(
             @RequestBody MemberReqDTO.SignUp dto
     ) {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_SIGNUP;
