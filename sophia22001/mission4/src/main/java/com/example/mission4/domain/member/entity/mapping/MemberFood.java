@@ -21,11 +21,11 @@ public class MemberFood {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY) // LAZY: 당장 필요하지 않은 데이터까지 한꺼번에 조회하지 않도록한다.
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "food_id")
+    @JoinColumn(name = "foodId")
     private Food food;
 
 
