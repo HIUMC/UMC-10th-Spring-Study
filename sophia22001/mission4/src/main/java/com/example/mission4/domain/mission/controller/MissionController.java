@@ -19,26 +19,27 @@ public class MissionController {
     private final MissionService missionService;
 
 //    // 미션 목록 조회
-//    @PostMapping("/missions")
-//    public ApiResponse<List<MissionResDTO.GetMissions>> getMissions(
-//            @RequestParam Boolean isCompleted,
-//            @RequestBody MissionReqDTO.GetMissions dto) {
-//        BaseSuccessCode code = MissionSuccessCode.MISSIONS_FOUND;
-//
-//        return; // 미완성
-//    }
-//
-//    // 미션 성공 요청
-//    @PostMapping("/stores/{storeId}/missions/{missionId}/complete")
-//    public ApiResponse<MissionResDTO.MissionComplete> missionComplete(
-//            @PathVariable Long storeId,
-//            @PathVariable Long missionId,
-//            @RequestBody MissionReqDTO.MissionComplete dto
-//    ) {
-//        BaseSuccessCode code = MissionSuccessCode.MISSION_COMPLETED;
-//
-//        return; // 미완성
-//    }
+    @PostMapping("/missions")
+    public ApiResponse<List<MissionResDTO.GetMissions>> getMissions(
+            @RequestParam Boolean isCompleted,
+            @RequestBody MissionReqDTO.GetMissions dto) {
+
+        BaseSuccessCode code = MissionSuccessCode.MISSIONS_FOUND;
+        return ApiResponse.onSuccess(code, missionService.getMissions(dto));
+
+    }
+
+    // 미션 성공 요청
+    @PostMapping("/stores/{storeId}/missions/{missionId}/complete")
+    public ApiResponse<MissionResDTO.MissionComplete> missionComplete(
+            @PathVariable Long storeId,
+            @PathVariable Long missionId,
+            @RequestBody MissionReqDTO.MissionComplete dto
+    ) {
+
+        BaseSuccessCode code = MissionSuccessCode.MISSION_COMPLETED;
+        return ApiResponse.onSuccess(code, missionService.missionComplete(dto));
+    }
 
 
 }
