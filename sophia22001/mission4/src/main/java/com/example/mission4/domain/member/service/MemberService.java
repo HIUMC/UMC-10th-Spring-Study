@@ -15,16 +15,28 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
     public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
         // DTO에서 유저 id 추출
-        Long memberId = dto.id();
+        Long memberId = dto.memberId();
 
         // DB에서 유저 조회
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         // 컨버터로 응답 DTO 생성, return
-        return MemberConverter.toGetInfo(member);
+        return MemberConverter.toGetInfo(member); // Entity -> dto
+
+    }
+
+    public Long signup(MemberReqDTO.SignUp dto) {
+
+        Member newMember = MemberConverter.toSignUp(dto); // dto -> Entity
+
+        memberRepository.save(newMember);
+        // 이미 같은 회원이 존재하면 에러 반환하는 코드 필요 (현재는 구현 불가)
+
+        return newMember.getId();
 
     }
 }

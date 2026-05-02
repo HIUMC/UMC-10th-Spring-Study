@@ -1,5 +1,6 @@
 package com.example.mission4.domain.member.entity;
 
+import com.example.mission4.domain.member.entity.mapping.MemberFood;
 import com.example.mission4.domain.member.enums.Gender;
 import com.example.mission4.domain.mission.enums.Address;
 import jakarta.persistence.*;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -55,5 +58,12 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Address address;
+
+    // 실제로 member 테이블에 컬럼이 생기는 게 아님
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberFood> preferFoods = new ArrayList<>();
+    // 왜 new ??
+    // 안하면 기본 초기값은 null인데, 여기서 값을 바로 추가할 수 없다.
+
 
 }

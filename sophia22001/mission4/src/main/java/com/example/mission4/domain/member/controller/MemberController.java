@@ -27,16 +27,24 @@ public class MemberController {
         throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
     }
 
-    // 유저 조회
-    @PostMapping("/v1/users/me")
+    // 유저 조회 - 유저 정보 반환
+    @PostMapping("/users/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @RequestBody MemberReqDTO.GetInfo dto
     ) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_FOUND;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto)); // code, result
-
-
     }
+
+    // 유저 회원가입 - 유저 id 반환
+    @PostMapping("/users/signup")
+    public ApiResponse<Long> signup(
+            @RequestBody MemberReqDTO.SignUp dto
+    ) {
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_SIGNUP;
+        return ApiResponse.onSuccess(code, memberService.signup(dto));
+    }
+
 
 
 }

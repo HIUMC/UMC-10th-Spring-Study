@@ -13,4 +13,6 @@ public class MemberResDTO {
             String phoneNumber,
             Integer point
     ){}
+
+
 }
