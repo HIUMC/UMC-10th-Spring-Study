@@ -8,6 +8,7 @@ public class ReviewResponseDTO {
 
     @Builder
     public record CreateResultDTO(
+            Long memberId,
             Long reviewId,
             LocalDateTime createdAt
     ) {}
