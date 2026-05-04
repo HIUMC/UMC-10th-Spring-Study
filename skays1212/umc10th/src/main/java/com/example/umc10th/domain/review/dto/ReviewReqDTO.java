@@ -4,6 +4,8 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 public class ReviewReqDTO {
 
     /* ───────────── 리뷰 작성 ───────────── */
@@ -16,9 +18,9 @@ public class ReviewReqDTO {
         private String userId;
 
         @NotNull(message = "별점은 필수입니다.")
-        @Min(value = 1, message = "별점은 최소 1점입니다.")
-        @Max(value = 5, message = "별점은 최대 5점입니다.")
-        private Integer rating;
+        @DecimalMin(value = "1.0", message = "별점은 최소 1.0점입니다.")
+        @DecimalMax(value = "5.0", message = "별점은 최대 5.0점입니다.")
+        private BigDecimal star;
 
         @NotBlank(message = "리뷰 내용은 필수입니다.")
         private String reviewContent;
