@@ -4,7 +4,6 @@ import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.domain.Score;
 
 import java.util.Date;
 
@@ -20,15 +19,15 @@ public class Review {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(nullable = false, name = "store_id")
+    @JoinColumn(nullable = false, name = "store_id")
     private Store store;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(nullable = false, name = "member_id")
+    @JoinColumn(nullable = false, name = "member_id")
     private Member member;
 
     @Column(nullable = false, name = "score")
-    private Score score;
+    private Float score;
 
     @Column(nullable = false, name = "content", length = 255)
     private String content;

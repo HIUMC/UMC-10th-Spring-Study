@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class MissionResponseDTO {
@@ -19,7 +20,7 @@ public class MissionResponseDTO {
         private Long missionId;
         private String storeName;
         private String missionDescription;
-        private Integer point;
+        private Long point;
         private LocalDate deadline;
         private MissionStatus status;
     }

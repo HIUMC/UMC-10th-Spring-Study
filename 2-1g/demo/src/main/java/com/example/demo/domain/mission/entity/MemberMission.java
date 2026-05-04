@@ -1,10 +1,12 @@
 package com.example.demo.domain.mission.entity;
 
 import com.example.demo.domain.member.entity.Member;
+import com.example.demo.domain.mission.enums.MissionStatus;
 import com.example.demo.domain.mission.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,19 +21,20 @@ public class MemberMission {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "mission_id")
+    @JoinColumn(name = "mission_id")
     private Mission mission;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "member_id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private MissionStatus status;
 
     @Column(nullable = false, name = "created_at")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "completed_at")
-    private Date completedAt;
+    private LocalDate completedAt;
 }

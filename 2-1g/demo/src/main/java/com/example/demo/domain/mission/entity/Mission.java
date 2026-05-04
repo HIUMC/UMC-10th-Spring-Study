@@ -4,6 +4,8 @@ import com.example.demo.domain.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -17,7 +19,7 @@ public class Mission {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "store_id")
+    @JoinColumn(name = "store_id")
     private Store store;
 
     @Column(nullable = false, name = "mission_description")
@@ -27,5 +29,5 @@ public class Mission {
     private Long point;
 
     @Column(nullable = false, name = "deadline")
-    private Long deadline;
+    private LocalDate deadline;
 }

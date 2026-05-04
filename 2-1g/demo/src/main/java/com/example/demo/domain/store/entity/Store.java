@@ -16,7 +16,7 @@ public class Store {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "region_id")
+    @JoinColumn(name = "region_id")
     private Region region;
 
     @Column(nullable = false, name = "store_name", length = 50)
