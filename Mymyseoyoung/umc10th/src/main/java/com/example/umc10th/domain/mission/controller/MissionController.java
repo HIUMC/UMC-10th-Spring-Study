@@ -2,13 +2,14 @@ package com.example.umc10th.domain.mission.controller;
 
 
 import com.example.umc10th.domain.mission.dto.MissionResponseDTO;
+import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users/missions")
+@RequestMapping("/api/v1/missions")
 @RequiredArgsConstructor
 public class MissionController {
 
@@ -33,8 +34,12 @@ public class MissionController {
     //미션 지역 조회
     @GetMapping("/region")
     public ApiResponse<MissionResponseDTO.MissionListDTO> getMissionsByRegion(
-            @RequestParam(name = "regionId") Long regionId) {
+            @RequestParam(name = "regionId") Long regionId,
+            @RequestParam(name = "memberId") Long memberId,
+            @RequestParam(name = "page", defaultValue = "0") int page) {
 
-        return ApiResponse.onSuccess(null, null);
+        MissionResponseDTO.MissionListDTO response = missionService.getAvailableMissions(regionId, memberId, page);
+        return ApiResponse.onSuccess(MissionSuccessCode.MISSION_FOUND, response);
     }
+
 }

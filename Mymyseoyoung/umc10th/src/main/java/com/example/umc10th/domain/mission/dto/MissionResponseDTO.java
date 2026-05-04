@@ -24,6 +24,8 @@ public class MissionResponseDTO {
     //미션 목록 조회용
     @Builder
     public record MissionListDTO(
-            List<MissionDetailDTO> missionList
+            List<MissionDetailDTO> missionList,
+            boolean hasNext,
+            int page
     ) {}
 }

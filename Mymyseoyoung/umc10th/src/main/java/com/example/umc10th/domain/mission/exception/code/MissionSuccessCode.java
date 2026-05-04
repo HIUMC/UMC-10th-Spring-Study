@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum MissionSuccessCode implements BaseSuccessCode
 
-{
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER404_1", "해당 유저를 찾을 수 없습니다."),
-    USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "USER409_1", "이미 존재하는 유저입니다.");
+{MISSION_FOUND(HttpStatus.OK, "MISSION200_1", "미션 목록 조회 성공"),
+    MISSION_DETAIL_FOUND(HttpStatus.OK, "MISSION200_2", "미션 단건 조회 성공");
+
     private final HttpStatus status;
     private final String code;
     private final String message;
