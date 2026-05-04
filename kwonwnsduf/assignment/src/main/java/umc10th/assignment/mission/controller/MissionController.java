@@ -1,68 +1,54 @@
 package umc10th.assignment.mission.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import umc10th.assignment.global.apiPayload.ApiResponse;
 import umc10th.assignment.global.apiPayload.code.BaseSuccessCode;
 import umc10th.assignment.mission.dto.MissionResponseDto;
 import umc10th.assignment.mission.exception.code.MissionSuccessCode;
-
-import java.util.List;
+import umc10th.assignment.mission.service.MissionService;
+import umc10th.assignment.usermission.entity.MissionStatus;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/missions")
 public class MissionController {
+
+    private final MissionService missionService;
+
+    // 홈 화면: 선택한 지역에서 도전 가능한 미션 목록 조회
     @GetMapping
-    public ApiResponse<MissionResponseDto.MissionList> getMissions(
-            @RequestParam(required = false) String status
+    public ApiResponse<MissionResponseDto.MissionPreviewListDTO> getMissionsByRegion(
+            @RequestParam Long regionId,
+            @RequestParam(defaultValue = "0") Integer page
     ) {
         BaseSuccessCode code = MissionSuccessCode.GET_MISSIONS;
 
-        MissionResponseDto.MissionInfo mission = MissionResponseDto.MissionInfo.builder()
-                .missionId(1L)
-                .title("가게 리뷰 작성하기")
-                .content("방문한 가게에 리뷰를 작성합니다.")
-                .reward(500)
-                .status(status == null ? "ONGOING" : status)
-                .build();
-
-        MissionResponseDto.MissionList response = MissionResponseDto.MissionList.builder()
-                .missions(List.of(mission))
-                .build();
+        MissionResponseDto.MissionPreviewListDTO response =
+                missionService.getMissionsByRegion(
+                        regionId,
+                        PageRequest.of(page, 10)
+                );
 
         return ApiResponse.onSuccess(code, response);
     }
 
-    // 미션 상세 조회
-    @GetMapping("/{missionId}")
-    public ApiResponse<MissionResponseDto.MissionDetail> getMissionDetail(
-            @PathVariable Long missionId
+    // 내가 진행중/진행완료한 미션 조회
+    @GetMapping("/my")
+    public ApiResponse<MissionResponseDto.MissionPreviewListDTO> getMyMissions(
+            @RequestParam Long memberId,
+            @RequestParam MissionStatus status,
+            @RequestParam(defaultValue = "0") Integer page
     ) {
-        BaseSuccessCode code = MissionSuccessCode.GET_MISSION_DETAIL;
+        BaseSuccessCode code = MissionSuccessCode.GET_MISSIONS;
 
-        MissionResponseDto.MissionDetail response = MissionResponseDto.MissionDetail.builder()
-                .missionId(missionId)
-                .title("가게 리뷰 작성하기")
-                .content("방문한 가게에 리뷰를 작성하면 포인트를 받을 수 있습니다.")
-                .reward(500)
-                .status("ONGOING")
-                .build();
-
-        return ApiResponse.onSuccess(code, response);
-    }
-
-    // 미션 성공 처리
-    @PatchMapping("/{missionId}/complete")
-    public ApiResponse<MissionResponseDto.CompleteMission> completeMission(
-            @PathVariable Long missionId
-    ) {
-        BaseSuccessCode code = MissionSuccessCode.COMPLETE_MISSION;
-
-        MissionResponseDto.CompleteMission response = MissionResponseDto.CompleteMission.builder()
-                .missionId(missionId)
-                .status("COMPLETED")
-                .build();
+        MissionResponseDto.MissionPreviewListDTO response =
+                missionService.getMyMissions(
+                        memberId,
+                        status,
+                        PageRequest.of(page, 10)
+                );
 
         return ApiResponse.onSuccess(code, response);
     }

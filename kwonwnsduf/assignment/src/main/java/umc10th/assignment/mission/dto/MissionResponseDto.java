@@ -2,39 +2,26 @@ package umc10th.assignment.mission.dto;
 
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MissionResponseDto {
-    @Builder
-    public record MissionInfo(
+    public record MissionPreviewDTO(
             Long missionId,
-            String title,
-            String content,
-            Integer reward,
-            String status
+            String storeName,
+            Integer point,
+            Integer spentPrice,
+            LocalDate deadline
     ) {
     }
 
-    @Builder
-    public record MissionList(
-            List<MissionInfo> missions
-    ) {
-    }
-
-    @Builder
-    public record MissionDetail(
-            Long missionId,
-            String title,
-            String content,
-            Integer reward,
-            String status
-    ) {
-    }
-
-    @Builder
-    public record CompleteMission(
-            Long missionId,
-            String status
+    public record MissionPreviewListDTO(
+            List<MissionPreviewDTO> missionList,
+            Integer listSize,
+            Integer totalPage,
+            Long totalElements,
+            Boolean isFirst,
+            Boolean isLast
     ) {
     }
 }
