@@ -20,10 +20,10 @@ public class MemberResponseDTO {
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class HomeSummaryResultDTO {
-        private Long regionId;
-        private String regionName;
-        private Integer point;
-        private Integer completionCount;
+    public static class MeResultDTO {
+        private Long memberId;
+        private Long point;
+        private String email;
+        private String number;
     }
 }

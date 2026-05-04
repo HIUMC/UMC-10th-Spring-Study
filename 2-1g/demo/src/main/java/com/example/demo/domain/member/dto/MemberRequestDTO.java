@@ -20,7 +20,7 @@ public class MemberRequestDTO {
     }
 
     @Getter
-    public static class HomeSummaryRequest {
-        private Long regionId;
+    public static class MeRequest {
+        private Long memberId;
     }
 }
