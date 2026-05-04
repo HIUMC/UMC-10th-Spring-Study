@@ -9,6 +9,7 @@ import lombok.Builder;
 public class ReviewRequestDTO {
 
     public record CreateReview(
+
             @NotBlank String content,
             @NotNull @Min(0) @Max(5)  Float rate // 별점
     ) {}

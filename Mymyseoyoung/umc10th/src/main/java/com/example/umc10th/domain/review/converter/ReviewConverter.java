@@ -15,6 +15,7 @@ public class ReviewConverter {
 
     public static ReviewResponseDTO.CreateResultDTO toCreateResultDTO(Review review) {
         return ReviewResponseDTO.CreateResultDTO.builder()
+                .memberId(review.getMember().getId())
                 .reviewId(review.getId())
                 .createdAt(review.getCreatedAt())
                 .build();
