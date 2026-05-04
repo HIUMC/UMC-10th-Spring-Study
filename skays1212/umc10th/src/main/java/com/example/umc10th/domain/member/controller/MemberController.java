@@ -42,10 +42,11 @@ public class MemberController {
         return ApiResponse.onSuccess(null);
     }
 
-    /* ───────────── 내 정보 조회 GET /api/users/me ───────────── */
+    /* ───────────── 내 정보 조회 GET /api/users/me?memberId= ───────────── */
     @GetMapping("/api/users/me")
-    public ApiResponse<MemberResDTO.MyInfoResDTO> getMyInfo() {
-        MemberResDTO.MyInfoResDTO response = memberService.getMyInfo();
+    public ApiResponse<MemberResDTO.MyInfoResDTO> getMyInfo(
+            @RequestParam Long memberId) {
+        MemberResDTO.MyInfoResDTO response = memberService.getMyInfo(memberId);
         return ApiResponse.onSuccess(response);
     }
 
