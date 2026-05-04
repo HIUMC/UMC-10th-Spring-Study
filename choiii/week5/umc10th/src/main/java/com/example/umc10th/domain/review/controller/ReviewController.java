@@ -8,6 +8,7 @@ import com.example.umc10th.global.api.code.CommonSuccessCode;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,10 +27,11 @@ public class ReviewController {
     }
 
     @GetMapping("/stores/{storeId}/reviews")
-    public ApiResponse<List<ReviewResponse>> getStoreReviews(@PathVariable Long storeId) {
+    public ApiResponse<List<ReviewResponse>> getStoreReviews(@PathVariable Long storeId, Pageable pageable
+    ) {
         return ApiResponse.onSuccess(
                 CommonSuccessCode.OK,
-                reviewService.getStoreReviews(storeId)
+                reviewService.getStoreReviews(storeId, pageable)
         );
     }
 }

@@ -20,6 +20,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.umc10th.domain.common.enums.MissionStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -54,10 +57,25 @@ public class MissionService {
         return MissionConverter.toUserMissionResponse(userMission);
     }
 
-    public List<UserMissionResponse> getUserMissions(Long userId) {
-        return userMissionRepository.findAllByUserId(userId).stream()
-                .map(MissionConverter::toUserMissionResponse)
-                .toList();
+    public Page<UserMissionResponse> getUserMissions(
+            Long userId,
+            MissionStatus status,
+            Pageable pageable
+    ) {
+        Page<UserMission> userMissions;
+
+        if (status == null) {
+            userMissions = userMissionRepository.findAllByUserId(userId, pageable);
+        } else {
+            userMissions = userMissionRepository.findAllByUserIdAndStatus(userId, status, pageable);
+        }
+
+        return userMissions.map(MissionConverter::toUserMissionResponse);
+    }
+
+    public Page<MissionResponse> getMissionsByRegion(Long regionId, Pageable pageable) {
+        return missionRepository.findAllByStoreRegionId(regionId, pageable)
+                .map(MissionConverter::toMissionResponse);
     }
 
     public Mission findMission(Long missionId) {

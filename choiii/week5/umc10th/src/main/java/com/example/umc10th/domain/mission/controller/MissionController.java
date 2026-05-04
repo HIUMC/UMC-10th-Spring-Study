@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.mission.controller;
 
 
+import com.example.umc10th.domain.common.enums.MissionStatus;
 import com.example.umc10th.domain.mission.dto.request.MissionCreateRequest;
 import com.example.umc10th.domain.mission.dto.request.UserMissionCompleteRequest;
 import com.example.umc10th.domain.mission.dto.request.UserMissionCreateRequest;
@@ -13,6 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,10 +49,14 @@ public class MissionController {
     }
 
     @GetMapping("/users/{userId}/missions")
-    public ApiResponse<List<UserMissionResponse>> getUserMissions(@PathVariable Long userId) {
+    public ApiResponse<Page<UserMissionResponse>> getUserMissions(
+            @PathVariable Long userId,
+            @RequestParam(required = false) MissionStatus status,
+            Pageable pageable
+    ) {
         return ApiResponse.onSuccess(
                 CommonSuccessCode.OK,
-                missionService.getUserMissions(userId)
+                missionService.getUserMissions(userId, status, pageable)
         );
     }
 }

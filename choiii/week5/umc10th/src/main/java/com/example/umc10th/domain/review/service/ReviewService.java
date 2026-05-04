@@ -13,6 +13,7 @@ import com.example.umc10th.domain.user.service.UserService;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +42,8 @@ public class ReviewService {
         return ReviewConverter.toResponse(review, imageUrls);
     }
 
-    public List<ReviewResponse> getStoreReviews(Long storeId) {
-        return reviewRepository.findAllByStoreId(storeId).stream()
+    public List<ReviewResponse> getStoreReviews(Long storeId,  Pageable pageable) {
+        return reviewRepository.findAllByStoreId(storeId, pageable)
                 .map(review -> ReviewConverter.toResponse(
                         review,
                         reviewImageRepository.findAllByReviewId(review.getId()).stream()
