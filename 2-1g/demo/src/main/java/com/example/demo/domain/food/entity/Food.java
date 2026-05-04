@@ -1,4 +1,4 @@
-package com.example.demo.domain.store.entity;
+package com.example.demo.domain.food.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,13 +8,13 @@ import lombok.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Region {
+public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "region_id")
+    @Column(name = "food_id")
     private Long id;
 
-    @Column(nullable = false, name = "region_name", length = 50)
+    @Column(nullable = false, length = 20)
     private String name;
 }
