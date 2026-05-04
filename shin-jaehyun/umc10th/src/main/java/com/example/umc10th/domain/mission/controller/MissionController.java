@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionController {
-
     private final MissionService missionService;
 
     // 지역 미션 조회
@@ -38,20 +37,21 @@ public class MissionController {
     public ApiResponse<MissionResDTO.MissionsCount> getCompletedMissionCount(
 
     ) {
-        Long userId = 1L;
+        Long memberId = 1L;
 
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getCompletedMissionCount(userId));
+        return ApiResponse.onSuccess(code, missionService.getCompletedMissionCount(memberId));
     }
 
     // 나의 미션 목록 조회
     @GetMapping("/v1/missions/my")
     public ApiResponse<List<MissionResDTO.Missions>> getMyMissions(
-            @RequestParam(required = false) Status status
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) String cursor
     ) {
-        Long userId = 1L;
+        Long memberId = 1L;
 
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMyMissions(userId, status));
+        return ApiResponse.onSuccess(code, missionService.getMyMissions(memberId, status, cursor));
     }
 }

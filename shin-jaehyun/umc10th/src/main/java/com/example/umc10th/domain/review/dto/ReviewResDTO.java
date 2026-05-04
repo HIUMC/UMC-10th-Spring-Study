@@ -6,7 +6,7 @@ public class ReviewResDTO {
 
     // 리뷰 작성
     @Builder
-    public record Write(
-            Long Id
+    public record WriteResult(
+            Long id
     ){}
 }

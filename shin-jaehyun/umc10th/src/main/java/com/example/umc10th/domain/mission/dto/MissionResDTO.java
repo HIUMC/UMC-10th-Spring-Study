@@ -1,8 +1,10 @@
 package com.example.umc10th.domain.mission.dto;
 
+import com.example.umc10th.domain.store.entity.FoodCategory;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class MissionResDTO {
 
@@ -20,5 +22,10 @@ public class MissionResDTO {
     @Builder
     public record MissionsCount(
             Long count
+    ) {}
+
+    public record MissionCursor(
+            LocalDateTime lastCreatedAt,
+            Long lastMissionId
     ) {}
 }
