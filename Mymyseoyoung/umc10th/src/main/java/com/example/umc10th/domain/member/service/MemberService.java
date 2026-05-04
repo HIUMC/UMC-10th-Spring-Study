@@ -8,6 +8,8 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.enums.MemberErrorCode;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.usermission.entity.UserMission;
 import com.example.umc10th.global.apiPayload.exception.ProjectException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -71,5 +73,4 @@ public class MemberService {
                 .point(member.getPoint())
                 .build();
     }
-
 }

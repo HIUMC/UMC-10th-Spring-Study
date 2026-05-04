@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum UserMissionSuccessCode implements BaseSuccessCode {
 
+    MISSION_LIST_FOUND(HttpStatus.OK, "UM200", "미션 목록 조회에 성공했습니다."),
     MISSION_CHALLENGED(HttpStatus.CREATED, "UM201", "미션 도전을 시작했습니다."),
     MISSION_COMPLETED(HttpStatus.OK, "UM200", "미션을 성공적으로 완료했습니다.");
 

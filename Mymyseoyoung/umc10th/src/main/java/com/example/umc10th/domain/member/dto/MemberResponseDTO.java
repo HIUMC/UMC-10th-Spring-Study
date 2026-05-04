@@ -65,4 +65,20 @@ public class MemberResponseDTO {
         int point
     ){}
 
+    @Builder
+    public record GetMyMissionListInfo(
+            List<MissionInfo> missionList,
+            boolean hasNext,
+            int page
+    ) {}
+
+    @Builder
+    public record MissionInfo(
+            Long userMissionId,
+            String storeName,
+            String missionDescription,
+            Integer rewardPoints,
+            String status
+    ) {}
+
 }
