@@ -14,9 +14,15 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final RegionRepository regionRepository;
 
     public Member getMemberProfile(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
+    }
+
+    public Region getHomeSummaryRegion(Long regionId) {
+        return regionRepository.findById(regionId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 지역을 찾을 수 없습니다."));
     }
 }

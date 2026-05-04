@@ -48,4 +48,16 @@ public class MemberController {
 
         return ApiResponse.onSuccess(response);
     }
+
+    @GetMapping("/users/me/home-summary")
+    public ApiResponse<MemberResponseDTO.HomeSummaryResultDTO> getHomeSummary(
+            @ModelAttribute MemberRequestDTO.HomeSummaryRequest request
+    ) {
+        Member member = memberService.getMemberProfile(request.getMemberId());
+        Region region = memberService.getHomeSummaryRegion(request.getRegionId());
+
+        MemberResponseDTO.HomeSummaryResultDTO response = MemberConverter.toHomeSummaryResultDTO(member, region);
+
+        return ApiResponse.onSuccess(response);
+    }
 }

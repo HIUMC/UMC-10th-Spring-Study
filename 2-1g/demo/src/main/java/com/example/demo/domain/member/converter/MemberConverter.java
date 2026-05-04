@@ -15,4 +15,14 @@ public class MemberConverter {
                 .number(member.getNumber())
                 .build();
     }
+
+    public static MemberResponseDTO.HomeSummaryResultDTO toHomeSummaryResultDTO(Member member, Region region) {
+
+        return MemberResponseDTO.HomeSummaryResultDTO.builder()
+                .regionId(region.getId())
+                .regionName(region.getName())
+                .point(member.getPoint())
+                .completionCount(member.getCompletionCount())
+                .build();
+    }
 }

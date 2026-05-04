@@ -26,4 +26,14 @@ public class MemberResponseDTO {
         private String email;
         private String number;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class HomeSummaryResultDTO {
+        private Long regionId;
+        private String regionName;
+        private Long point;
+        private Long completionCount;
+    }
 }
