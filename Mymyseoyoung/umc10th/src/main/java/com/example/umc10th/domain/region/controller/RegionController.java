@@ -3,7 +3,7 @@ package com.example.umc10th.domain.region.controller;
 
 import com.example.umc10th.domain.region.dto.RegionRequestDTO;
 import com.example.umc10th.domain.region.dto.RegionResponseDTO;
-import com.example.umc10th.domain.user.dto.MemberRequestDTO;
+import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

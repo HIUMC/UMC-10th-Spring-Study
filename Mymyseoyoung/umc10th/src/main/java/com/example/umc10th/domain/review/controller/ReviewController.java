@@ -1,7 +1,9 @@
 package com.example.umc10th.domain.review.controller;
 
 
+import com.example.umc10th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10th.domain.review.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,16 +17,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users/missions")
 @RequiredArgsConstructor
 public class ReviewController {
+
     private final ReviewService reviewService;
 
 
     //마이페이지 리뷰 작성
-    @PostMapping("/{missionId}/reviews")
+    @PostMapping("/{storeId}/reviews")
     public ApiResponse<ReviewResponseDTO.CreateResultDTO> createReview(
-            @PathVariable(name = "missionId") Long missionId,
-            @RequestBody ReviewRequestDTO.CreateReview request) {
+            @PathVariable(name = "storeId") Long storeId,
+            @RequestBody @Valid ReviewRequestDTO.CreateReview request) {
 
-        // TODO: ReviewSuccessCode.REVIEW_CREATED 추가 후 사용
-        return ApiResponse.onSuccess(null, null);
+
+        ReviewResponseDTO.CreateResultDTO response = reviewService.createReview(storeId, request);
+        return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED, response);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.usermission.controller;
 
 
-import com.example.umc10th.domain.user.dto.MemberRequestDTO;
+import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.usermission.dto.UserMissionResponseDTO;
 import com.example.umc10th.domain.usermission.service.UserMissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;

@@ -1,10 +1,9 @@
-package com.example.umc10th.domain.usermission.entity;
+package com.example.umc10th.domain.memberregion.entity;
 
 
 import com.example.umc10th.domain.common.base.BaseEntity;
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.mission.entity.Mission;
-import com.example.umc10th.domain.usermission.enums.UserMissionStatus;
+import com.example.umc10th.domain.region.entity.Region;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,16 +12,19 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "user_mission")
-public class UserMission extends BaseEntity {
+@Table(name = "member_region_progress")
+public class MemberRegionProgress extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    @Column(name ="user_mission_id")
+    @Column(name ="member_region_progress_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private UserMissionStatus status;
+    //달성 개수
+    private Integer completedCount;
+
+    //전체 개수
+    private Integer maxCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -30,8 +32,8 @@ public class UserMission extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mission_id")
-    private Mission mission;
+    @JoinColumn(name = "region_id")
+    private Region region;
 
 
 }

@@ -1,6 +1,6 @@
 package com.example.umc10th.domain.mission.dto;
 
-import com.example.umc10th.domain.mission.enums.Address;
+import com.example.umc10th.domain.region.enums.Address;
 import lombok.Builder;
 
 import java.util.List;

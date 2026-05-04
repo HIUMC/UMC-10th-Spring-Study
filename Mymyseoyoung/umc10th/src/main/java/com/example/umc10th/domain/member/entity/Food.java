@@ -1,7 +1,7 @@
-package com.example.umc10th.domain.region.entity;
+package com.example.umc10th.domain.member.entity;
+
 
 import com.example.umc10th.domain.common.base.BaseEntity;
-import com.example.umc10th.domain.region.enums.Address;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,16 +10,14 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name="region")
-public class Region extends BaseEntity {
+@Table(name="food")
+public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="region_id")
+    @Column(name="food_id")
     private Long id;
 
-    //지역 이름
-    @Enumerated(EnumType.STRING)
-    private Address name;
+    private String name;
 
 }
