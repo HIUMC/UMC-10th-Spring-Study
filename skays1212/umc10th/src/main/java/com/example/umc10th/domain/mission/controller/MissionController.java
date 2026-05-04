@@ -20,34 +20,37 @@ public class MissionController {
     @GetMapping("/{region}")
     public ApiResponse<MissionResDTO.RegionMissionResDTO> getMissionsByRegion(
             @PathVariable String region,
+            @RequestParam Long memberId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        MissionResDTO.RegionMissionResDTO response = missionService.getMissionsByRegion(region, page, size);
+        MissionResDTO.RegionMissionResDTO response = missionService.getMissionsByRegion(region, memberId, page, size);
         return ApiResponse.onSuccess(response);
     }
 
     /* ───────────────────────────────────────────────────────────────
-       내 미션 조회  GET /api/mission/mission-challenge/me
+       내 미션 조회  GET /api/mission/mission-challenge/me?memberId=&page=&size=
        ─────────────────────────────────────────────────────────────── */
     @GetMapping("/mission-challenge/me")
-    public ApiResponse<MissionResDTO.MyMissionResDTO> getMyMissions() {
+    public ApiResponse<MissionResDTO.MyMissionResDTO> getMyMissions(
+            @RequestParam Long memberId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        MissionResDTO.MyMissionResDTO response = missionService.getMyMissions();
+        MissionResDTO.MyMissionResDTO response = missionService.getMyMissions(memberId, page, size);
         return ApiResponse.onSuccess(response);
     }
 
     /* ───────────────────────────────────────────────────────────────
-       미션 도전  POST /api/mission/{missionId}/mission-challenge
-        명세서에 QueryParameter로도 missionId가 표기되어 있으나
-          PathVariable과 중복이므로 PathVariable 만 사용
+       미션 도전  POST /api/mission/{missionId}/mission-challenge?memberId=
        ─────────────────────────────────────────────────────────────── */
     @PostMapping("/{missionId}/mission-challenge")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<MissionResDTO.MissionChallengeResDTO> challengeMission(
-            @PathVariable Long missionId) {
+            @PathVariable Long missionId,
+            @RequestParam Long memberId) {
 
-        MissionResDTO.MissionChallengeResDTO response = missionService.challengeMission(missionId);
+        MissionResDTO.MissionChallengeResDTO response = missionService.challengeMission(missionId, memberId);
         return ApiResponse.onSuccess(response);
     }
 }
