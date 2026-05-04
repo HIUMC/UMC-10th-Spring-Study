@@ -27,8 +27,8 @@ public class MissionResDTO {
         private Long missionId;
         private String storeName;
         private String region;
-        private String missionDescription;
-        private Integer rewardPoints;
+        private String conditional;
+        private int point;
     }
 
     /* ───────────── 내 미션 조회 ───────────── */
@@ -37,6 +37,10 @@ public class MissionResDTO {
     @AllArgsConstructor
     public static class MyMissionResDTO {
         private List<MyMissionItemDTO> missions;
+        private int currentPage;
+        private int totalPages;
+        private long totalElements;
+        private boolean isLast;
     }
 
     @Getter
@@ -45,9 +49,9 @@ public class MissionResDTO {
     public static class MyMissionItemDTO {
         private Long missionId;
         private String storeName;
-        private String missionDescription;
-        private Integer rewardPoints;
-        private String status; // CHALLENGING, COMPLETED 등
+        private String conditional;
+        private int point;
+        private Boolean isComplete;
     }
 
     /* ───────────── 미션 도전 ───────────── */
@@ -57,6 +61,6 @@ public class MissionResDTO {
     public static class MissionChallengeResDTO {
         private Long memberMissionId;
         private Long missionId;
-        private String status;
+        private Boolean isComplete;
     }
 }
