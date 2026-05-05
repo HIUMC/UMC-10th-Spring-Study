@@ -6,10 +6,14 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor
+// 파이널이 붙은 멤버에 대한 생성자를 대신 만들어줌
 public class OrderServiceImpl implements OrderService {
 
 
@@ -21,15 +25,24 @@ public class OrderServiceImpl implements OrderService {
     //DIP 원칙을 지키기 위해 인터페이스에만 의존하도록 변경
     private final DiscountPolicy discountPolicy;
     private final MemberRepository memberRepository;
+    // final을 이용하면 생성자에서만 값을 수정하고 더 이상 바꾸지 못하게 할 수 있음
+
+    // 필드주입, 필드에서 의존관계 바로 주입 - 권장x 테스트하기 어려움
+    //@Autowired private DiscountPolicy discountPolicy;
+    //@Autowired private MemberRepository memberRepository;
 
     //DIP, OCP 원칙 준수를 위한 생성자주입
     //구현체 변경이 필요한 경우 AppConfig에서만 수정하면 됨! - OCP
     //인터페이스에만 의존하고 구체적인 구현체에 대한 정보는 모름! - DIP
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+
+    // 생성자 주입, 생성자 호출 시점에 딱 한 번만 호출
+    // 불변, 필수 의존관계에서 사용한다
+    // @Autowired
+    public OrderServiceImpl(/*@Qualifier("mainDiscountPolicy")*//*@MainDiscountPolicy*/DiscountPolicy DiscountPolicy, MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
+        this.discountPolicy = DiscountPolicy;
     }
+    // 생성자가 하나만 있다면, Autowired 어노테이션을 생략해도 자동으로 주입이 된다
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {

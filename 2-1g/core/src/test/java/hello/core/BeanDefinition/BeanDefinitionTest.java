@@ -9,9 +9,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 public class BeanDefinitionTest {
-    //AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-
-    GenericXmlApplicationContext ac = new GenericXmlApplicationContext("appConfig.xml");
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+    // XML 설정 테스트는 잠시 사용하지 않음
+    // GenericXmlApplicationContext ac = new GenericXmlApplicationContext("appConfig.xml");
 
     @Test
     @DisplayName("빈 설정 메타정보 확인")

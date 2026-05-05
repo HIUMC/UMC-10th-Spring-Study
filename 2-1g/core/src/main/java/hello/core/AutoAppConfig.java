@@ -20,8 +20,8 @@ public class AutoAppConfig {
 
     // 자동 빈 등록 vs 수동 빈 등록 -> 수동 빈 등록이 우선
     // 하지만 이렇게 이름이 같은 빈이 등록되지 않도록 하는 것이 좋음
-    @Bean(name = "memoryMemberRepository")
-    public MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
-    }
+    //@Bean(name = "memoryMemberRepository")
+    //public MemberRepository memberRepository() {
+    //    return new MemoryMemberRepository();
+    //}
 }

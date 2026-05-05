@@ -47,7 +47,7 @@ public class AppConfig {
     @Bean
     public OrderService orderService() {
         System.out.println("call AppConfig.orderService");
-        return new OrderServiceImpl(memberRepository(), discountPolicy());
+        return new OrderServiceImpl(discountPolicy(), memberRepository());
     }
 
     // 만약 할인 정책을 바꾸려면, 이 부분만 고치면 됨
