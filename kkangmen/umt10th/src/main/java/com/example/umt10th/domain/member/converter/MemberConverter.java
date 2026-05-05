@@ -1,5 +1,6 @@
 package com.example.umt10th.domain.member.converter;
 
+import com.example.umt10th.domain.member.dto.MemberReqDTO;
 import com.example.umt10th.domain.member.dto.MemberResDTO;
 import com.example.umt10th.domain.member.entity.Member;
 
@@ -15,6 +16,20 @@ public class MemberConverter {
                 .birth(member.getBirth())
                 .detailAddress(member.getDetailAddress())
                 .gender(member.getGender())
+                .build();
+    }
+
+    public static Member createMember(MemberReqDTO.saveMember dto){
+        return Member.builder()
+                .name(dto.name())
+                .gender(dto.gender())
+                .birth(dto.birth())
+                .address(dto.address())
+                .detailAddress(dto.detailAddress())
+                .socialUid(dto.socialUuid())
+                .socialType(dto.socialType())
+                .point(dto.point())
+                .email(dto.email())
                 .build();
     }
 }

@@ -3,21 +3,19 @@ package com.example.umt10th.domain.member.entity;
 import com.example.umt10th.domain.member.enums.Address;
 import com.example.umt10th.domain.member.enums.Gender;
 import com.example.umt10th.domain.member.enums.SocialType;
+import com.example.umt10th.global.baseEntity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +26,16 @@ public class Member {
 
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @Builder.Default
+    private Gender gender = Gender.NONE;
 
     @Column(name = "birth", nullable = false)
     private LocalDate birth;
 
     @Column(name = "address", nullable = false)
-    private Address address;
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Address address = Address.NONE;
 
     @Column(name = "detail_address", nullable = false)
     private String detailAddress;

@@ -5,6 +5,7 @@ import com.example.umt10th.domain.member.enums.Gender;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class MemberResDTO {
 
@@ -19,4 +20,10 @@ public class MemberResDTO {
             String email,
             String phoneNumber
     ){}
+
+    @Builder
+    public record saveSuccessMember(
+            LocalDateTime createdAt
+    ){}
 }
+

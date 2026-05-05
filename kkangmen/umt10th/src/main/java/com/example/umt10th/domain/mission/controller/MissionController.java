@@ -7,7 +7,10 @@ import com.example.umt10th.global.apiPayload.ApiResponse;
 import com.example.umt10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umt10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -16,19 +19,22 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    // 미션 진행 중, 진행 완료 목록 조회
-    @GetMapping("/members/me/missions")
+    /***
+     * 미션 완료 목록 조회
+     * @param isCompleted
+     * @return
+     */
+    @GetMapping("/v1/members/me/missions")
     public ApiResponse<MissionResDTO.MissionListDto> getMissionList(
-            @RequestParam("status1") String inProgress,
-            @RequestParam("status2") String completed,
-            @RequestParam("role") String role
+            @RequestParam("isCompleted") Boolean isCompleted,
+            @RequestParam(value = "cursor", defaultValue = "0") Long cursor
     ){
         BaseSuccessCode successCode = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(successCode, missionService.getMissionList(inProgress, completed, role));
+        return ApiResponse.onSuccess(successCode, missionService.getMissionList(isCompleted, "o", cursor));
     }
 
     // 미션 성공
-    @PatchMapping("/members/me/missions/{missionId}")
+    @PatchMapping("/v1/members/me/missions/{missionId}")
     public ApiResponse<MissionResDTO.MissionSuccessDto> successMission(
             @PathVariable("missionId") Long missionId
     ){

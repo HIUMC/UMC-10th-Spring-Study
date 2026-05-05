@@ -9,6 +9,7 @@ import java.util.List;
 public class MissionResDTO {
 
     // 미션 조회
+    @Builder
     public record MissionListDto(
             List<MissionDetailDto> missionList
     ){}
@@ -19,11 +20,12 @@ public class MissionResDTO {
             String storeName,
             Integer point,
             Status status,
-            String deadline,
-            LocalDateTime completedAt
+            String conditional,
+            String deadline
     ){}
 
     // 미션 성공 누르기
+    @Builder
     public record MissionSuccessDto(
             LocalDateTime succeedAt
     ){ }

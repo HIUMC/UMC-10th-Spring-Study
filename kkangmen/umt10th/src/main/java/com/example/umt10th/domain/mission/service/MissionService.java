@@ -5,45 +5,55 @@ import com.example.umt10th.domain.mission.entity.Mission;
 import com.example.umt10th.domain.mission.enums.Status;
 import com.example.umt10th.domain.mission.exception.MissionException;
 import com.example.umt10th.domain.mission.exception.code.MissionErrorCode;
+import com.example.umt10th.domain.mission.repository.MemberMissionRepository;
+import com.example.umt10th.domain.mission.repository.MissionRepository;
+import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Role;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MissionService {
 
+    private final MemberMissionRepository memberMissionRepository;
+
     /***
-     * 미션 목록 조회
-     * @param status1 "completed"
-     * @param status2 "in_progress"
+     * 미션 완료 목록 조회
+     * @param isCompleted
+     * @param role
      * @return
      */
-    public MissionResDTO.MissionListDto getMissionList(String status1, String status2, String role) {
+    public MissionResDTO.MissionListDto getMissionList(Boolean isCompleted, String role, Long cursor) {
 
-        if (role.equals("x")){
+        if (role.equals("x")) {
             throw new MissionException(MissionErrorCode.MISSION_FORBIDDEN);
         }
 
-        MissionResDTO.MissionDetailDto completedMission = MissionResDTO.MissionDetailDto.builder()
-                .missionId(1L)
-                .storeName("써브웨이")
-                .point(1000)
-                .status(Status.COMPLETED)
-                .deadline(null)
-                .completedAt(LocalDateTime.now())
-                .build();
+        Pageable pageable = PageRequest.of(0, 10); // 0번째 페이지에서 LIMIT 10
+        List<Mission> completedMissionList = memberMissionRepository.findCompletedMissionByMemberId(1L, isCompleted, cursor, pageable);
 
-        MissionResDTO.MissionDetailDto inProgressMission= MissionResDTO.MissionDetailDto.builder()
-                .missionId(2L)
-                .storeName("KFC")
-                .point(2000)
-                .status(Status.IN_PROGRESS)
-                .deadline("2026-06-10")
-                .completedAt(null)
-                .build();
+        List<MissionResDTO.MissionDetailDto> missions = new ArrayList<>();
+        for (Mission mission : completedMissionList) {
+            MissionResDTO.MissionDetailDto findMission = MissionResDTO.MissionDetailDto.builder()
+                    .missionId(mission.getId())
+                    .storeName(mission.getStore().getStoreName())
+                    .point(mission.getPoint())
+                    .deadline(mission.getDeadline())
+                    .conditional(mission.getConditional())
+                    .build();
 
-        return new MissionResDTO.MissionListDto(List.of(completedMission, inProgressMission));
+            missions.add(findMission);
+        }
+
+        return MissionResDTO.MissionListDto.builder()
+                .missionList(missions)
+                .build();
     }
 
     /***

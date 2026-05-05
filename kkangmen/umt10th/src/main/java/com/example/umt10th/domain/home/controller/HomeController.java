@@ -6,9 +6,7 @@ import com.example.umt10th.global.apiPayload.ApiResponse;
 import com.example.umt10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umt10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -17,10 +15,13 @@ public class HomeController {
 
     private final HomeService homeService;
 
-    @GetMapping("/home")
-    public ApiResponse<HomeResDto.HomeResponseDto> getHomePage(){
-
+    @GetMapping("/v1/home")
+    public ApiResponse<HomeResDto.HomeResponseDto> getHomePage(
+            @RequestParam(value = "locateId", defaultValue = "1") Long locateId,
+            @RequestParam(name = "cursor", defaultValue = "0") Long cursor
+    ){
         BaseSuccessCode successCode = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(successCode, homeService.getHomePage());
+        return ApiResponse.onSuccess(successCode, homeService.getHomePage(locateId, cursor));
     }
+
 }

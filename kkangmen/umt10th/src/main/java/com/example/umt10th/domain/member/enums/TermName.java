@@ -1,6 +1,7 @@
 package com.example.umt10th.domain.member.enums;
 
-public enum Term {
+public enum TermName {
+    NONE,
     AGE,
     SERVICE,
     PRIVACY,

@@ -22,6 +22,6 @@ public class ReviewController {
             @PathVariable("storeId") Long storeId
     ){
         BaseSuccessCode successCode = ReviewSuccessCode.CREATED;
-        return ApiResponse.onSuccess(successCode, reviewService.saveReview(dto));
+        return ApiResponse.onSuccess(successCode, reviewService.createReview(dto, storeId, 1L));
     }
 }

@@ -6,9 +6,9 @@ import org.hibernate.validator.constraints.BitcoinAddress;
 
 import java.util.List;
 
-@Builder
 public class HomeResDto {
 
+    @Builder
     public record HomeResponseDto(
             CurrentRegion currentRegion,
             Integer clearedMissionCount,
@@ -19,7 +19,7 @@ public class HomeResDto {
     @Builder
     public record CurrentRegion(
             Long regionId,
-            Address regionName
+            String locateName
     ){}
 
     // 홈 미션 목록
