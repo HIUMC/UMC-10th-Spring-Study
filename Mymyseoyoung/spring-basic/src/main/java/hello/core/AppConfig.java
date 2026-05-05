@@ -31,7 +31,9 @@ public class AppConfig {
     @Bean
     public OrderService orderService()
     {
+
         return new OrderServiceImpl(new MemoryMemberRepository(), discountPolicy());
+       // return null;
     }
 
     //배우를 고침
