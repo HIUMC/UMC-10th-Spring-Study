@@ -8,25 +8,42 @@ import com.example.umc10th.domain.membermission.service.MemberMissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/missions")
+@RequestMapping("/api/v1/members/missions")
 public class MemberMissionController {
 
     private final MemberMissionService memberMissionService;
 
-    // 멤버 미션 목록 조회 (IN_PROGRESS / COMPLETED)
-    @GetMapping
-    public ApiResponse<List<MemberMissionResDTO.GetMemberMission>> getMemberMissions(
+
+    // 홈 화면 지역별 내 미션 목록 조회(IN_PROGRESS)
+    @GetMapping("/home")
+    public ApiResponse<MemberMissionResDTO.GetHomeMemberMissions> getHomeMemberMissions(
             @RequestParam Long memberId,
-            @RequestParam MemberMissionStatus status
+            @RequestParam String address,
+            @RequestParam Pageable pageable
     ) {
         BaseSuccessCode code = MemberMissionSuccessCode.MEMBER_MISSION_GET;
-        return ApiResponse.onSuccess(code, memberMissionService.getMemberMissions(memberId, status));
+
+        return ApiResponse.onSuccess(code, memberMissionService.getHomeMemberMissions(memberId, address, pageable));
+    }
+
+    // 미션 페이지 - 내 미션 목록 조회 (IN_PROGRESS / COMPLETED)
+    @GetMapping
+    public ApiResponse<Page<MemberMissionResDTO.GetMemberMission>> getMemberMissions(
+            @RequestParam Long memberId,
+            @RequestParam MemberMissionStatus status,
+            @RequestParam Pageable pageable
+    ) {
+        BaseSuccessCode code = MemberMissionSuccessCode.MEMBER_MISSION_GET;
+
+        return ApiResponse.onSuccess(code, memberMissionService.getMemberMissionsByStatus(memberId, status, pageable));
     }
 
     // 미션 성공 처리

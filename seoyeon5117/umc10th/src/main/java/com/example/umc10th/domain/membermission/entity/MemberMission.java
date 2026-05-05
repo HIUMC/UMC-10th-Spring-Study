@@ -1,39 +1,40 @@
 package com.example.umc10th.domain.membermission.entity;
 
+import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.membermission.enums.MemberMissionStatus;
+import com.example.umc10th.domain.mission.entity.Mission;
+import com.example.umc10th.global.apiPayload.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member_mission")
-public class MemberMission {
+public class MemberMission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @Column(name = "mission_id", nullable = false)
-    private Long missionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 
-    @Column(name = "status", nullable = false)
+    @NotNull
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private MemberMissionStatus status;
+    private MemberMissionStatus status = MemberMissionStatus.IN_PROGRESS;
 
-    @Column(name = "createdAt")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
+    @Column(name = "due_date")
+    private LocalDateTime dueDate;
 }

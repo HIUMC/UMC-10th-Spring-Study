@@ -16,10 +16,10 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 유저 조회
+    // 마이페이지 조회
     @GetMapping("/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
-            @RequestParam Long id
+            @RequestParam Long id // 로그인 기능이 없어서 임시로 id로 조회
     ) {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_GET;
         return ApiResponse.onSuccess(code, memberService.getInfo(new MemberReqDTO.GetInfo(id)));

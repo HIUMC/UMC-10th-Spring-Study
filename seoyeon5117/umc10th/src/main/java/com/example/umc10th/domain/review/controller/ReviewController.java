@@ -7,6 +7,8 @@ import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,5 +44,16 @@ public class ReviewController {
     ) {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_UPDATE;
         return ApiResponse.onSuccess(code, reviewService.updateReview(reviewId, dto));
+    }
+
+    // 가게 id로 리뷰 목록 조회 (리뷰 + 리뷰 답글)
+    @GetMapping("/{storeId}")
+    public ApiResponse<Page<ReviewResDTO.GetReview>> getStoreReview(
+            @PathVariable Long storeId,
+            Pageable pageable
+    ) {
+        BaseSuccessCode code = ReviewSuccessCode.REVIEW_GET;
+
+        return ApiResponse.onSuccess(code, reviewService.getReviewByStoreId(storeId, pageable));
     }
 }

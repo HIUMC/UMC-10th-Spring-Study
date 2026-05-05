@@ -23,8 +23,10 @@ public class ReviewResDTO {
     @Builder
     public record GetReview(
             Long reviewId,
+            String memberNickname,
             String content,
             Float star,
+            String replyContent,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {

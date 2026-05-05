@@ -1,23 +1,28 @@
 package com.example.umc10th.domain.member.entity;
 
+import com.example.umc10th.domain.foodpreference.entity.FoodPreference;
+import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.enums.Gender;
-import com.example.umc10th.global.enums.Food;
+import com.example.umc10th.domain.memberterm.entity.MemberTerm;
+import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.domain.reviewreply.entity.ReviewReply;
+import com.example.umc10th.global.apiPayload.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +36,9 @@ public class Member {
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @NotNull
+    @Builder.Default
+    private Gender gender = Gender.NOT_SPECIFIED;
 
     @Column(name = "birthday")
     private LocalDate birthday;
@@ -46,18 +53,19 @@ public class Member {
     private String profileUrl;
 
     @Column(name = "point")
-    private Integer point;
+    @NotNull
+    @Builder.Default
+    private Integer point = 0;
 
-    @Column(name = "food_preference")
-    @Enumerated(EnumType.STRING)
-    private Food foodPreference;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<FoodPreference> foodPreferences = new ArrayList<>();
 
-    @Column(name = "createdAt")
-    private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberTerm> memberTerms = new ArrayList<>();
 
-    @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
 
-    @Column(name = "deletedAt")
-    private LocalDate deletedAt;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<ReviewReply> replies = new ArrayList<>();
 }

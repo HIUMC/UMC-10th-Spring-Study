@@ -1,37 +1,38 @@
 package com.example.umc10th.domain.mission.entity;
 
+import com.example.umc10th.domain.store.entity.Store;
+import com.example.umc10th.global.apiPayload.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "mission")
-public class Mission {
+public class Mission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long missionId;
+    private Long id;
 
-    @Column(name = "store_id", nullable = false)
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
-    @Column(name = "content", nullable = false)
+    @NotNull
+    @Column(name = "content")
     private String content;
 
-    @Column(name = "point", nullable = false)
+    @NotNull
+    @Column(name = "point")
     private Integer point;
 
-    @Column(name = "createdAt")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updatedAt")
-    private LocalDateTime updatedAt;
+    @NotNull
+    @Column(name = "min_price")
+    private Integer minPrice;
 }

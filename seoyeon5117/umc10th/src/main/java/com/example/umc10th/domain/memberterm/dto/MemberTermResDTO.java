@@ -17,6 +17,7 @@ public class MemberTermResDTO {
     @Builder
     public record GetMemberTerm(
             Long memberTermId,
+            Long memberId,
             Long termId,
             Boolean isAgreed
     ) {

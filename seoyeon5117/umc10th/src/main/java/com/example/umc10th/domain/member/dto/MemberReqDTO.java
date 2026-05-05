@@ -7,7 +7,8 @@ public class MemberReqDTO {
     }
 
     public record UpdateInfo(
-            String name,
+            Long id,
+            String nickname,
             String profileUrl,
             String phoneNumber
     ) {

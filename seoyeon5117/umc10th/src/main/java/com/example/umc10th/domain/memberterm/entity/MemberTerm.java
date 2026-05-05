@@ -1,34 +1,36 @@
 package com.example.umc10th.domain.memberterm.entity;
 
+import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.term.entity.Term;
+import com.example.umc10th.global.apiPayload.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member_term")
-public class MemberTerm {
+public class MemberTerm extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @Column(name = "term_id", nullable = false)
-    private Long termId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "term_id")
+    private Term term;
 
-    @Column(name = "is_agreed", nullable = false)
-    private Boolean isAgreed;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @NotNull
+    @Column(name = "is_agreed")
+    @Builder.Default
+    private Boolean isAgreed = false;
 }
