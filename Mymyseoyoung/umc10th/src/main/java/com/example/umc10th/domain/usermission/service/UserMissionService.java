@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.usermission.service;
+package com.example.umc10th.domain.membermission.service;
 
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.mission.enums.MissionStatus;

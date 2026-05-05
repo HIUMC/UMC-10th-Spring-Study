@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.usermission.entity;
+package com.example.umc10th.domain.membermission.entity;
 
 
 import com.example.umc10th.domain.common.base.BaseEntity;

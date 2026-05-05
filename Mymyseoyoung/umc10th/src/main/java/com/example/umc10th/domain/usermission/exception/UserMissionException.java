@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.usermission.exception;
+package com.example.umc10th.domain.membermission.exception;
 
 public class UserMissionException extends RuntimeException {
     public UserMissionException(String message) {

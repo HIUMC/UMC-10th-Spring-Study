@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.usermission.dto;
+package com.example.umc10th.domain.membermission.dto;
 
 import lombok.Builder;
 

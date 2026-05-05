@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.usermission.controller;
+package com.example.umc10th.domain.membermission.controller;
 
 
 import com.example.umc10th.domain.member.dto.MemberRequestDTO;

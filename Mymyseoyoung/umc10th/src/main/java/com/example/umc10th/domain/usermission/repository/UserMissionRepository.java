@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.usermission.repository;
+package com.example.umc10th.domain.membermission.repository;
 
 import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.usermission.entity.UserMission;
