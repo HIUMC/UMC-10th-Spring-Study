@@ -1,8 +1,8 @@
-package com.example.umc10th.domain.userterm.dto;
+package com.example.umc10th.domain.memberterm.dto;
 
 import java.util.List;
 
-public class UserTermReqDTO {
+public class MemberTermReqDTO {
 
     public record AgreeTerm(
             Long memberId,

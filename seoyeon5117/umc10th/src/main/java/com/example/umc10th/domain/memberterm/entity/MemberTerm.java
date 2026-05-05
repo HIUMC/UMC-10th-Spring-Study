@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.userterm.entity;
+package com.example.umc10th.domain.memberterm.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_term")
-public class UserTerm {
+@Table(name = "member_term")
+public class MemberTerm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

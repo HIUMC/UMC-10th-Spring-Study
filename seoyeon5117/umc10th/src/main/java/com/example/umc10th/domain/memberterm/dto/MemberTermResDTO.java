@@ -1,22 +1,22 @@
-package com.example.umc10th.domain.userterm.dto;
+package com.example.umc10th.domain.memberterm.dto;
 
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class UserTermResDTO {
+public class MemberTermResDTO {
 
     @Builder
     public record AgreeTerm(
-            List<Long> userTermIds,
+            List<Long> memberTermIds,
             LocalDateTime createdAt
     ) {
     }
 
     @Builder
-    public record GetUserTerm(
-            Long userTermId,
+    public record GetMemberTerm(
+            Long memberTermId,
             Long termId,
             Boolean isAgreed
     ) {

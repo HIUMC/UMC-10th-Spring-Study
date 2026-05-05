@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.userterm.enums;
+package com.example.umc10th.domain.memberterm.enums;
 
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum UserTermErrorCode implements BaseErrorCode {
+public enum MemberTermErrorCode implements BaseErrorCode {
 
-    USER_TERM_NOT_FOUND(HttpStatus.NOT_FOUND, "UTERM404_1", "약관 내역을 찾을 수 없습니다.");
+    MEMBER_TERM_NOT_FOUND(HttpStatus.NOT_FOUND, "MTERM404_1", "약관 내역을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -1,11 +1,11 @@
-package com.example.umc10th.domain.usermission.enums;
+package com.example.umc10th.domain.membermission.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UserMissionStatus {
+public enum MemberMissionStatus {
     IN_PROGRESS("진행중"),
     COMPLETED("진행완료");
 

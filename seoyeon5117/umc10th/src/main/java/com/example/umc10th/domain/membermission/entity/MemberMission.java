@@ -1,6 +1,6 @@
-package com.example.umc10th.domain.usermission.entity;
+package com.example.umc10th.domain.membermission.entity;
 
-import com.example.umc10th.domain.usermission.enums.UserMissionStatus;
+import com.example.umc10th.domain.membermission.enums.MemberMissionStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_mission")
-public class UserMission {
+@Table(name = "member_mission")
+public class MemberMission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class UserMission {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserMissionStatus status;
+    private MemberMissionStatus status;
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
