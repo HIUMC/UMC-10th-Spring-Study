@@ -18,7 +18,7 @@ public class ReviewController {
             @PathVariable(name = "restaurantId") Long restaurantId,
             @RequestBody ReviewReqDTO.CreateReviewDTO request
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
     }
 
 }

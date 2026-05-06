@@ -36,7 +36,7 @@ public class MissionController {
     public ApiResponse<MissionResDTO.MissionStatusResultDTO> startMission(
             @RequestBody MissionReqDTO.StartMissionDTO request
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
     }
 
     // 미션 목록 조회
@@ -63,6 +63,6 @@ public class MissionController {
     public ApiResponse<MissionResDTO.AuthCodeResultDTO> requestAuthCode(
             @PathVariable(name = "member_mission_id") Long memberMissionId
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
     }
 }

@@ -17,7 +17,7 @@ public class MemberController {
     public ApiResponse<MemberResDTO.SignUpResultDTO> signUp(
             @RequestBody MemberReqDTO.SignUpDTO request
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
     }
 
     // 마이페이지 조회
