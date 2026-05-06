@@ -19,11 +19,9 @@ public class ReviewController {
     @PostMapping("/stores/{storeId}/reviews")
     public ApiResponse<ReviewResDTO.CreateReviewResultDTO> createReview(
             @PathVariable Long storeId,
-            @RequestHeader (value = "Authorization", required = false) String token,
-            @RequestBody ReviewReqDTO.CreateReviewDTO dto
+            @RequestBody ReviewReqDTO.CreateReviewRequest dto
     ) {
         BaseSuccessCode code = ReviewSuccessCode.CREATED;
-        return ApiResponse.onSuccess(code, reviewService.createReview(dto));
+        return ApiResponse.onSuccess(code, reviewService.createReview(storeId, dto));
     }
-
 }

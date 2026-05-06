@@ -35,4 +35,9 @@ public class MemberMission {
     @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
 
+    public void complete(String content) {
+        this.isCompleted = true;
+        this.content = content;
+    }
 }
+

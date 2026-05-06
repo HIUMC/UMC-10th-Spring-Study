@@ -68,4 +68,8 @@ public class Member extends BaseEntity {
     @Column(name = "marketing_allow", nullable = false)
     private Boolean marketingAllow;
 
+    public void addPoint(int point) {
+        this.point += point;
+    }
+
 }

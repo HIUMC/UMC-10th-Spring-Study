@@ -9,19 +9,22 @@ import java.time.LocalDate;
 public class MemberResDTO {
 
     @Builder
-    public record GetInfo(
+    public record MyPageDTO(
             String name,
-            String nickname,
-            String email,
-            String phoneNumber,
-            Integer point,
             Gender gender,
-            LocalDate birthDate,
-            Address address
-    ){}
+            LocalDate birth,
+            Address address,
+            String detailAddress,
+            Integer point,
+            String email,
+            String phoneNumber
+    ) {
+    }
 
     @Builder
     public record SignupDTO(
             Long memberId
-    ) {}
+    ) {
+    }
 }
+

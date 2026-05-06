@@ -17,16 +17,11 @@ public class MemberController {
     private final MemberService memberService;
 
     // 마이페이지
-    @PostMapping("/v1/users/me")
-    public ApiResponse<MemberResDTO.GetInfo> getInfo( @RequestBody MemberReqDTO.GetInfo dto){
+    @GetMapping("/v1/users/me")
+    public ApiResponse<MemberResDTO.MyPageDTO> getInfo(
+            @ModelAttribute MemberReqDTO.GetInfo dto
+    ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
-    }
-
-    // 회원가입
-    @PostMapping
-    public ApiResponse<MemberResDTO.SignupDTO> signup(@RequestBody MemberReqDTO.SignupDTO dto) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.signup(dto));
     }
 }

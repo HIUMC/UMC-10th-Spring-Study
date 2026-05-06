@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.home.controller;
 
+import com.example.umc10th.domain.home.dto.HomeReqDTO;
 import com.example.umc10th.domain.home.dto.HomeResDTO;
 import com.example.umc10th.domain.home.service.HomeService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
@@ -15,12 +16,11 @@ public class HomeController {
 
     private final HomeService homeService;
 
-    @GetMapping("/home")
+    @GetMapping("/v1/home")
     public ApiResponse<HomeResDTO.HomeResponseDTO> getHome(
-            @RequestParam("regionId") Long regionId,
-            @RequestHeader(value = "Authorization") String token
+            @ModelAttribute HomeReqDTO.HomeRequest dto
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, homeService.getHome());
+        return ApiResponse.onSuccess(code, homeService.getHome(dto));
     }
 }
