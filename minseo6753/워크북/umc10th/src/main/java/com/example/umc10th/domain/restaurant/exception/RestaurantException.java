@@ -1,7 +1,10 @@
 package com.example.umc10th.domain.restaurant.exception;
 
-public class RestaurantException extends RuntimeException {
-    public RestaurantException(String message) {
-        super(message);
+import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
+import com.example.umc10th.global.apiPayload.exception.ProjectException;
+
+public class RestaurantException extends ProjectException {
+    public RestaurantException(BaseErrorCode errorCode) {
+        super(errorCode);
     }
 }
