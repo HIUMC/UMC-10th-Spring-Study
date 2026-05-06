@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.mission.dto;
 
 import lombok.Builder;
+import java.util.List;
 
 public class MissionResDTO {
 
@@ -23,6 +24,42 @@ public class MissionResDTO {
     public record AuthCodeResultDTO(
             Long memberMissionId,
             String authCode
+    ) {
+    }
+
+    @Builder
+    public record MissionDetailDTO(
+            Long missionId,
+            String restaurantName,
+            Integer price,
+            Integer reward,
+            String deadline
+    ) {
+    }
+
+    @Builder
+    public record AvailableMissionListDTO(
+            List<MissionDetailDTO> missions,
+            Long nextCursor,
+            Boolean hasNext
+    ) {
+    }
+
+    @Builder
+    public record MyMissionDetailDTO(
+            Long memberMissionId,
+            Long missionId,
+            String restaurantName,
+            Integer reward,
+            String status
+    ) {
+    }
+
+    @Builder
+    public record MyMissionListDTO(
+            List<MyMissionDetailDTO> myMissions,
+            Long nextCursor,
+            Boolean hasNext
     ) {
     }
 }
