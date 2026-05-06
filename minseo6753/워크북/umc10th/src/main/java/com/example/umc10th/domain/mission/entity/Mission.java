@@ -33,7 +33,7 @@ public class Mission extends BaseEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @Column(name = "deadling", nullable = false)
+    @Column(name = "deadline", nullable = false)
     private LocalDate deadline;
 
     @Column(name = "content", length = 50, nullable = false)
