@@ -2,6 +2,7 @@ package com.example.demo.domain.review.controller;
 
 import com.example.demo.domain.review.dto.ReviewReqDTO;
 import com.example.demo.domain.review.dto.ReviewResDTO;
+import com.example.demo.domain.review.exception.code.ReviewSuccessCode;
 import com.example.demo.domain.review.service.ReviewService;
 import com.example.demo.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
@@ -17,9 +18,8 @@ public class ReviewController {
 
     @PostMapping
     public ApiResponse<ReviewResDTO.CreateReviewResultDTO> createReview(
-            @PathVariable Long missionId,
             @Valid @RequestBody ReviewReqDTO.CreateReviewDTO request
     ) {
-        return ApiResponse.onSuccess(reviewService.createReview(missionId, request));
+        return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED, reviewService.createReview(request));
     }
 }

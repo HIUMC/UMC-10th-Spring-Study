@@ -15,21 +15,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 마이페이지
     @GetMapping("/v1/users/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
-            @RequestBody MemberReqDTO.GetInfo dto
+            @RequestParam Long id
     ) {
-        MemberSuccessCode code = MemberSuccessCode.OK;
+        MemberSuccessCode code = MemberSuccessCode.MEMBER_FOUND;
+        MemberReqDTO.GetInfo dto = new MemberReqDTO.GetInfo(id);
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
     }
 
-    // 회원 가입
-    @PostMapping("/v1/users")
-    public ApiResponse<MemberResDTO.GetInfo> signup(
-            @RequestBody MemberReqDTO.SignupRequest dto
-    ){
-        MemberSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.signup(dto));
-    }
 }

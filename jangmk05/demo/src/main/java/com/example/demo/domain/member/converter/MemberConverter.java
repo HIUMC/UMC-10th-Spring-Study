@@ -19,9 +19,8 @@ public class MemberConverter {
                 member.getGender(),
                 member.getBirth(),
                 member.getAddress(),
-                member.getPreferences() == null
-                            ? List.of() : new ArrayList<>(member.getPreferences()),
-                member.isAgreement()
+                member.getMemberFoodList(),
+                member.getMemberTermList()
         );
 
 
@@ -33,9 +32,8 @@ public class MemberConverter {
                 .gender(req.gender())
                 .birth(req.birth())
                 .address(req.address())
-                .preferences(req.preferences() == null
-                    ? Set.of() : new HashSet<>(List.of(req.preferences())))
-                .agreement(req.agreement())
+                .memberFoodList(req.memberFoodList())
+                .memberTermList(req.memberTermList())
                 .build();
 
     }
