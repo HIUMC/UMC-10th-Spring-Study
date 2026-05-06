@@ -2,26 +2,34 @@ package com.example.umc10th.domain.mission.controller;
 
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.entity.Mission;
+import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionController {
 
+    private final MissionService missionService;
+
     // 도전 가능 미션 조회
     @GetMapping("/missions")
     public ApiResponse<Object> getAvailableMissions(
             @RequestParam(name = "status", required = true) MissionStatus status,
             @RequestParam(name = "regionId", required = true) Long regionId,
-            @RequestParam(name = "cursor", defaultValue = "0") Integer cursor,
+            @RequestParam(name = "cursor", defaultValue = "0") Long cursor,
             @RequestParam(name = "size", defaultValue = "10") Integer size
     ) {
+        List<Mission>missions = missionService.getAvailableMissions(regionId, cursor, size);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 
@@ -43,9 +51,11 @@ public class MissionController {
     @GetMapping("/members/me/missions")
     public ApiResponse<Object> getMyMissions(
             @RequestParam(name = "status", required = true) MemberMissionStatus status,
-            @RequestParam(name = "cursor", defaultValue = "0") Integer cursor,
+            @RequestParam(name = "cursor", defaultValue = "0") Long cursor,
             @RequestParam(name = "size", defaultValue = "10") Integer size
     ) {
+        Long memberId = 1L;
+        List<MemberMission> myMissions = missionService.getMyMissions(memberId, status, cursor, size);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 
