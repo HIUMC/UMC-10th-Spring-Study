@@ -11,6 +11,9 @@ public enum GeneralSuccessCode implements BaseSuccessCode {
     OK(HttpStatus.OK,
             "COMMON200_1",
             "성공적으로 요청을 처리했습니다."),
+    CREATED(HttpStatus.CREATED,
+            "COMMON201_1",
+            "성공적으로 새로운 리소스를 생성했습니다."),
     ;
 
     private final HttpStatus status;

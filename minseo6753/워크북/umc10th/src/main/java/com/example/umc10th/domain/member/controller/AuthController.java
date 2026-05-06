@@ -23,7 +23,7 @@ public class AuthController {
             @RequestBody MemberReqDTO.SignUp request
     ) {
         return ApiResponse.onSuccess(
-                GeneralSuccessCode.OK,
+                GeneralSuccessCode.CREATED,
                 memberService.signup(request)
         );
     }

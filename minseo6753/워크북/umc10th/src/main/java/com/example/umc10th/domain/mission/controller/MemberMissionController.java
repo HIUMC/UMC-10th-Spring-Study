@@ -9,6 +9,7 @@ import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,11 +36,12 @@ public class MemberMissionController {
     @PatchMapping("/{missionId}")
     public ApiResponse<MissionResDTO.Info> updateMemberMission(
             //토큰
+            @PathVariable Long missionId,
             @RequestBody MissionReqDTO.Status request
     ) {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                missionService.updateMemberMission(request)
+                missionService.updateMemberMission(missionId, request)
         );
     }
 }

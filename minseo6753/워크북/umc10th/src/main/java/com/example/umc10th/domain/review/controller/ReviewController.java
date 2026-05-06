@@ -28,7 +28,7 @@ public class ReviewController {
             @RequestParam List<MultipartFile> files
             ){
         return ApiResponse.onSuccess(
-                GeneralSuccessCode.OK,
+                GeneralSuccessCode.CREATED,
                 reviewService.createReview(restaurantId, star, content, files)
         );
     }
