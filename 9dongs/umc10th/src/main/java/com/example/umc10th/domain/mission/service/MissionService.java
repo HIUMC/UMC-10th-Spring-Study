@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.mission.service;
 
 
+import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
@@ -22,10 +23,12 @@ public class MissionService {
     private final MissionRepository missionRepository;
     private final MemberMissionRepository memberMissionRepository;
 
+    // 진행 가능 미션 반환
     public List<Mission> getAvailableMissions(Long regionId, Long cursor, Integer size) {
         return missionRepository.findAvailableMissions(regionId, cursor, PageRequest.of(0, size));
     }
 
+    // 내 미션 반환
     public List<MemberMission> getMyMissions(Long memberId, MemberMissionStatus status, Long cursor, Integer size) {
         return memberMissionRepository.findMyMissions(memberId, status, cursor, PageRequest.of(0, size));
     }

@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.member.service;
 
+import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.repository.MemberRepository;
@@ -19,11 +20,6 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
         Integer totalPoint = pointRepository.sumPointChangeByMemberId(memberId).orElse(0);
 
-        return MemberResDTO.MyPageDTO.builder()
-                .nickname(member.getNickname())
-                .email(member.getEmail())
-                .phoneNumber(member.getPhonenumber())
-                .point(totalPoint)
-                .build();
+        return MemberConverter.toMyPageDTO(member, totalPoint);
     }
 }
