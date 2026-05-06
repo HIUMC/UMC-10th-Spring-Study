@@ -1,4 +1,27 @@
 package com.example.umc10th.domain.member.entity;
 
+
+import com.example.umc10th.domain.member.enums.TermName;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "term")
 public class Term {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "term_id")
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TermName name;
 }
