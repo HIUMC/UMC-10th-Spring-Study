@@ -36,6 +36,7 @@ public class Restaurant extends BaseEntity {
     private Category category;
 
     @Column(name = "star", nullable = false)
+    @Builder.Default
     private float star = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)

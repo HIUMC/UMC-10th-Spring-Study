@@ -47,9 +47,11 @@ public class Member extends BaseEntity {
     private EupMyeonDong eupMyeonDong;
 
     @Column(name = "mission_count", nullable = false)
+    @Builder.Default
     private int missionCount = 0;
 
     @Column(name = "point", nullable = false)
+    @Builder.Default
     private long point = 0;
 
     @Column(name = "email", length = 50)
