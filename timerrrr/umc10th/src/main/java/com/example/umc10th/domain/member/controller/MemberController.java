@@ -17,12 +17,21 @@ public class MemberController {
     private final MemberService memberService;
 
     // 홈 화면 - 내 포인트, 미션 진행률 조회
-    @GetMapping("/members/me")
+    @GetMapping("/members/{memberId}")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @PathVariable Long memberId
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getInfo(new MemberReqDTO.GetInfo(memberId)));
+    }
+
+    // 마이페이지 조회
+    @GetMapping("/members/{memberId}/my-page")
+    public ApiResponse<MemberResDTO.GetMyPage> getMyPage(
+            @PathVariable Long memberId
+    ) {
+        BaseSuccessCode code = GeneralSuccessCode.OK;
+        return ApiResponse.onSuccess(code, memberService.getMyPage(new MemberReqDTO.GetInfo(memberId)));
     }
 
     // 회원가입
