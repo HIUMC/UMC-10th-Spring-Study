@@ -60,4 +60,5 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<MemberMission> memberMissionList = new ArrayList<>();
+
 }
