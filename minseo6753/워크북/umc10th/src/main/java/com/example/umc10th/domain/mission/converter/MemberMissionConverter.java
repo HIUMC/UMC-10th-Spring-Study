@@ -11,6 +11,7 @@ public class MemberMissionConverter {
 
     public static MissionResDTO.Info toInfo(MemberMission memberMission) {
         return MissionResDTO.Info.builder()
+                .id(memberMission.getId())
                 .restaurantName(memberMission.getMission().getRestaurant().getName())
                 .category(memberMission.getMission().getRestaurant().getCategory().getName())
                 .daysLeft(ChronoUnit.DAYS.between(LocalDate.now(), memberMission.getMission().getDeadline()))

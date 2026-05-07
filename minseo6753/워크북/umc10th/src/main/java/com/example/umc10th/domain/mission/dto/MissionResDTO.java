@@ -7,6 +7,7 @@ public class MissionResDTO {
 
     @Builder
     public record Info(
+            Long id,
             String restaurantName,
             String category,
             Long daysLeft,
