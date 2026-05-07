@@ -23,7 +23,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
 
-    // 마이페이지 조회
     public MemberResDTO.MyPageDTO getMyPage(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
@@ -36,7 +35,6 @@ public class MemberService {
                 .build();
     }
 
-    // 내 미션 목록 조회 (페이징)
     public MissionResDTO.MissionListDTO getMyMissions(Long memberId, String status, int page) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
