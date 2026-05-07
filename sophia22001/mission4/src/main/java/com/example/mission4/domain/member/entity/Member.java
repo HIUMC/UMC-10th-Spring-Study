@@ -1,6 +1,7 @@
 package com.example.mission4.domain.member.entity;
 
 import com.example.mission4.domain.member.entity.mapping.MemberFood;
+import com.example.mission4.domain.member.entity.mapping.MemberTerm;
 import com.example.mission4.domain.member.enums.Gender;
 import com.example.mission4.domain.member.enums.SocialType;
 import com.example.mission4.domain.mission.enums.Address;
@@ -87,8 +88,11 @@ public class Member extends BaseEntity {
 
     // 실제로 member 테이블에 컬럼이 생기는 게 아님
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberFood> preferFoods = new ArrayList<>();
+    private List<MemberFood> memberFoodList = new ArrayList<>();
     // new 인 이유? 안하면 기본 초기값은 null인데, 여기서 값을 바로 추가할 수 없다.
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberTerm> memberTermList = new ArrayList<>();
 
 
 }

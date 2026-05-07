@@ -21,7 +21,9 @@ public class ReviewPhoto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String photoUrl;
+    @Column(nullable = false)
+    @Builder.Default
+    private String photoUrl = "미지정";
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")

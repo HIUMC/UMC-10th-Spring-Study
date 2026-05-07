@@ -26,7 +26,7 @@ public class MemberConverter {
                 .gender(dto.gender())
                 .birth(dto.birth())
                 .address(dto.address())
-                .preferFoods(new ArrayList<>()) // // 여기서 리스트를 비워두고, 나중에 채움
+                .memberFoodList(new ArrayList<>()) // // 여기서 리스트를 비워두고, 나중에 채움
                 .build();
 
         // 2. DTO의 List<Food>(Enum)를 List<MemberFood>(Entity)로 변환
@@ -39,7 +39,7 @@ public class MemberConverter {
                 }).collect(Collectors.toList());
 
         // 3. Member 객체에 생성된 리스트를 넣기
-        memberFoodList.forEach(memberFood -> member.getPreferFoods().add(memberFood));
+        memberFoodList.forEach(memberFood -> member.getMemberFoodList().add(memberFood));
 
         return member;
     }

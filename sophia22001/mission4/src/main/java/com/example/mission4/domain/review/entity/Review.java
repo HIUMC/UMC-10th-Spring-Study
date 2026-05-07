@@ -21,10 +21,19 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer star;
-    private String content;
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer star = 0;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private String content = "미지정";
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
-    private List<ReviewPhoto> photos = new ArrayList<>();
+    private List<ReviewPhoto> reviewPhotoList = new ArrayList<>();
+
+    // 1:1 관계
+    @OneToOne(mappedBy = "review", cascade = CascadeType.ALL)
+    private ReviewComment reviewComment;
 
 }
