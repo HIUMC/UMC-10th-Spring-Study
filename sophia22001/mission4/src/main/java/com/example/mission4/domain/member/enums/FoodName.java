@@ -1,6 +1,6 @@
 package com.example.mission4.domain.member.enums;
 
-public enum Food {
+public enum FoodName {
     KOREAN,
     JAPANESE,
     CHINESE,

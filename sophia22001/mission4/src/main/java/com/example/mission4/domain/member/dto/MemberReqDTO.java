@@ -1,7 +1,7 @@
 package com.example.mission4.domain.member.dto;
 
 
-import com.example.mission4.domain.member.enums.Food;
+import com.example.mission4.domain.member.enums.FoodName;
 import com.example.mission4.domain.member.enums.Gender;
 import com.example.mission4.domain.mission.enums.Address;
 
@@ -21,6 +21,6 @@ public class MemberReqDTO {
         Gender gender,
         LocalDate birth,
         Address address,
-        List<Food> preferFoods
+        List<FoodName> preferFoods
     ){}
 }

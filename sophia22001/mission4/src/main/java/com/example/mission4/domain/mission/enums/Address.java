@@ -5,5 +5,6 @@ public enum Address {
     송파구,
     동작구,
     영등포구,
-    종로구
+    종로구,
+    NONE
 }

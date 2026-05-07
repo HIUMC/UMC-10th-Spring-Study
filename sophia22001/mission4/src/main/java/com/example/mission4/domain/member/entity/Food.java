@@ -1,5 +1,6 @@
 package com.example.mission4.domain.member.entity;
 
+import com.example.mission4.domain.member.enums.FoodName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class Food {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private com.example.mission4.domain.member.enums.Food name;
+    private FoodName name;
 
 
 }

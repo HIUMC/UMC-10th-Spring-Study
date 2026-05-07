@@ -14,7 +14,6 @@ public class MemberConverter {
         return MemberResDTO.GetInfo.builder()
                 .email(member.getEmail())
                 .name(member.getName())
-                .point(member.getPoint())
                 .phoneNumber(member.getPhoneNumber())
                 .profileUrl(member.getProfileUrl())
                 .build();
@@ -34,7 +33,7 @@ public class MemberConverter {
         List<MemberFood> memberFoodList = dto.preferFoods().stream()
                 .map(food -> {
                     return MemberFood.builder()
-                            .food(null) // ????? 여기 수정 필요 !!
+                            .food(null) //  여기 수정 필요 !!
                             .member(member)
                             .build();
                 }).collect(Collectors.toList());
