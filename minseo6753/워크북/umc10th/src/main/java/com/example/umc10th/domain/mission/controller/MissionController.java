@@ -17,13 +17,14 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    @GetMapping("/")
-    public ApiResponse<MissionResDTO.InfoList> getMissions(
-            @RequestParam String eupMyeonDong
+    @GetMapping()
+    public ApiResponse<MissionResDTO.InfoSlice> getMissions(
+            @RequestParam Long eupMyeonDongId,
+            @RequestParam(required = false) Long cursor
     ) {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                missionService.getMissions(eupMyeonDong)
+                missionService.getMissions(eupMyeonDongId, cursor)
         );
     }
 }
