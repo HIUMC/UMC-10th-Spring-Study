@@ -18,11 +18,12 @@ public class UserController {
     private final UserService userService;
 
     // 마이페이지 조회
-    @PostMapping("/v1/users/me")
+    @GetMapping("/v1/users/me")
     public ApiResponse<UserResDTO.MyPageResponse> getMyPage(
-            @RequestBody @Valid UserReqDTO.MyPageRequest dto
+            @RequestParam Long userId
     ) {
         BaseSuccessCode code = UserSuccessCode.GET_MY_PAGE;
+        UserReqDTO.MyPageRequest dto = new UserReqDTO.MyPageRequest(userId);
         UserResDTO.MyPageResponse response = userService.getMyPage(dto);
         return ApiResponse.onSuccess(code, response);
     }
