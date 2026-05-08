@@ -36,4 +36,9 @@ public class Mission {
 
     @OneToMany(mappedBy = "mission")
     private List<MemberMission> memberMissionList = new ArrayList<>();
+
+    // 단방향 매핑
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 }

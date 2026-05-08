@@ -18,14 +18,14 @@ public class MissionController {
 
     private final MissionService missionService;
 
-//    // 미션 목록 조회
+//    // 미션 목록 조회 (진행 중/ 진행 완료)
     @PostMapping("/missions")
     public ApiResponse<List<MissionResDTO.GetMissions>> getMissions(
             @RequestParam Boolean isCompleted,
             @RequestBody MissionReqDTO.GetMissions dto) {
 
         BaseSuccessCode code = MissionSuccessCode.MISSIONS_FOUND;
-        return ApiResponse.onSuccess(code, missionService.getMissions(dto));
+        return ApiResponse.onSuccess(code, missionService.getMissions(isCompleted, dto));
 
     }
 
