@@ -13,29 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
-/**
- *     @Builder
- *     public record GetHome(
- *             String myLocation,
- *             Integer completedMissionsCount,
- *             Integer totalMissionsCount,
- *             Long achieving10Point,
- *             List<HomeMissionDTO> notCompletedMissions
- *
- *     ){}
- *
- *     @Builder
- *     private record HomeMissionDTO(
- *             String storeName,
- *             String storeCategory,
- *             String condition,
- *             Long point,
- *             LocalDate deadline
- *     ){}
- * }
- */
 
 @Service
 @RequiredArgsConstructor
