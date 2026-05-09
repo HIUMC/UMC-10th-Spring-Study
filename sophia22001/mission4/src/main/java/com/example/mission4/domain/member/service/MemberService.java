@@ -16,9 +16,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
-        // DTO에서 유저 id 추출
-        Long memberId = dto.memberId();
+    public MemberResDTO.GetInfo getInfo(Long memberId) {
 
         // DB에서 유저 조회
         Member member = memberRepository.findById(memberId)

@@ -19,13 +19,13 @@ public class MissionController {
     private final MissionService missionService;
 
 //    // 미션 목록 조회 (진행 중/ 진행 완료)
-    @PostMapping("/missions")
+    @GetMapping("/missions")
     public ApiResponse<List<MissionResDTO.GetMissions>> getMissions(
             @RequestParam Boolean isCompleted,
-            @RequestBody MissionReqDTO.GetMissions dto) {
+            @RequestParam Long memberId) {
 
         BaseSuccessCode code = MissionSuccessCode.MISSIONS_FOUND;
-        return ApiResponse.onSuccess(code, missionService.getMissions(isCompleted, dto));
+        return ApiResponse.onSuccess(code, missionService.getMissions(isCompleted, memberId));
 
     }
 
@@ -34,11 +34,11 @@ public class MissionController {
     public ApiResponse<MissionResDTO.MissionComplete> missionComplete(
             @PathVariable Long storeId,
             @PathVariable Long missionId,
-            @RequestBody MissionReqDTO.MissionComplete dto
+            @RequestParam Long memberId
     ) {
 
         BaseSuccessCode code = MissionSuccessCode.MISSION_COMPLETED;
-        return ApiResponse.onSuccess(code, missionService.missionComplete(dto));
+        return ApiResponse.onSuccess(code, missionService.missionComplete(storeId, missionId, memberId));
     }
 
 

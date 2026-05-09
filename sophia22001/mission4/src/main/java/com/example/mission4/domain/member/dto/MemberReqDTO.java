@@ -10,11 +10,6 @@ import java.util.List;
 
 public class MemberReqDTO {
 
-    // 유저 조회
-    public record GetInfo( // record
-            Long memberId
-    ){}
-
     // 유저 회원가입
     public record SignUp(
         String name,

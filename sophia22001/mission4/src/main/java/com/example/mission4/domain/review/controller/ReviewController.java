@@ -20,12 +20,13 @@ public class ReviewController {
     // 마이페이지 리뷰 작성 // reviewId 반환
     @PostMapping("stores/{storeId}/reviews")
     public ApiResponse<ReviewResDTO.MyPageReview> myPageReview(
+            @RequestParam Long memberId,
             @PathVariable Long storeId,
             @RequestBody ReviewReqDTO.MyPageReview dto
             ) {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_REGISTERED;
 
-        return ApiResponse.onSuccess(code, reviewService.myPageReview(dto));
+        return ApiResponse.onSuccess(code, reviewService.myPageReview(memberId, storeId, dto));
 
     }
 }

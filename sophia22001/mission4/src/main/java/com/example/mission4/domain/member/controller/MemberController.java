@@ -30,10 +30,10 @@ public class MemberController {
     // 유저 조회 - 유저 정보 반환
     @PostMapping("/users/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
-            @RequestBody MemberReqDTO.GetInfo dto
+            @RequestParam Long memberId
     ) {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_FOUND;
-        return ApiResponse.onSuccess(code, memberService.getInfo(dto)); // code, result
+        return ApiResponse.onSuccess(code, memberService.getInfo(memberId)); // code, result
     }
 
     // 유저 회원가입 - 유저 id 반환
