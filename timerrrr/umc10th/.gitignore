@@ -35,3 +35,18 @@ out/
 
 ### VS Code ###
 .vscode/
+
+**/.env
+.env
+
+# IntelliJ
+**/.idea/
+.idea/
+
+# Gradle 빌드 산출물
+**/build/
+**/.gradle/
+
+# OS
+.DS_Store
+Thumbs.db
