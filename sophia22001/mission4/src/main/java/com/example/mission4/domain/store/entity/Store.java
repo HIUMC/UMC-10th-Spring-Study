@@ -1,5 +1,6 @@
-package com.example.mission4.domain.mission.entity;
+package com.example.mission4.domain.store.entity;
 
+import com.example.mission4.domain.mission.entity.Location;
 import com.example.mission4.domain.mission.enums.Address;
 import com.example.mission4.global.common.enums.FoodName;
 import jakarta.persistence.*;

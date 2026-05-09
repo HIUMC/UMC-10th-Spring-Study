@@ -1,6 +1,7 @@
 package com.example.mission4.domain.mission.entity;
 
 import com.example.mission4.domain.mission.entity.mapping.MemberMission;
+import com.example.mission4.domain.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
