@@ -88,7 +88,9 @@ public class Member extends BaseEntity {
     @Builder.Default
     private SocialType socialType = SocialType.NONE;
 
-//    private Integer point;
+    @Column(nullable = false)
+    @Builder.Default
+    private Long myPoint = 0L;
 
     // 실제로 member 테이블에 컬럼이 생기는 게 아님
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
