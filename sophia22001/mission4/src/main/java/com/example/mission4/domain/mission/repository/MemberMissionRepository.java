@@ -17,4 +17,8 @@ public interface MemberMissionRepository  extends JpaRepository<MemberMission, L
     @Query("select mm from MemberMission mm join fetch mm.mission m join fetch m.store s where mm.member.id = :memberId and mm.isComplete = :isComplete")
     List<MemberMission> findAllByMemberIdAndIsComplete(@Param("memberId") Long memberId,
                                                        @Param("isComplete") Boolean isCompleted);
+
+    Integer countByMemberIdAndIsComplete(Long memberId, Boolean isCompleted);
+
+    Integer countByMemberId(Long memberId);
 }

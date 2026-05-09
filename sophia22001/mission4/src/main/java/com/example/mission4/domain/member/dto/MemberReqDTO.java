@@ -1,9 +1,9 @@
 package com.example.mission4.domain.member.dto;
 
 
-import com.example.mission4.domain.member.enums.FoodName;
 import com.example.mission4.domain.member.enums.Gender;
 import com.example.mission4.domain.mission.enums.Address;
+import com.example.mission4.global.common.enums.FoodName;
 
 import java.time.LocalDate;
 import java.util.List;

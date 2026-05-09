@@ -1,7 +1,7 @@
 package com.example.mission4.domain.member.entity;
 
 import com.example.mission4.domain.member.entity.mapping.MemberFood;
-import com.example.mission4.domain.member.enums.FoodName;
+import com.example.mission4.global.common.enums.FoodName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -77,6 +77,10 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     @Builder.Default
+    private String detailAddress = "미지정";
+
+    @Column(nullable = false)
+    @Builder.Default
     private String socialUid = "미지정";
 
     @Column(nullable = false)

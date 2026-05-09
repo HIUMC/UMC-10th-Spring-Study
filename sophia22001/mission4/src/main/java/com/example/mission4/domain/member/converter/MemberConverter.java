@@ -36,7 +36,7 @@ public class MemberConverter {
                             .food(null) //  여기 수정 필요 !!
                             .member(member)
                             .build();
-                }).collect(Collectors.toList());
+                }).toList();
 
         // 3. Member 객체에 생성된 리스트를 넣기
         memberFoodList.forEach(memberFood -> member.getMemberFoodList().add(memberFood));

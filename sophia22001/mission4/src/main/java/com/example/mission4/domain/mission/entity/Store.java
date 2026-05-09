@@ -1,6 +1,7 @@
 package com.example.mission4.domain.mission.entity;
 
 import com.example.mission4.domain.mission.enums.Address;
+import com.example.mission4.global.common.enums.FoodName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,11 @@ public class Store {
     @Column(nullable = false)
     @Builder.Default
     private String name = "미지정";
+
+    // 식당 종류 - 일식, 양식 ,,
+    @Column(nullable = false)
+    @Builder.Default
+    private FoodName storeCategory = FoodName.NONE;
 
     @Column(nullable = false)
     @Builder.Default

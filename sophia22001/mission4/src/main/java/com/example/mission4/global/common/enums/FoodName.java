@@ -1,4 +1,4 @@
-package com.example.mission4.domain.member.enums;
+package com.example.mission4.global.common.enums;
 
 public enum FoodName {
     KOREAN,
@@ -10,7 +10,7 @@ public enum FoodName {
     MEAT,
     LUNCH_BOX,
     LATE_NIGHT_SNACK,
-    FASTFOOD,
+    FAST_FOOD,
     DESSERT,
     ASIAN,
     NONE
