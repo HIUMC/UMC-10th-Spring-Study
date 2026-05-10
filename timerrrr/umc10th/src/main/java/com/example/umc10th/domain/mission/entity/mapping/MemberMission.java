@@ -22,10 +22,10 @@ public class MemberMission {
 
     @Column(name = "mission_complete", nullable = false)
     @Builder.Default
-    private Boolean IsMissionComplete = false;
+    private Boolean missionComplete = false;
 
     public void complete() {
-        this.IsMissionComplete = true;   //미션 완료 눌렀을때 로직함수
+        this.missionComplete = true;   //미션 완료 눌렀을때 로직함수
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -21,30 +21,30 @@ public class MissionController {
 
     // 도전 가능 미션 목록 조회 - 회원이 선택한 주소 기준
     @GetMapping("/members/{memberId}/missions/available")
-    public ApiResponse<List<MissionResDTO.MissionInfo>> getAvailableMissions(
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.MissionInfo>> getAvailableMissions(
             @PathVariable Long memberId,
             @RequestParam Long addressId,
-            @RequestParam(required = false) LocalDate lastDeadline,
-            @RequestParam(required = false) Long lastMissionId,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getAvailableMissions(memberId,
-                new MissionReqDTO.GetAvailableMissions(addressId, lastDeadline, lastMissionId, size)));
+        return ApiResponse.onSuccess(code,
+                missionService.getAvailableMissions(memberId, addressId, pageSize, pageNumber, sort));
     }
 
     // 내 미션 목록 조회 (진행중 / 진행 완료)
     @GetMapping("/members/{memberId}/missions")
-    public ApiResponse<List<MissionResDTO.MyMissionInfo>> getMyMissions(
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.MyMissionInfo>> getMyMissions(
             @PathVariable Long memberId,
             @RequestParam String status,
-            @RequestParam(required = false) LocalDate lastDeadline,
-            @RequestParam(required = false) Long lastMissionId,
-            @RequestParam(defaultValue = "5") int size
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMyMissions(memberId,
-                new MissionReqDTO.GetMyMissions(status, lastDeadline, lastMissionId, size)));
+        return ApiResponse.onSuccess(code,
+                missionService.getMyMissions(memberId, status, pageSize, pageNumber, sort));
     }
 
     // 미션 성공 누르기

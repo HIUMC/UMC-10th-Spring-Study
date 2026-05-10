@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.converter;
 
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
+import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.review.entity.ReviewImage;
 import com.example.umc10th.domain.store.entity.Store;
@@ -34,5 +35,26 @@ public class ReviewConverter {
         return imageUrls.stream()
                 .map(url -> toReviewImage(url, review))
                 .collect(Collectors.toList());
+    }
+
+    // Review -> ReviewResDTO.MyReviewInfo
+    public static ReviewResDTO.MyReviewInfo toMyReviewInfo(Review review) {
+        return ReviewResDTO.MyReviewInfo.builder()
+                .reviewId(review.getId())
+                .star(review.getStar())
+                .reviewDetail(review.getReviewDetail())
+                .storeName(review.getStore().getName())
+                .build();
+    }
+
+    public static <T> ReviewResDTO.Pagination<T> toPagination(
+            List<T> data, Boolean hasNext, String nextCursor, Integer pageSize
+    ) {
+        return ReviewResDTO.Pagination.<T>builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
+                .build();
     }
 }

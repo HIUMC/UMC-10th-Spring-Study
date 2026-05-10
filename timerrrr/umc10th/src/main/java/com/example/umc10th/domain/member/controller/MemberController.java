@@ -6,6 +6,7 @@ import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class MemberController {
     // 회원가입
     @PostMapping("/members")
     public ApiResponse<Void> signUp(
-            @RequestBody MemberReqDTO.SignUp dto
+            @RequestBody @Valid MemberReqDTO.SignUp dto
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         memberService.signUp(dto);

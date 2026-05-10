@@ -13,7 +13,9 @@ import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.global.apiPayload.exception.ProjectException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,46 +32,75 @@ public class MissionService {
     private final MemberRepository memberRepository;
     private final MemberAddressRepository memberAddressRepository;
 
-    // 도전 가능 미션 목록 조회 - 회원이 선택한 주소 기준, 커서 페이징
-    public List<MissionResDTO.MissionInfo> getAvailableMissions(Long memberId, MissionReqDTO.GetAvailableMissions dto) {
+    // 도전 가능 미션 목록 조회 - 회원이 선택한 주소 기준, 오프셋 기반 페이징
+    public MissionResDTO.Pagination<MissionResDTO.MissionInfo> getAvailableMissions(
+            Long memberId, Long addressId, Integer pageSize, Integer pageNumber, String sort
+    ) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new ProjectException(MissionErrorCode.NOT_FOUND));
 
         // 본인 주소가 아니거나 없으면 ADDRESS_NOT_FOUND
-        memberAddressRepository.findByIdAndMemberId(dto.addressId(), memberId)
+        memberAddressRepository.findByIdAndMemberId(addressId, memberId)
                 .orElseThrow(() -> new ProjectException(MemberErrorCode.ADDRESS_NOT_FOUND));
 
         LocalDate today = LocalDate.now();
-        PageRequest pageable = PageRequest.of(0, dto.size());
 
-        List<Mission> missions = missionRepository.findAvailableMissions(
+        // 정렬 정보 생성
+        Sort sortInfo;
+        if (sort != null) {
+            sortInfo = Sort.by(sort).descending();
+        } else {
+            sortInfo = Sort.by("deadline").ascending();;  //마감임박순
+        }
+
+        PageRequest pageable = PageRequest.of(pageNumber, pageSize, sortInfo);
+
+        Page<Mission> missionPage = missionRepository.findAvailableMissions(
                 memberId,
-                dto.addressId(),
+                addressId,
                 today,
-                dto.lastDeadline(),   // 첫 페이지면 null
-                dto.lastMissionId(),  // 첫 페이지면 null
                 pageable
         );
 
-        return MissionConverter.toMissionInfoList(missions, today);
+        return MissionConverter.toPagination(
+                missionPage.map(m -> MissionConverter.toMissionInfo(m, today)).toList(),
+                missionPage.getSize(),
+                missionPage.getNumber()
+        );
+
     }
 
-    // 내 미션 목록 조회 (진행중 / 진행 완료) - 커서 기반 페이징
-    public List<MissionResDTO.MyMissionInfo> getMyMissions(Long memberId, MissionReqDTO.GetMyMissions dto) {
+    // 내 미션 목록 조회 (진행중 / 진행 완료) - 오프셋 기반 페이징
+    public MissionResDTO.Pagination<MissionResDTO.MyMissionInfo> getMyMissions(
+            Long memberId, String status, Integer pageSize, Integer pageNumber, String sort
+            ) {
         memberRepository.findById(memberId)
                 .orElseThrow(() -> new ProjectException(MissionErrorCode.NOT_FOUND));
 
-        PageRequest pageable = PageRequest.of(0, dto.size());
+        // 정렬 정보 생성
+        Sort sortInfo;
+        if (sort != null) {
+            sortInfo = Sort.by(sort).descending();
+        } else {
+            sortInfo = Sort.by("id").descending();
+        }
 
-        List<MemberMission> memberMissions = memberMissionRepository.findMyMissions(
-                memberId,
-                dto.status(),
-                dto.lastDeadline(),   // 첫 페이지면 null
-                dto.lastMissionId(),  // 첫 페이지면 null
-                pageable
+        // 페이지 정보들을 PageRequest로 만들기
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sortInfo);
+
+        // status 문자열을 boolean으로 매핑
+        Boolean isComplete = "COMPLETE".equalsIgnoreCase(status);
+
+        // 내 미션 목록 조회
+        Page<MemberMission> memberMissionPage = memberMissionRepository
+                .findAllByMember_IdAndMissionComplete(memberId, isComplete, pageRequest);
+
+        // 미션들 응답 DTO로 포장하기
+        return MissionConverter.toPagination(
+                memberMissionPage.map(MissionConverter::toMyMissionInfo).toList(),
+                memberMissionPage.getSize(),
+                memberMissionPage.getNumber()
         );
-
-        return MissionConverter.toMyMissionInfoList(memberMissions);
     }
 
     // 미션 성공 누르기

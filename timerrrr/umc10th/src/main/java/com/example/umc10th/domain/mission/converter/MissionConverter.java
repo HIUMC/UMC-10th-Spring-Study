@@ -24,13 +24,6 @@ public class MissionConverter {
                 .build();
     }
 
-    // List<Mission> -> List<MissionResDTO.MissionInfo>
-    public static List<MissionResDTO.MissionInfo> toMissionInfoList(List<Mission> missions, LocalDate today) {
-        return missions.stream()
-                .map(mission -> toMissionInfo(mission, today))
-                .collect(Collectors.toList());
-    }
-
     // MemberMission -> MissionResDTO.MyMissionInfo
     public static MissionResDTO.MyMissionInfo toMyMissionInfo(MemberMission memberMission) {
         return MissionResDTO.MyMissionInfo.builder()
@@ -38,14 +31,17 @@ public class MissionConverter {
                 .missionDetail(memberMission.getMission().getMissionDetail())
                 .deadline(memberMission.getMission().getDeadline())
                 .successPoint(memberMission.getMission().getSuccessPoint())
-                .missionComplete(memberMission.getIsMissionComplete())
+                .missionComplete(memberMission.getMissionComplete())
                 .build();
     }
 
-    // List<MemberMission> -> List<MissionResDTO.MyMissionInfo>
-    public static List<MissionResDTO.MyMissionInfo> toMyMissionInfoList(List<MemberMission> memberMissions) {
-        return memberMissions.stream()
-                .map(MissionConverter::toMyMissionInfo)
-                .collect(Collectors.toList());
+    public static <T> MissionResDTO.Pagination<T> toPagination(
+            List<T> data, Integer pageSize, Integer pageNumber
+    ) {
+        return MissionResDTO.Pagination.<T>builder()
+                .data(data)
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
+                .build();
     }
 }

@@ -7,11 +7,12 @@ import com.example.umc10th.global.apiPayload.exception.ProjectException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
@@ -24,15 +25,22 @@ public class GeneralExceptionAdvice {
                 .body(ApiResponse.onFailure(errorCode, null));
     }
 
-    // 그 외 정의되지 않은 모든 예외
-
-    // 잘못된 요청(400)
+    //@Valid 어노테이션 검증 실패 예외
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<String>> handleValidationException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ApiResponse<Map<String,String>>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e) {
+        //검증 실패한 변수명과 실패 이유를 담을 Map
+        Map<String,String> errors = new HashMap<>();
+        e.getBindingResult().getFieldErrors().forEach((error) -> {
+            errors.put(error.getField(), error.getDefaultMessage());
+        });
+
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
         return ResponseEntity.status(code.getStatus())
-                .body(ApiResponse.onFailure(code, e.getMessage()));
+                .body(ApiResponse.onFailure(code, errors));
     }
+
+    // 그 외 정의되지 않은 모든 예외
 
     // 리소스 없음 (404)
     @ExceptionHandler(NoResourceFoundException.class)
