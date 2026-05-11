@@ -7,6 +7,7 @@ import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.service.MemberService;
 import com.example.demo.domain.store.entity.Region;
 import global.apiPayload.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +28,7 @@ public class MemberController {
 
     @PostMapping("/members/signup")
     public ApiResponse<MemberResponseDTO.SignUpResultDTO> signUp(
-            @RequestBody MemberRequestDTO.SignUpRequest request
+            @Valid @RequestBody MemberRequestDTO.SignUpRequest request
     ) {
         MemberResponseDTO.SignUpResultDTO response = MemberResponseDTO.SignUpResultDTO.builder()
                 .memberId(1L)

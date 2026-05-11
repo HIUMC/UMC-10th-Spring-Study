@@ -4,6 +4,7 @@ import com.example.demo.domain.review.dto.ReviewRequestDTO;
 import com.example.demo.domain.review.dto.ReviewResponseDTO;
 import com.example.demo.domain.review.service.ReviewService;
 import global.apiPayload.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class ReviewController {
 
     @PostMapping
     public ApiResponse<ReviewResponseDTO.CreateReviewResultDTO> createReview(
-            @RequestBody ReviewRequestDTO.CreateReviewRequest request
+            @Valid @RequestBody ReviewRequestDTO.CreateReviewRequest request
     ) {
         return ApiResponse.onSuccess(reviewService.createReview(TEMP_MEMBER_ID, request));
     }
