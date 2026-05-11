@@ -22,7 +22,7 @@ public class MissionController {
 
     // 지역 미션 조회
     @GetMapping("/v1/missions")
-    public ApiResponse<List<MissionResDTO.Missions>> getMissionsByRegion(
+    public ApiResponse<List<MissionResDTO.getMissions>> getMissionsByRegion(
             @RequestParam Double minLat,
             @RequestParam Double maxLat,
             @RequestParam Double minLng,
@@ -45,13 +45,15 @@ public class MissionController {
 
     // 나의 미션 목록 조회
     @GetMapping("/v1/missions/my")
-    public ApiResponse<List<MissionResDTO.Missions>> getMyMissions(
-            @RequestParam(required = false) Status status,
-            @RequestParam(required = false) String cursor
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.getMissions>> getMyMissions(
+            @RequestParam Long memberId,
+            @RequestParam Status status,
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
     ) {
-        Long memberId = 1L;
 
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMyMissions(memberId, status, cursor));
+        return ApiResponse.onSuccess(code, missionService.getMyMissions(memberId, status, pageSize, pageNumber, sort));
     }
 }
