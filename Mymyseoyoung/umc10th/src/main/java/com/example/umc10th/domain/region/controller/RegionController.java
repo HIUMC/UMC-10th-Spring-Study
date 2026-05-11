@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users/regions")
+@RequestMapping("/api/v1/regions")
 @RequiredArgsConstructor
 public class RegionController {
 

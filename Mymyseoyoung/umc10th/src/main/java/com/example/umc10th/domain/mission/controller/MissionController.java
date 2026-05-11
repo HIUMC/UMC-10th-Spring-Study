@@ -1,22 +1,27 @@
 package com.example.umc10th.domain.mission.controller;
 
 
+import com.example.umc10th.domain.mission.dto.MissionRequestDTO;
 import com.example.umc10th.domain.mission.dto.MissionResponseDTO;
 import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/missions")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class MissionController {
 
     private final MissionService missionService;
 
     //사용자 미션 목록 조회 (status 별로 구분 )
-    @GetMapping
+    @GetMapping("/missions")
     public ApiResponse<MissionResponseDTO.MissionListDTO> getMissionList(@RequestParam(name = "status", required = false) String status)
     {
         //MISSION_FOUND successcode 추가
@@ -24,7 +29,7 @@ public class MissionController {
     }
 
     //사용자 미션 단건 조회
-    @GetMapping("/{missionId}")
+    @GetMapping("/missions/{missionId}")
     public ApiResponse<MissionResponseDTO.MissionDetailDTO> getMissionDetail(
             @PathVariable(name = "missionId") Long missionId) {
 
@@ -32,7 +37,7 @@ public class MissionController {
     }
 
     //미션 지역 조회
-    @GetMapping("/region")
+    @GetMapping("/missions/region")
     public ApiResponse<MissionResponseDTO.MissionListDTO> getMissionsByRegion(
             @RequestParam(name = "regionId") Long regionId,
             @RequestParam(name = "memberId") Long memberId,
@@ -42,4 +47,22 @@ public class MissionController {
         return ApiResponse.onSuccess(MissionSuccessCode.MISSION_FOUND, response);
     }
 
+    // 가게 미션 생성
+    @PostMapping("/stores/{storeId}/missions")
+
+    public ApiResponse<Void> createMission(@PathVariable Long storeId, @RequestBody MissionRequestDTO.CreateMission request) {
+        BaseSuccessCode code=MissionSuccessCode.MISSION_CREATED;
+
+        return ApiResponse.onSuccess(code, missionService.createMission(storeId,request));
+    }
+
+    @GetMapping("/stores/{storeId}/missions")
+    public ApiResponse<MissionResponseDTO.Pagination<MissionResponseDTO.GetMission>> getMissions
+            (@PathVariable Long storeId,
+             @RequestParam Integer pageSize,
+             @RequestParam Integer pageNumber,
+             @RequestParam(required=false)String sort) {
+        BaseSuccessCode code=MissionSuccessCode.MISSION_FOUND;
+        return ApiResponse.onSuccess(code,missionService.getStoreMissions(storeId,pageSize,pageNumber,sort));
+    }
 }

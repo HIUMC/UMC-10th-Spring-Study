@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
 
@@ -22,7 +22,7 @@ public class ReviewController {
 
 
     //마이페이지 리뷰 작성
-    @PostMapping("/{storeId}/reviews")
+    @PostMapping("/{storeId}")
     public ApiResponse<ReviewResponseDTO.CreateResultDTO> createReview(
             @PathVariable(name = "storeId") Long storeId,
             @RequestBody @Valid ReviewRequestDTO.CreateReview request) {
