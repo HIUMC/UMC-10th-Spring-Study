@@ -3,6 +3,10 @@ package com.example.umc10th.domain.member.converter;
 import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.mission.dto.MissionResponseDTO;
+import com.example.umc10th.domain.usermission.entity.UserMission;
+
+import java.util.List;
 
 public class MemberConverter {
 
@@ -40,6 +44,28 @@ public class MemberConverter {
                 .memberId(member.getId())
                 .name(member.getName())
                 .point(member.getPoint())
+                .build();
+    }
+
+    public static MemberResponseDTO.MissionInfo toMissionInfo(UserMission userMission) {
+        return MemberResponseDTO.MissionInfo.builder()
+                .userMissionId(userMission.getId())
+                .storeName(userMission.getMission().getStore().getName())
+                .missionDescription(userMission.getMission().getDescription())
+                .rewardPoints(userMission.getMission().getRewardPoints())
+                .status(userMission.getStatus().name())
+                .build();
+    }
+
+    public static MemberResponseDTO.Pagination<MemberResponseDTO.MissionInfo> toGetMyMissionListInfo(
+            List<MemberResponseDTO.MissionInfo> missionList,
+            int pageNumber,
+            int pageSize) {
+
+        return MemberResponseDTO.Pagination.<MemberResponseDTO.MissionInfo>builder()
+                .data(missionList)
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
                 .build();
     }
 }

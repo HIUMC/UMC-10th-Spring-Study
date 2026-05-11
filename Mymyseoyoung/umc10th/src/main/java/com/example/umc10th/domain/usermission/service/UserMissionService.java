@@ -1,6 +1,8 @@
 package com.example.umc10th.domain.usermission.service;
 
+import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
+import com.example.umc10th.domain.mission.dto.MissionResponseDTO;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.usermission.entity.UserMission;
 import com.example.umc10th.domain.usermission.enums.UserMissionStatus;
@@ -46,4 +48,21 @@ public class UserMissionService {
                 .build();
     }
 
+    public MemberResponseDTO.Pagination<MemberResponseDTO.MissionInfo> getMyOngoingMissions(
+            Long memberId, UserMissionStatus status, int page)
+    {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+
+        //가게 내 미션들 조회
+        Page<UserMission> result = userMissionRepository
+                .findByMemberIdAndStatus(memberId, status, pageRequest);
+
+        //미션을 응답 dto로 포장하기
+        return MemberConverter.toGetMyMissionListInfo(
+                result.map(MemberConverter::toMissionInfo).toList(),
+                result.getNumber(),
+                result.getSize()
+        );
+
+    }
 }
