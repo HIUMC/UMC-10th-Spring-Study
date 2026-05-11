@@ -1,5 +1,6 @@
 package umc10th.assignment.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc10th.assignment.global.apiPayload.ApiResponse;
@@ -17,14 +18,30 @@ public class ReviewController {
     @PostMapping("/{missionId}/reviews")
     public ApiResponse<ReviewResponseDto.CreateReview> createReview(
             @PathVariable Long missionId,
-            @RequestBody ReviewRequestDto.CreateReview dto
+            @Valid @RequestBody ReviewRequestDto.CreateReview dto
     ) {
         BaseSuccessCode code = ReviewSuccessCode.CREATE_REVIEW;
 
-        ReviewResponseDto.CreateReview response =
-                reviewService.createReview(missionId, dto);
+        return ApiResponse.onSuccess(
+                code,
+                reviewService.createReview(missionId, dto)
+        );
+    }
 
-        return ApiResponse.onSuccess(code, response);
+    // 내가 생성한 리뷰들 조회 - 커서 기반 페이지네이션
+    @PostMapping("/members/me/reviews")
+    public ApiResponse<ReviewResponseDto.CursorPagination<ReviewResponseDto.GetMyReview>> getMyReviews(
+            @Valid @RequestBody ReviewRequestDto.GetMyReview dto,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "-1") String cursor,
+            @RequestParam(defaultValue = "id") String query
+    ) {
+        BaseSuccessCode code = ReviewSuccessCode.GET_REVIEWS;
+
+        return ApiResponse.onSuccess(
+                code,
+                reviewService.getMyReviews(dto, pageSize, cursor, query)
+        );
     }
 }
 
