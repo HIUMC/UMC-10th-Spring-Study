@@ -41,7 +41,11 @@ public class MissionResponseDTO {
     @Builder
     public record Pagination<T>(
         List<T> data,
-        Integer pageNumber,
+        //다음 데이터가 있는지
+        Boolean hasNext,
+
+        //다음 커서는?
+        String nextCursor,
         Integer pageSize
     )
     {}

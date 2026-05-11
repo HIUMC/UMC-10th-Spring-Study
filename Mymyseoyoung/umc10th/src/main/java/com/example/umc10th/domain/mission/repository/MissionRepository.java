@@ -4,6 +4,7 @@ import com.example.umc10th.domain.mission.entity.Mission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,6 +30,10 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
 
     // 연관관계가 있는 store 테이블 아이디를 where 절에 넣어서 쿼리를 날림
     Page<Mission> findAllByStore_Id(Long storeId, PageRequest pageRequest);
+
+    Slice<Mission> findMissionsByStore_IdAndIdLessThanOrderByIdDesc(Long storeId, Long idCursor, Pageable pageable);
+
+    Slice<Mission> findMissionsByStore_IdOrderByIdDesc(Long storeId, Pageable pageable);
 
 
 }

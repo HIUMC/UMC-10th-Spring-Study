@@ -34,13 +34,15 @@ public class MissionConverter {
 
     public static <T> MissionResponseDTO.Pagination<T> toPagination(
             List<T> data,
-            Integer pageNumber,
+           Boolean hasNext,
+            String nextCursor,
             Integer pageSize
     )
     {
         return MissionResponseDTO.Pagination.<T>builder()
                 .data(data)
-                .pageNumber(pageNumber)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
                 .pageSize(pageSize).build();
 
     }

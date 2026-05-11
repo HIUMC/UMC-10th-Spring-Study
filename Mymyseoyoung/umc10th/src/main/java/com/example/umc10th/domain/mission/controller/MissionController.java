@@ -7,6 +7,7 @@ import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,7 @@ public class MissionController {
     // 가게 미션 생성
     @PostMapping("/stores/{storeId}/missions")
 
-    public ApiResponse<Void> createMission(@PathVariable Long storeId, @RequestBody MissionRequestDTO.CreateMission request) {
+    public ApiResponse<Void> createMission(@PathVariable Long storeId, @RequestBody @Valid MissionRequestDTO.CreateMission request) {
         BaseSuccessCode code=MissionSuccessCode.MISSION_CREATED;
 
         return ApiResponse.onSuccess(code, missionService.createMission(storeId,request));
@@ -60,9 +61,10 @@ public class MissionController {
     public ApiResponse<MissionResponseDTO.Pagination<MissionResponseDTO.GetMission>> getMissions
             (@PathVariable Long storeId,
              @RequestParam Integer pageSize,
-             @RequestParam Integer pageNumber,
-             @RequestParam(required=false)String sort) {
+             @RequestParam String cursor,
+             @RequestParam String query )
+    {
         BaseSuccessCode code=MissionSuccessCode.MISSION_FOUND;
-        return ApiResponse.onSuccess(code,missionService.getStoreMissions(storeId,pageSize,pageNumber,sort));
+        return ApiResponse.onSuccess(code,missionService.getStoreMissions(storeId,pageSize,cursor,query));
     }
 }
