@@ -11,9 +11,4 @@ public class ReviewRequestDTO {
         private String content;
     }
 
-    @Getter
-    public static class GetReviewByMemberIdRequest {
-        private Long memberId;
-        private String sort;
-    }
 }

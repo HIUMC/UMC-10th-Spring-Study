@@ -36,7 +36,8 @@ public class ReviewResponseDTO {
     @AllArgsConstructor
     public static class MyReviewListResultDTO {
         private List<MyReviewPreviewDTO> reviewList;
-        private Long nextCursor;
+        private Long nextCursorId;
+        private Float nextCursorScore;
         private Boolean hasNext;
     }
 }

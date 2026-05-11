@@ -57,14 +57,16 @@ public class ReviewConverter {
 
     public static ReviewResponseDTO.MyReviewListResultDTO toMyReviewListResultDTO(
             List<Review> reviews,
-            Long nextCursor,
+            Long nextCursorId,
+            Float nextCursorScore,
             Boolean hasNext
     ) {
         return ReviewResponseDTO.MyReviewListResultDTO.builder()
                 .reviewList(reviews.stream()
                         .map(ReviewConverter::toMyReviewPreviewDTO)
                         .toList())
-                .nextCursor(nextCursor)
+                .nextCursorId(nextCursorId)
+                .nextCursorScore(nextCursorScore)
                 .hasNext(hasNext)
                 .build();
     }

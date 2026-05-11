@@ -46,17 +46,17 @@ public class ReviewService {
     @Transactional
     public ReviewResponseDTO.MyReviewListResultDTO getMyReviews(
             Long memberId,
-            Long cursor,
+            String sort,
+            Long cursorId,
+            Float cursorScore,
             Integer size
     ) {
-        // pageSize 기본값은 10
         int pageSize = size == null || size < 1 ? 10 : size;
+        Pageable pageable = PageRequest.of(0, pageSize + 1);
 
-        org.springframework.data.domain.Pageable pageable = PageRequest.of(0, pageSize + 1);
-
-        List<Review> reviews = cursor == null
-                ? reviewRepository.findAllByMemberIdOrderByIdDesc(memberId, pageable)
-                : reviewRepository.findAllByMemberIdAndIdLessThanOrderByIdDesc(memberId, cursor, pageable);
+        List<Review> reviews = "score".equalsIgnoreCase(sort)
+                ? getMyReviewsByScoreCursor(memberId, cursorId, cursorScore, pageable)
+                : getMyReviewsByIdCursor(memberId, cursorId, pageable);
 
         boolean hasNext = reviews.size() > pageSize;
 
@@ -64,10 +64,34 @@ public class ReviewService {
             reviews = reviews.subList(0, pageSize);
         }
 
-        Long nextCursor = reviews.isEmpty()
+        Long nextCursorId = reviews.isEmpty()
                 ? null
                 : reviews.get(reviews.size() - 1).getId();
+        Float nextCursorScore = reviews.isEmpty() || !"score".equalsIgnoreCase(sort)
+                ? null
+                : reviews.get(reviews.size() - 1).getScore();
 
-        return ReviewConverter.toMyReviewListResultDTO(reviews, nextCursor, hasNext);
+        return ReviewConverter.toMyReviewListResultDTO(reviews, nextCursorId, nextCursorScore, hasNext);
+    }
+
+    private List<Review> getMyReviewsByIdCursor(
+            Long memberId,
+            Long cursorId,
+            Pageable pageable
+    ) {
+        return cursorId == null
+                ? reviewRepository.findAllByMemberIdOrderByIdDesc(memberId, pageable)
+                : reviewRepository.findAllByMemberIdAndIdLessThanOrderByIdDesc(memberId, cursorId, pageable);
+    }
+
+    private List<Review> getMyReviewsByScoreCursor(
+            Long memberId,
+            Long cursorId,
+            Float cursorScore,
+            Pageable pageable
+    ) {
+        return cursorId == null || cursorScore == null
+                ? reviewRepository.findAllByMemberIdOrderByScoreDesc(memberId, pageable)
+                : reviewRepository.findAllByMemberIdAndScoreCursorOrderByScoreDesc(memberId, cursorScore, cursorId, pageable);
     }
 }

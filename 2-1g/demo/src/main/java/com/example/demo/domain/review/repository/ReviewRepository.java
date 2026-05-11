@@ -4,6 +4,8 @@ import com.example.demo.domain.review.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -19,4 +21,30 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     // cursor가 있는 버전
     List<Review> findAllByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long cursor, Pageable pageable);
+
+    @Query("""
+            select r from Review r
+            where r.member.id = :memberId
+            order by r.score desc, r.id desc
+            """)
+    List<Review> findAllByMemberIdOrderByScoreDesc(
+            @Param("memberId") Long memberId,
+            Pageable pageable
+    );
+
+    @Query("""
+            select r from Review r
+            where r.member.id = :memberId
+              and (
+                  r.score < :cursorScore
+                  or (r.score = :cursorScore and r.id < :cursorId)
+              )
+            order by r.score desc, r.id desc
+            """)
+    List<Review> findAllByMemberIdAndScoreCursorOrderByScoreDesc(
+            @Param("memberId") Long memberId,
+            @Param("cursorScore") Float cursorScore,
+            @Param("cursorId") Long cursorId,
+            Pageable pageable
+    );
 }

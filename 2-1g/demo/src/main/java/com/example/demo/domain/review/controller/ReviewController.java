@@ -24,14 +24,16 @@ public class ReviewController {
         return ApiResponse.onSuccess(reviewService.createReview(TEMP_MEMBER_ID, request));
     }
 
-    // 내 미션 조회
+    // 내 리뷰 조회
     @GetMapping("/my")
     public ApiResponse<ReviewResponseDTO.MyReviewListResultDTO> getMyReviews(
-            @RequestParam(required = false) Long cursor,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(required = false) Long cursorId,
+            @RequestParam(required = false) Float cursorScore,
             @RequestParam(defaultValue = "10") Integer size
     ) {
         return ApiResponse.onSuccess(
-                reviewService.getMyReviews(TEMP_MEMBER_ID, cursor, size)
+                reviewService.getMyReviews(TEMP_MEMBER_ID, sort, cursorId, cursorScore, size)
         );
     }
 
