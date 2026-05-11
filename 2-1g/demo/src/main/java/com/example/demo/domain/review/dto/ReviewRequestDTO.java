@@ -10,4 +10,10 @@ public class ReviewRequestDTO {
         private Float score;
         private String content;
     }
+
+    @Getter
+    public static class GetReviewByMemberIdRequest {
+        private Long memberId;
+        private String sort;
+    }
 }

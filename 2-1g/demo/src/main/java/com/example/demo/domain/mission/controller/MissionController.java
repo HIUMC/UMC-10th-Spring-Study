@@ -70,6 +70,7 @@ public class MissionController {
         return ApiResponse.onSuccess(response);
     }
 
+    // 미션 조회
     @GetMapping("/missions")
     public ApiResponse<MissionResponseDTO.MissionListResultDTO> getMemberMissions(
             @ModelAttribute MissionRequestDTO.MemberMissionQueryRequest request,

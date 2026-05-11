@@ -5,10 +5,7 @@ import com.example.demo.domain.review.dto.ReviewResponseDTO;
 import com.example.demo.domain.review.service.ReviewService;
 import global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reviews")
@@ -26,4 +23,16 @@ public class ReviewController {
     ) {
         return ApiResponse.onSuccess(reviewService.createReview(TEMP_MEMBER_ID, request));
     }
+
+    // 내 미션 조회
+    @GetMapping("/my")
+    public ApiResponse<ReviewResponseDTO.MyReviewListResultDTO> getMyReviews(
+            @RequestParam(required = false) Long cursor,
+            @RequestParam(defaultValue = "10") Integer size
+    ) {
+        return ApiResponse.onSuccess(
+                reviewService.getMyReviews(TEMP_MEMBER_ID, cursor, size)
+        );
+    }
+
 }

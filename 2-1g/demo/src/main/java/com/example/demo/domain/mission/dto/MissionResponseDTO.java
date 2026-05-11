@@ -25,6 +25,7 @@ public class MissionResponseDTO {
         private MissionStatus status;
     }
 
+    // 미션들 반환
     @Getter
     @Builder
     @AllArgsConstructor
