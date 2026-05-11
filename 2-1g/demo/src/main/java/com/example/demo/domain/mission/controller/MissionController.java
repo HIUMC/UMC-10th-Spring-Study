@@ -72,10 +72,11 @@ public class MissionController {
 
     @GetMapping("/missions")
     public ApiResponse<MissionResponseDTO.MissionListResultDTO> getMemberMissions(
-            @ModelAttribute MissionRequestDTO.MemberMissionQueryRequest request
+            @ModelAttribute MissionRequestDTO.MemberMissionQueryRequest request,
+            @RequestBody MissionRequestDTO.MemberMissionBodyRequest requestBody
     ) {
 
-        Page<MemberMission> memberMissions = missionService.getMemberMissions(1L, request.getStatus(), request.getPage());
+        Page<MemberMission> memberMissions = missionService.getMemberMissions(requestBody.getMemberId(), request.getStatus(), request.getPage(), request.getSize());
 
         MissionResponseDTO.MissionListResultDTO response = MissionConverter.toMissionListResultDTO(memberMissions);
 

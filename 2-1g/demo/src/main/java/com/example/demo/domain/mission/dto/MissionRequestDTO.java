@@ -21,8 +21,13 @@ public class MissionRequestDTO {
     @Getter
     public static class MemberMissionQueryRequest {
         private MissionStatus status;
-        private Integer page = 0;
+        private Integer page = 1;
         private Integer size = 10;
+    }
+
+    @Getter
+    public static class MemberMissionBodyRequest {
+        private Long memberId;
     }
 
     @Getter
