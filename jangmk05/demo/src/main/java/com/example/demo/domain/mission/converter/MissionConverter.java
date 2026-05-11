@@ -1,7 +1,9 @@
 package com.example.demo.domain.mission.converter;
 
+import com.example.demo.domain.mission.dto.MissionReqDTO;
 import com.example.demo.domain.mission.dto.MissionResDTO;
 import com.example.demo.domain.mission.entity.Mission;
+import com.example.demo.domain.mission.entity.Store;
 import com.example.demo.domain.mission.entity.mapping.MemberMission;
 import org.springframework.data.domain.Page;
 
@@ -15,7 +17,7 @@ public class MissionConverter {
                 .missionId(memberMission.getMission().getId())
                 .storeName(memberMission.getMission().getStore().getName())
                 .reward(memberMission.getMission().getMissionPoint())
-                .missionSpec(memberMission.getMission().getMissionSpec())
+                .conditional(memberMission.getMission().getConditional())
                 .status(memberMission.getMissionStatus().name())
                 .build();
     }
@@ -41,7 +43,7 @@ public class MissionConverter {
                 .missionId(mission.getId())
                 .storeName(mission.getStore().getName())
                 .reward(mission.getMissionPoint())
-                .missionSpec(mission.getMissionSpec())
+                .conditional(mission.getConditional())
                 .build();
     }
 
@@ -58,6 +60,45 @@ public class MissionConverter {
                 .totalElements(missionPage.getTotalElements())
                 .isFirst(missionPage.isFirst())
                 .isLast(missionPage.isLast())
+                .build();
+    }
+
+    // 가게 미션 생성
+    public static Mission toMission(
+            Store store,
+            MissionReqDTO.CreateMission dto
+    ) {
+        return Mission.builder()
+                .store(store)
+                .conditional(dto.conditional())
+                .missionPoint(dto.missionPoint())
+                .deadline(dto.deadline())
+                .build();
+    }
+
+    // 가게 내 미션 조회
+    public static MissionResDTO.GetMission toGetMission(
+            Mission mission
+    ) {
+        return MissionResDTO.GetMission.builder()
+                .conditional(mission.getConditional())
+                .missionPoint(mission.getMissionPoint())
+                .missionId(mission.getId())
+                .build();
+    }
+
+    // 페이지네이션 틀 생성
+    public static <T> MissionResDTO.Pagination<T> toPagination(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ) {
+        return MissionResDTO.Pagination.<T>builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
                 .build();
     }
 }

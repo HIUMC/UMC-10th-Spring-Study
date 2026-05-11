@@ -5,9 +5,12 @@ import com.example.demo.domain.member.exception.MemberException;
 import com.example.demo.domain.member.exception.code.MemberErrorCode;
 import com.example.demo.domain.member.repository.MemberRepository;
 import com.example.demo.domain.mission.entity.Mission;
+import com.example.demo.domain.mission.entity.Store;
 import com.example.demo.domain.mission.exception.MissionException;
 import com.example.demo.domain.mission.exception.code.MissionErrorCode;
+import com.example.demo.domain.mission.exception.code.StoreErrorCode;
 import com.example.demo.domain.mission.repository.MissionRepository;
+import com.example.demo.domain.mission.repository.StoreRepository;
 import com.example.demo.domain.review.converter.ReviewConverter;
 import com.example.demo.domain.review.dto.ReviewReqDTO;
 import com.example.demo.domain.review.dto.ReviewResDTO;
@@ -16,8 +19,14 @@ import com.example.demo.domain.review.exception.ReviewException;
 import com.example.demo.domain.review.exception.code.ReviewErrorCode;
 import com.example.demo.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +36,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MissionRepository missionRepository;
     private final MemberRepository memberRepository;
+    private final StoreRepository storeRepository;
 
     public ReviewResDTO.CreateReviewResultDTO createReview( ReviewReqDTO.CreateReviewDTO request) {
         Mission mission = missionRepository.findById(request.getMissionId())
@@ -44,6 +54,66 @@ public class ReviewService {
 
         return ReviewConverter.toCreateReviewResultDTO(savedReview);
 
+
+    }
+
+    public ReviewResDTO.Pagination<ReviewResDTO.GetReview> getStoreReviews(
+            Long storeId,
+            Integer pageSize,
+            String cursor,
+            String query
+    ) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new ReviewException(StoreErrorCode.NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(0, pageSize);
+
+        long idCursor;
+        Slice<Review> reviewList;
+        String nextCursor;
+
+        if (!cursor.equals("-1")) {
+            String[] split = cursor.split(":");
+
+            switch (query.toLowerCase()) {
+                case "id":
+                    idCursor = Long.parseLong(split[0]);
+
+                    reviewList = reviewRepository
+                            .findByStore_IdAndIdLessThanOrderByIdDesc(storeId, idCursor, pageRequest);
+                    break;
+
+                default:
+                    throw new ReviewException(ReviewErrorCode.REVIEW_FORBIDDEN);
+            }
+        } else {
+            reviewList = reviewRepository
+                    .findByStore_IdOrderByIdDesc(storeId, pageRequest);
+        }
+
+        if (reviewList.isEmpty()) {
+            return ReviewConverter.toPagination(
+                    store.getId(),
+                    store.getName(),
+                    reviewList.map(ReviewConverter::toGetReview).toList(),
+                    false,
+                    "-1",
+                    0
+            );
+        }
+
+        nextCursor = String.valueOf(
+                reviewList.getContent().get(reviewList.getContent().size() - 1).getId()
+        );
+
+        return ReviewConverter.toPagination(
+                store.getId(),
+                store.getName(),
+                reviewList.map(ReviewConverter::toGetReview).toList(),
+                reviewList.hasNext(),
+                nextCursor,
+                reviewList.getSize()
+        );
 
     }
 }

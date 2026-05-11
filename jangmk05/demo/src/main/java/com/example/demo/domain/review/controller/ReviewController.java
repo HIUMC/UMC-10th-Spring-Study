@@ -11,15 +11,29 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/missions/{missionId}/reviews")
+@RequestMapping("/api")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping
+    @PostMapping("/missions/{missionId}/reviews")
     public ApiResponse<ReviewResDTO.CreateReviewResultDTO> createReview(
             @Valid @RequestBody ReviewReqDTO.CreateReviewDTO request
     ) {
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED, reviewService.createReview(request));
     }
+
+    @GetMapping("/stores/{storeId}/reviews")
+    public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetReview>> getStoreReviews(
+            @PathVariable Long storeId,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "-1") String cursor,
+            @RequestParam(defaultValue = "id") String query
+    ) {
+        return ApiResponse.onSuccess(
+                ReviewSuccessCode.REVIEW_FOUND,
+                reviewService.getStoreReviews(storeId, pageSize, cursor, query)
+        );
+    }
+
 }
