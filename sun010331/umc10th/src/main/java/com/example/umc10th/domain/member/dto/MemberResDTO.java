@@ -10,12 +10,13 @@ import java.time.LocalDateTime;
 
 public class MemberResDTO {
 
+    @Builder
     public record GetInfo(
             String name,
             String profileUrl,
             String email,
             String phoneNumber,
-            Integer point
+            Long point
     ){}
 
 

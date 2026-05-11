@@ -4,7 +4,11 @@ package com.example.umc10th.domain.mission.controller;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.enums.Status;
+import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
+import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +20,21 @@ import java.util.List;
 @RequestMapping("api/missions")
 public class MissionController {
 
+    private final MissionService missionService;
 
-    @GetMapping()
+
+    //내가 진행한 미션 보기
+    @GetMapping("/my")
     public ApiResponse<MissionResDTO.MissionListDTO> getMissions(
-            @RequestParam(name = "status") String status,
-            @RequestParam(name = "size") Integer size,
-            @RequestParam(name = "lastMissionId", required = false) Long lastMissionId
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) String cursor,
+            @RequestParam Long memberId
     ){
-        //임시 데이터
-        MissionResDTO.MissionListDTO result = MissionResDTO.MissionListDTO.builder()
-                .missionList(null) //미션은 없다고 가정
-                .lastMissionId(1L)
-                .hasNext(false)
-                .build();
 
 
-        return ApiResponse.onSuccess("미션 목록 조회 성공.", result);
+        BaseSuccessCode code = MissionSuccessCode.OK;
+
+        return ApiResponse.onSuccess(code, missionService.getMyMissions(memberId, status, cursor));
     }
 
 }

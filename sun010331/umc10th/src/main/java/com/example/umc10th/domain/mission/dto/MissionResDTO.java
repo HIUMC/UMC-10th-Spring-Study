@@ -2,6 +2,7 @@ package com.example.umc10th.domain.mission.dto;
 
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MissionResDTO {
@@ -10,9 +11,9 @@ public class MissionResDTO {
     @Builder
     public record MissionDTO(
             Long missionId,
-            String title,
             String content,
-            Integer point
+            Long reward,
+            LocalDate deadline
     ) {}
 
     @Builder

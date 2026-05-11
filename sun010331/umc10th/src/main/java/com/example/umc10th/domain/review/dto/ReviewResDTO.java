@@ -1,10 +1,14 @@
 package com.example.umc10th.domain.review.dto;
 
+import lombok.Builder;
+
 public class ReviewResDTO {
 
 
-
-    public record StoreReviewRes (){
+    @Builder
+    public record StoreReviewRes (
+            Long id
+    ){
 
     }
 }

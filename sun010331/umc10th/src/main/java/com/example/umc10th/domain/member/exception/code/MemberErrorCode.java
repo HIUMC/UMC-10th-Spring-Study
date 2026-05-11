@@ -16,8 +16,4 @@ public enum MemberErrorCode implements BaseErrorCode {
     private final String code;
     private final String message;
 
-    @Override
-    public HttpStatus getStatus() {
-        return null;
-    }
 }
