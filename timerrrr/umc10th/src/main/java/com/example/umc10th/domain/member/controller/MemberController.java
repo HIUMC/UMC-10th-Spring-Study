@@ -6,6 +6,7 @@ import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class MemberController {
     private final MemberService memberService;
 
     // 홈 화면 - 내 포인트, 미션 진행률 조회
-    @GetMapping("/members/me")
+    @GetMapping("/members/{memberId}")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @PathVariable Long memberId
     ) {
@@ -25,10 +26,19 @@ public class MemberController {
         return ApiResponse.onSuccess(code, memberService.getInfo(new MemberReqDTO.GetInfo(memberId)));
     }
 
+    // 마이페이지 조회
+    @GetMapping("/members/{memberId}/my-page")
+    public ApiResponse<MemberResDTO.GetMyPage> getMyPage(
+            @PathVariable Long memberId
+    ) {
+        BaseSuccessCode code = GeneralSuccessCode.OK;
+        return ApiResponse.onSuccess(code, memberService.getMyPage(new MemberReqDTO.GetInfo(memberId)));
+    }
+
     // 회원가입
     @PostMapping("/members")
     public ApiResponse<Void> signUp(
-            @RequestBody MemberReqDTO.SignUp dto
+            @RequestBody @Valid MemberReqDTO.SignUp dto
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
         memberService.signUp(dto);

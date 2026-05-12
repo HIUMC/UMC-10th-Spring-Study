@@ -9,6 +9,7 @@ import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,24 +19,32 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    // 도전 가능 미션 목록 조회
-    @GetMapping("/missions")
-    public ApiResponse<List<MissionResDTO.MissionInfo>> getAvailableMissions(
+    // 도전 가능 미션 목록 조회 - 회원이 선택한 주소 기준
+    @GetMapping("/members/{memberId}/missions/available")
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.MissionInfo>> getAvailableMissions(
+            @PathVariable Long memberId,
             @RequestParam Long addressId,
-            @RequestParam(defaultValue = "available") String status
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getAvailableMissions(new MissionReqDTO.GetAvailableMissions(addressId)));
+        return ApiResponse.onSuccess(code,
+                missionService.getAvailableMissions(memberId, addressId, pageSize, pageNumber, sort));
     }
 
     // 내 미션 목록 조회 (진행중 / 진행 완료)
     @GetMapping("/members/{memberId}/missions")
-    public ApiResponse<List<MissionResDTO.MyMissionInfo>> getMyMissions(
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.MyMissionInfo>> getMyMissions(
             @PathVariable Long memberId,
-            @RequestParam String status
+            @RequestParam String status,
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMyMissions(memberId, new MissionReqDTO.GetMyMissions(status)));
+        return ApiResponse.onSuccess(code,
+                missionService.getMyMissions(memberId, status, pageSize, pageNumber, sort));
     }
 
     // 미션 성공 누르기

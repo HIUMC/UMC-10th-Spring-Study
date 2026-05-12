@@ -1,8 +1,10 @@
 package com.example.umc10th.domain.mission.dto;
 
+import com.example.umc10th.domain.store.enums.StoreCategory;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class MissionResDTO {
 
@@ -12,7 +14,10 @@ public class MissionResDTO {
             Long missionId,
             String missionDetail,
             LocalDate deadline,
-            Integer successPoint
+            Integer successPoint,
+            Long dDay,
+            String storeName,
+            StoreCategory storeCategory
     ) {}
 
     // 내 미션 목록 조회 (진행중 / 진행 완료)
@@ -23,5 +28,13 @@ public class MissionResDTO {
             LocalDate deadline,
             Integer successPoint,
             Boolean missionComplete
+    ) {}
+
+    //페이지네이션 틀
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
     ) {}
 }
