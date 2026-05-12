@@ -6,6 +6,8 @@ import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.store.entity.Store;
 
+import java.util.List;
+
 public class ReviewConverter {
 
 
@@ -16,7 +18,7 @@ public class ReviewConverter {
             Store store
     ) {
         return Review.builder()
-                .starRating(dto.star())
+                .star(dto.star())
                 .content(dto.content())
                 .member(member)
                 .store(store)
@@ -27,6 +29,32 @@ public class ReviewConverter {
     public static ReviewResDTO.StoreReviewRes write(Review review){
         return ReviewResDTO.StoreReviewRes.builder()
                 .id(review.getId())
+                .build();
+    }
+
+    public static ReviewResDTO.GetReview toGetReview(Review review) {
+        return ReviewResDTO.GetReview.builder()
+                .reviewId(review.getId())
+                .star(review.getStar())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    public static ReviewResDTO.ReviewCursorDTO toCursorDTO(
+            List<Review> reviews, int size) {
+
+        boolean hasNext = reviews.size() > size;
+
+
+        List<Review> content = hasNext ? reviews.subList(0, size) : reviews;
+
+        Long nextCursor = content.isEmpty() ? null : content.get(content.size() - 1).getId();
+
+        return ReviewResDTO.ReviewCursorDTO.builder()
+                .reviews(content.stream().map(ReviewConverter::toGetReview).toList())
+                .nextCursor(nextCursor)
+                .hasNext(hasNext)
                 .build();
     }
 

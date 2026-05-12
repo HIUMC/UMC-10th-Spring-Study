@@ -24,8 +24,8 @@ public class Review extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "star_rating", nullable = false, precision = 2, scale = 1)
-    private BigDecimal starRating;
+    @Column(name = "star", nullable = false)
+    private Float star;
 
     @Column(name ="content", nullable = false)
     private String content;

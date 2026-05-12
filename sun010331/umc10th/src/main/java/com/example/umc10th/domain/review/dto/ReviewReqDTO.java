@@ -9,7 +9,7 @@ public class ReviewReqDTO {
             (
                     String title,
                     String content,
-                    BigDecimal star
+                    Float star
 
             ){
 
