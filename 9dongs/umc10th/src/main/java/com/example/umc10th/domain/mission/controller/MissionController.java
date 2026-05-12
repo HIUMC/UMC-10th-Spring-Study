@@ -2,27 +2,37 @@ package com.example.umc10th.domain.mission.controller;
 
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.entity.Mission;
+import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
+import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
+import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionController {
 
+    private final MissionService missionService;
+
     // 도전 가능 미션 조회
     @GetMapping("/missions")
-    public ApiResponse<Object> getAvailableMissions(
+    public ApiResponse<MissionResDTO.AvailableMissionListDTO> getAvailableMissions(
             @RequestParam(name = "status", required = true) MissionStatus status,
             @RequestParam(name = "regionId", required = true) Long regionId,
-            @RequestParam(name = "cursor", defaultValue = "0") Integer cursor,
+            @RequestParam(name = "cursor", defaultValue = "0") Long cursor,
             @RequestParam(name = "size", defaultValue = "10") Integer size
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        List<Mission> missions = missionService.getAvailableMissions(regionId, status, cursor, size);
+        MissionResDTO.AvailableMissionListDTO result = MissionConverter.toAvailableMissionListDTO(missions, size);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
     // 미션 진행도 조회 ( 홈 화면 상단 )
@@ -36,17 +46,20 @@ public class MissionController {
     public ApiResponse<MissionResDTO.MissionStatusResultDTO> startMission(
             @RequestBody MissionReqDTO.StartMissionDTO request
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
     }
 
     // 미션 목록 조회
     @GetMapping("/members/me/missions")
-    public ApiResponse<Object> getMyMissions(
+    public ApiResponse<MissionResDTO.MyMissionListDTO> getMyMissions(
             @RequestParam(name = "status", required = true) MemberMissionStatus status,
-            @RequestParam(name = "cursor", defaultValue = "0") Integer cursor,
+            @RequestParam(name = "cursor", defaultValue = "0") Long cursor,
             @RequestParam(name = "size", defaultValue = "10") Integer size
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        Long memberId = 1L;
+        List<MemberMission> myMissions = missionService.getMyMissions(memberId, status, cursor, size);
+        MissionResDTO.MyMissionListDTO result = MissionConverter.toMyMissionListDTO(myMissions, size);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 
     // 내 미션 상태 업데이트
@@ -63,6 +76,6 @@ public class MissionController {
     public ApiResponse<MissionResDTO.AuthCodeResultDTO> requestAuthCode(
             @PathVariable(name = "member_mission_id") Long memberMissionId
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
     }
 }
