@@ -1,36 +1,42 @@
 package com.example.demo.domain.mission.controller;
 
-import com.example.demo.domain.mission.dto.MissionReqDTO;
 import com.example.demo.domain.mission.dto.MissionResDTO;
+import com.example.demo.domain.mission.enums.MissionStatus;
+import com.example.demo.domain.mission.exception.code.MissionSuccessCode;
 import com.example.demo.domain.mission.service.MissionService;
 import com.example.demo.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/api/missions")
 public class MissionController {
+
     private final MissionService missionService;
 
-    @GetMapping("/missions")
-    public ApiResponse<MissionResDTO.MissionListDTO> getMissionList(
-            @ModelAttribute MissionReqDTO.MissionQueryDTO request
+    // 내 미션 목록 조회
+    @GetMapping("/my")
+    public ApiResponse<MissionResDTO.MyMissionPreviewListDTO> getMyMissions(
+            @RequestParam Long memberId,
+            @RequestParam MissionStatus status,
+            @RequestParam(defaultValue = "0") Integer page
     ) {
-        return ApiResponse.onSuccess(missionService.getMissionList(request));
+        return ApiResponse.onSuccess(
+                MissionSuccessCode.MISSION_FOUND,
+                missionService.getMyMissions(memberId, status, page)
+        );
     }
 
-    @PatchMapping("/missions/{missionId}/complete")
-    public ApiResponse<MissionResDTO.MissionCompleteResultDTO> completeMission(
-            @PathVariable Long missionId,
-            @Validated @RequestBody MissionReqDTO.MissionCompleteDTO request
+    // 수행 가능한 미션 목록 조회
+    @GetMapping("/available")
+    public ApiResponse<MissionResDTO.AvailableMissionListDTO> getAvailableMissions(
+            @RequestParam Long memberId,
+            @RequestParam(defaultValue = "0") Integer page
     ) {
-        return ApiResponse.onSuccess(missionService.completeMission(missionId, request));
-    }
-
-    @GetMapping("/home")
-    public ApiResponse<MissionResDTO.HomeDTO> getHome() {
-        return ApiResponse.onSuccess(missionService.getHome());
+        return ApiResponse.onSuccess(
+                MissionSuccessCode.MISSION_FOUND,
+                missionService.getAvailableMissions(memberId, page)
+        );
     }
 }

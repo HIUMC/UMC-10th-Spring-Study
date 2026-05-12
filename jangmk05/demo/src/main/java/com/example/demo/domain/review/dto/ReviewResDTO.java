@@ -10,9 +10,8 @@ public class ReviewResDTO {
     @AllArgsConstructor
     public static class CreateReviewResultDTO {
         private Long id;
-        private Integer rating;
+        private Long rating;
         private String title;
         private String content;
-        private String photoURL;
     }
 }

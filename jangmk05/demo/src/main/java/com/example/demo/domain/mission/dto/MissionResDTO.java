@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class MissionResDTO {
@@ -12,65 +11,46 @@ public class MissionResDTO {
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class MissionPreviewDTO {
-        private Long id;
-        private String title;
-        private String distance;
-        private Integer point;
-        private String category;
-    }
-
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class MissionListDTO {
-        private List<MissionPreviewDTO> missions;
-    }
-
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class MissionCompleteResultDTO {
+    public static class MyMissionPreviewDTO {
+        private Long memberMissionId;
         private Long missionId;
+        private String storeName;
+        private Long reward;
+        private String missionSpec;
         private String status;
     }
 
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class HomeMissionDTO {
-        private Long id;
-        private String title;
-        private String content;
-        private Integer point;
-        private String category;
-        private LocalDate receivedAt;
-        private String status;
+    public static class MyMissionPreviewListDTO {
+        private List<MyMissionPreviewDTO> missionList;
+        private Integer listSize;
+        private Integer totalPage;
+        private Long totalElements;
+        private Boolean isFirst;
+        private Boolean isLast;
     }
 
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class MissionProgressDTO {
-        private Integer completedCount;
-        private Integer totalCount;
+    public static class AvailableMissionDTO {
+        private Long missionId;
+        private String storeName;
+        private Long reward;
+        private String missionSpec;
     }
 
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class MainRewardDTO {
-        private Integer point;
-    }
-
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class HomeDTO {
-        private String region;
-        private Integer myPoint;
-        private MissionProgressDTO missionProgress;
-        private MainRewardDTO mainReward;
-        private List<HomeMissionDTO> missions;
+    public static class AvailableMissionListDTO {
+        private List<AvailableMissionDTO> missionList;
+        private Integer listSize;
+        private Integer totalPage;
+        private Long totalElements;
+        private Boolean isFirst;
+        private Boolean isLast;
     }
 }

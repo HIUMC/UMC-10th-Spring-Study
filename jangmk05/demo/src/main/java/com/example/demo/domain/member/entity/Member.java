@@ -1,11 +1,17 @@
 package com.example.demo.domain.member.entity;
 
+import com.example.demo.domain.member.entity.mapping.MemberFood;
+import com.example.demo.domain.member.entity.mapping.MemberTerm;
 import com.example.demo.domain.member.enums.Gender;
-import com.example.demo.domain.member.enums.Preference;
+import com.example.demo.domain.member.enums.FoodName;
+import com.example.demo.domain.member.enums.SocialType;
+import com.example.demo.domain.mission.enums.Address;
+import com.example.demo.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,10 +21,10 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "name")
@@ -32,17 +38,21 @@ public class Member {
     private LocalDate birth;
 
     @Column(name = "address")
-    private String address;
+    private Address address;
 
-    @ElementCollection(targetClass = Preference.class)
-    @CollectionTable(
-            name = "member_preference",
-            joinColumns = @JoinColumn(name = "member_id")
-    )
+    @Column(name = "detailAddress")
+    private String detailAddress;
+
+    @Column(name = "social_uid")
+    private String socialUid;
+
+    @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
-    @Column(name = "preferences")
-    private Set<Preference> preferences;
+    private SocialType socialType;
 
-    @Column(name = "agreement")
-    private boolean agreement;
+    @OneToMany(mappedBy = "member")
+    private List<MemberFood> memberFoodList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberTerm> memberTermList = new ArrayList<>();
 }

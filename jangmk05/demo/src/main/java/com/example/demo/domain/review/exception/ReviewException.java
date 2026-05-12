@@ -1,7 +1,10 @@
 package com.example.demo.domain.review.exception;
 
-public class ReviewException extends RuntimeException {
-    public ReviewException(String message) {
-        super(message);
+import com.example.demo.global.apiPayload.code.BaseErrorCode;
+import com.example.demo.global.apiPayload.exception.ProjectException;
+
+public class ReviewException extends ProjectException {
+    public ReviewException(BaseErrorCode errorCode) {
+        super(errorCode);
     }
 }

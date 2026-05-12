@@ -1,7 +1,10 @@
 package com.example.demo.domain.member.dto;
 
+import com.example.demo.domain.member.entity.mapping.MemberFood;
+import com.example.demo.domain.member.entity.mapping.MemberTerm;
 import com.example.demo.domain.member.enums.Gender;
-import com.example.demo.domain.member.enums.Preference;
+import com.example.demo.domain.member.enums.FoodName;
+import com.example.demo.domain.mission.enums.Address;
 import lombok.Builder;
 
 import java.time.LocalDate;
@@ -15,8 +18,8 @@ public class MemberResDTO {
             String name,
             Gender gender,
             LocalDate birth,
-            String address,
-            List<Preference> preferences,
-            boolean agreement
+            Address address,
+            List<MemberFood> memberFoodList,
+            List<MemberTerm> memberTermList
     ){}
 }

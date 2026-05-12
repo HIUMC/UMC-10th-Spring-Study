@@ -1,6 +1,6 @@
 package com.example.demo.domain.member.enums;
 
-public enum Preference {
+public enum FoodName {
     KOREAN,
     JAPANESE,
     CHINESE,
