@@ -1,7 +1,18 @@
 package com.example.umc10th.domain.mission.dto;
 
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
+
 public class MissionReqDTO {
-    // 지역미션 조회, 내 미션 조회, 미션 도전 API는
-    // RequestBody 없이 PathVariable / QueryParameter 만 사용하므로
-    // 현재 ReqDTO 정의 불필요
+
+    // 가게 미션 생성
+    public record CreateMission(
+            @NotNull(message = "마감 기한은 필수입니다.")
+            LocalDate deadline,
+            @NotNull(message = "미션 성공 포인트는 필수입니다.")
+            Integer point,
+            @NotNull(message = "조건은 빈칸일 수 있습니다.")
+            String conditional
+    ){}
 }

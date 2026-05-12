@@ -8,59 +8,22 @@ import java.util.List;
 
 public class MissionResDTO {
 
-    /* ───────────── 지역미션 조회 (페이징) ───────────── */
-    @Getter
+    // 가게 내 미션 조회
     @Builder
-    @AllArgsConstructor
-    public static class RegionMissionResDTO {
-        private List<MissionItemDTO> missions;
-        private int currentPage;
-        private int totalPages;
-        private long totalElements;
-        private boolean isLast;
-    }
+    public record GetMission(
+            Long missionId,
+            Integer point,
+            String conditional
+    ){}
 
-    @Getter
+    // 페이지네이션 툴
     @Builder
-    @AllArgsConstructor
-    public static class MissionItemDTO {
-        private Long missionId;
-        private String storeName;
-        private String region;
-        private String conditional;
-        private int point;
-    }
+    public record Pagination<T>(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ){}
 
-    /* ───────────── 내 미션 조회 ───────────── */
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class MyMissionResDTO {
-        private List<MyMissionItemDTO> missions;
-        private int currentPage;
-        private int totalPages;
-        private long totalElements;
-        private boolean isLast;
-    }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class MyMissionItemDTO {
-        private Long missionId;
-        private String storeName;
-        private String conditional;
-        private int point;
-        private Boolean isComplete;
-    }
-
-    /* ───────────── 미션 도전 ───────────── */
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class MissionChallengeResDTO {
-        private Long memberMissionId;
-        private Long missionId;
-        private Boolean isComplete;
-    }
 }
