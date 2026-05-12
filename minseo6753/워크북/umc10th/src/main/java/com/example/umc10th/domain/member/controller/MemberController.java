@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,4 +50,13 @@ public class MemberController {
         );
     }
 
+    @GetMapping("/my-page")
+    public ApiResponse<MemberResDTO.MyPage> myPage(
+            @RequestHeader Long memberId //todo 토큰인증으로 변경
+    ) {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                memberService.myPage(memberId)
+        );
+    }
 }
