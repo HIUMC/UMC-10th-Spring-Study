@@ -23,6 +23,6 @@ public class ReviewResDTO {
     @Getter
     @Builder
     public static class ReviewListResponse {
-        private List<ReviewListResponse> reviews;
+        private List<ReviewResponse> reviews;
     }
 }
