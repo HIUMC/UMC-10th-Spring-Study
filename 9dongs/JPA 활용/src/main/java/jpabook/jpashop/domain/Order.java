@@ -20,15 +20,16 @@ public class Order {
 
     // 연관 관계 주인은 FK가 가까운 곳으로
     // 주인을 참고해서 JPA가 FK를 업데이트
-    @ManyToOne
+    // 지연로딩 안하면 N+1 문제 발생 ( JPQL : select o From order o; -> SQL " select * from order 100+1(order) )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderItems> orderItem = new ArrayList<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // cascade : Order 저장하면 OrderItems도 업데이트
+    private List<OrderItems> orderItems = new ArrayList<>();
 
     // FK는 자주 위치하는 곳에 두자. -> order가 주인
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
@@ -36,5 +37,22 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // 주문 상태 [ORDER, CANCEL]
+
+    // == 연관관계 편의 메서드 == //
+    // 양방향 연관관 효과적 관리 위함
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public void addOrderItem(OrderItems orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
 
 }
