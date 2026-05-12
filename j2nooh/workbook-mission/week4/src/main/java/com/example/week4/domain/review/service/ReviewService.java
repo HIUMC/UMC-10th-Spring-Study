@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -38,15 +40,45 @@ public class ReviewService {
         return ReviewConverter.toReviewResponse(savedReview);
     }
 
-    public ReviewResDTO.ReviewListResponse getUserReviews(ReviewReqDTO.UserReviewListRequest dto) {
-        PageRequest pageRequest = PageRequest.of(0, 10);
+    public ReviewResDTO.UserReviewCursorListResponse getUserReviews(
+            ReviewReqDTO.UserReviewListRequest dto,
+            String cursor,
+            Integer pageSize
+    ) {
+        PageRequest pageRequest = PageRequest.of(0, pageSize + 1);
 
-        Page<Review> reviewPage = reviewRepository.findUserReviews(
-                dto.userId(),
-                pageRequest
+        String[] cursorParts = cursor.split(":");
+        String sortType = cursorParts[0];
+
+        List<Review> reviews;
+
+        if (sortType.equals("ID")) {
+            Long cursorId = Long.parseLong(cursorParts[1]);
+
+            reviews = reviewRepository.findUserReviewByIdCursor(
+                    dto.userId(),
+                    cursorId,
+                    pageRequest
+            );
+        } else if (sortType.equals("RATING")) {
+            Integer cursorRating = Integer.parseInt(cursorParts[1]);
+            Long cursorId = Long.parseLong(cursorParts[2]);
+
+            reviews = reviewRepository.findUserReviewByRatingCursor(
+                    dto.userId(),
+                    cursorRating,
+                    cursorId,
+                    pageRequest
+            );
+        } else {
+            throw new IllegalArgumentException("지원하지 않는 정렬 기준입니다.");
+        }
+
+        return ReviewConverter.toUserReviewCursorListResponse(
+                reviews,
+                pageSize,
+                sortType
         );
-
-        return ReviewConverter.toReviewListResponse(reviewPage.getContent());
     }
 
     public ReviewResDTO.ReviewListResponse getStoreReviews(ReviewReqDTO.StoreReviewListRequest dto) {

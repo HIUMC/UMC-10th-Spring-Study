@@ -40,8 +40,12 @@ public class MissionService {
     }
 
     // 유저의 현재 진행 중/완료 미션 목록 조회
-    public MissionResDTO.UserMissionListResponse getUserMissions(MissionReqDTO.UserMissionListRequest dto) {
-        PageRequest pageRequest = PageRequest.of(0, 10);
+    public MissionResDTO.UserMissionListResponse getUserMissions(
+            MissionReqDTO.UserMissionListRequest dto,
+            Integer pageNumber,
+            Integer pageSize
+    ) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 
         MissionStatus missionStatus = convertMissionStatus(dto.missionStatus());
 
@@ -51,7 +55,7 @@ public class MissionService {
                 pageRequest
         );
 
-        return MissionConverter.toUserMissionListResponse(userMissionPage.getContent());
+        return MissionConverter.toUserMissionListResponse(userMissionPage);
     }
 
     // 미션 도전

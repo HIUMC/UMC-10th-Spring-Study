@@ -45,4 +45,42 @@ public class ReviewConverter {
                 .reviews(reviewResponses)
                 .build();
     }
+
+    public static ReviewResDTO.UserReviewCursorListResponse toUserReviewCursorListResponse(
+            List<Review> reviews,
+            Integer pageSize,
+            String sortType
+    ) {
+        boolean hasNext = reviews.size() > pageSize;
+
+        List<Review> content = hasNext
+                ? reviews.subList(0, pageSize)
+                : reviews;
+
+        String nextCursor = null;
+
+        if (hasNext && !content.isEmpty()) {
+            Review lastReview = content.get(content.size() - 1);
+
+            if (sortType.equals("ID")) {
+                nextCursor = "ID:" + lastReview.getId();
+            }
+
+            if (sortType.equals("RATING")) {
+                nextCursor = "RATING:" + lastReview.getRating() + ":" + lastReview.getId();
+            }
+        }
+
+        List<ReviewResDTO.ReviewResponse> reviewResponses = content.stream()
+                .map(ReviewConverter::toReviewResponse)
+                .toList();
+
+        return ReviewResDTO.UserReviewCursorListResponse.builder()
+                .reviews(reviewResponses)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
+                .currentCount(content.size())
+                .build();
+    }
 }

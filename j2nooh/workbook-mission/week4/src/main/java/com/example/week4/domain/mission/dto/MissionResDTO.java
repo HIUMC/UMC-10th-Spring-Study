@@ -41,5 +41,12 @@ public class MissionResDTO {
     @Builder
     public static class UserMissionListResponse {
         private List<UserMissionResponse> userMissions;
+
+        private Integer pageNumber;
+        private Integer pageSize;
+        private Long totalElements;
+        private Integer totalPages;
+        private Boolean isFirst;
+        private Boolean isLast;
     }
 }
