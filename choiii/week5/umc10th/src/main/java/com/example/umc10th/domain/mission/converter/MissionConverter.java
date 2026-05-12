@@ -13,6 +13,7 @@ public class MissionConverter {
 
     private MissionConverter() {}
 
+    // 가게 미션 생성
     public static Mission toEntity(MissionCreateRequest request, Store store) {
         return Mission.builder()
                 .missionName(request.missionName())
