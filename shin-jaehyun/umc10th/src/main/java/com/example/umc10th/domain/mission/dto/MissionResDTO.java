@@ -5,12 +5,13 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MissionResDTO {
 
     // 미션 목록 조회
     @Builder
-    public record Missions(
+    public record getMissions(
             String storeName,
             String foodCategory,
             String content,
@@ -24,8 +25,10 @@ public class MissionResDTO {
             Long count
     ) {}
 
-    public record MissionCursor(
-            LocalDateTime lastCreatedAt,
-            Long lastMissionId
+    @Builder
+    public record Pagination<T> (
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
     ) {}
 }

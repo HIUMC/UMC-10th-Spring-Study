@@ -53,5 +53,4 @@ public class Member extends BaseEntity {
 
     @Column(name = "social_uid")
     private String socialUid;
-
 }
