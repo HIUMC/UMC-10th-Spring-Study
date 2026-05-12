@@ -1,4 +1,5 @@
 HELP.md
+.omx/
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar

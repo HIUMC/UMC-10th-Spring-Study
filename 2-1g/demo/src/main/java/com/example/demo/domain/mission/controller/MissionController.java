@@ -7,6 +7,7 @@ import com.example.demo.domain.mission.entity.MemberMission;
 import com.example.demo.domain.mission.enums.MissionStatus;
 import com.example.demo.domain.mission.service.MissionService;
 import global.apiPayload.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,7 +59,7 @@ public class MissionController {
 
     @PostMapping("/member-mission")
     public ApiResponse<MissionResponseDTO.ChallengeMissionResultDTO> challengeMission(
-            @RequestBody MissionRequestDTO.ChallengeMissionRequest request
+            @Valid @RequestBody MissionRequestDTO.ChallengeMissionRequest request
     ) {
         MissionResponseDTO.ChallengeMissionResultDTO response = MissionResponseDTO.ChallengeMissionResultDTO.builder()
                 .memberMissionId(1L)
@@ -70,12 +71,14 @@ public class MissionController {
         return ApiResponse.onSuccess(response);
     }
 
+    // 미션 조회
     @GetMapping("/missions")
     public ApiResponse<MissionResponseDTO.MissionListResultDTO> getMemberMissions(
-            @ModelAttribute MissionRequestDTO.MemberMissionQueryRequest request
+            @ModelAttribute MissionRequestDTO.MemberMissionQueryRequest request,
+            @Valid @RequestBody MissionRequestDTO.MemberMissionBodyRequest requestBody
     ) {
 
-        Page<MemberMission> memberMissions = missionService.getMemberMissions(1L, request.getStatus(), request.getPage());
+        Page<MemberMission> memberMissions = missionService.getMemberMissions(requestBody.getMemberId(), request.getStatus(), request.getPage(), request.getSize());
 
         MissionResponseDTO.MissionListResultDTO response = MissionConverter.toMissionListResultDTO(memberMissions);
 
@@ -85,7 +88,7 @@ public class MissionController {
     @PatchMapping("/member-missions/{completionId}")
     public ApiResponse<MissionResponseDTO.CompleteMissionResultDTO> completeMission(
             @PathVariable Long completionId,
-            @RequestBody MissionRequestDTO.CompleteMissionRequest request
+            @Valid @RequestBody MissionRequestDTO.CompleteMissionRequest request
     ) {
         MissionResponseDTO.CompleteMissionResultDTO response = MissionResponseDTO.CompleteMissionResultDTO.builder()
                 .memberMissionId(completionId)
