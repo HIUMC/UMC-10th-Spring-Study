@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import umc10th.assignment.usermission.entity.MissionStatus;
+
 import umc10th.assignment.usermission.entity.UserMission;
 
 public interface UserMissionRepository extends JpaRepository<UserMission, Long> {

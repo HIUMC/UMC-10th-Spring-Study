@@ -4,6 +4,9 @@ import umc10th.assignment.review.dto.ReviewResponseDto;
 import umc10th.assignment.review.entity.Review;
 import umc10th.assignment.store.entity.Store;
 import umc10th.assignment.user.entity.User;
+
+import java.util.List;
+
 public class ReviewConverter {
     public static Review toReview(
             ReviewRequestDto.CreateReview request,
@@ -26,6 +29,30 @@ public class ReviewConverter {
                 .star(review.getStar())
                 .content(review.getContent())
                 .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    public static ReviewResponseDto.GetMyReview toGetMyReview(Review review) {
+        return ReviewResponseDto.GetMyReview.builder()
+                .reviewId(review.getReviewId())
+                .storeName(review.getStore().getName())
+                .star(review.getStar())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    public static <T> ReviewResponseDto.CursorPagination<T> toCursorPagination(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ) {
+        return ReviewResponseDto.CursorPagination.<T>builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
                 .build();
     }
     }
