@@ -3,6 +3,7 @@ package com.example.umc10th.domain.review.dto;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResDTO {
 
@@ -26,9 +27,18 @@ public class ReviewResDTO {
             String memberNickname,
             String content,
             Float star,
-            String replyContent,
             LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            LocalDateTime updatedAt,
+            String replyContent,
+            LocalDateTime replyCreatedAt
     ) {
     }
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ) {}
 }

@@ -4,6 +4,8 @@ import com.example.umc10th.domain.membermission.dto.MemberMissionResDTO;
 import com.example.umc10th.domain.membermission.entity.MemberMission;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public class MemberMissionConverter {
 
     public static MemberMissionResDTO.GetHomeMemberMission toGetHomeMemberMission(MemberMission mm) {
@@ -36,6 +38,18 @@ public class MemberMissionConverter {
                 .storeName(mm.getMission().getStore().getName())
                 .missionPoint(mm.getMission().getPoint())
                 .status(mm.getStatus())
+                .build();
+    }
+
+    public static <T> MemberMissionResDTO.Pagination<T> toPagination(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
+    ) {
+        return MemberMissionResDTO.Pagination.<T>builder()
+                .data(data)
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
                 .build();
     }
 }

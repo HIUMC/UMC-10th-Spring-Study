@@ -20,6 +20,7 @@ public class MemberMission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_mission_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

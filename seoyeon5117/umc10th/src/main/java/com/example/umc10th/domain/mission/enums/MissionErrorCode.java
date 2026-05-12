@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum MissionErrorCode implements BaseErrorCode {
 
-    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION404_1", "미션을 찾을 수 없습니다.");
+    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION404_1", "미션을 찾을 수 없습니다."),
+    QUERY_NOT_VALID(HttpStatus.BAD_REQUEST, "MISSION400_1", "유효하지 않은 조회 조건입니다.");
 
     private final HttpStatus status;
     private final String code;

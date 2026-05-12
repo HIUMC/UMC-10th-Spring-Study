@@ -6,6 +6,7 @@ import lombok.Builder;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MemberMissionResDTO {
 
@@ -19,12 +20,12 @@ public class MemberMissionResDTO {
     // 홈 화면 미션
     @Builder
     public record GetHomeMemberMission(
-            Integer storeId,
+            Long storeId,
             String storeName,
             Food foodType,
             LocalDateTime dueDate,
             Integer missionPoint,
-            Integer minPrice
+            String minPrice
     ) {
     }
 
@@ -44,12 +45,19 @@ public class MemberMissionResDTO {
     // 미션
     @Builder
     public record GetMemberMission(
-            Integer storeId,
+            Long storeId,
             String storeName,
             Integer missionPoint,
             MemberMissionStatus status
     ) {
     }
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
+    ) {}
 
     @Builder
     public record UpdateMemberMissionStatus(

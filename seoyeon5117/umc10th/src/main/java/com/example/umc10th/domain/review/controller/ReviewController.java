@@ -6,29 +6,34 @@ import com.example.umc10th.domain.review.enums.ReviewSuccessCode;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "리뷰")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/reviews")
+@RequestMapping("/api/v1")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
     // 리뷰 등록
-    @PostMapping
+    @PostMapping("/store/{storeId}/reviews")
     public ApiResponse<ReviewResDTO.CreateReview> createReview(
-            @RequestBody ReviewReqDTO.CreateReview dto
+            @PathVariable Long storeId,
+            @Valid @RequestBody ReviewReqDTO.CreateReview dto
     ) {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_CREATE;
-        return ApiResponse.onSuccess(code, reviewService.createReview(dto));
+        return ApiResponse.onSuccess(code, reviewService.createReview(storeId, dto));
     }
 
     // 리뷰 조회
-    @GetMapping("/{reviewId}")
+    @GetMapping("/member/{memberId}/reviews/{reviewId}")
     public ApiResponse<ReviewResDTO.GetReview> getReview(
             @PathVariable Long reviewId
     ) {
@@ -36,8 +41,22 @@ public class ReviewController {
         return ApiResponse.onSuccess(code, reviewService.getReview(reviewId));
     }
 
+    // 내 리뷰 목록 조회 (리뷰 + 리뷰 답글)
+    @Operation(summary = "내 리뷰 목록 조회", description = "커서 기반 페이지네이션으로 리뷰와 답글을 함께 조회합니다. query: id(최신순), star(별점순)")
+    @GetMapping("/members/{memberId}/reviews")
+    public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetReview>> getMyReviews(
+            @PathVariable Long memberId,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "-1") String nextCursor,
+            @RequestParam String query
+    ) {
+        BaseSuccessCode code = ReviewSuccessCode.REVIEW_GET;
+
+        return ApiResponse.onSuccess(code, reviewService.getReviewByMemberId(memberId, pageSize, nextCursor, query));
+    }
+
     // 리뷰 수정
-    @PutMapping("/{reviewId}")
+    @PutMapping("members/{memberId}/review/{reviewId}")
     public ApiResponse<ReviewResDTO.UpdateReview> updateReview(
             @PathVariable Long reviewId,
             @RequestBody ReviewReqDTO.CreateReview dto
@@ -47,8 +66,8 @@ public class ReviewController {
     }
 
     // 가게 id로 리뷰 목록 조회 (리뷰 + 리뷰 답글)
-    @GetMapping("/{storeId}")
-    public ApiResponse<Page<ReviewResDTO.GetReview>> getStoreReview(
+    @GetMapping("/store/{storeId}/reviews")
+    public ApiResponse<Page<ReviewResDTO.GetReview>> getStoreReviews(
             @PathVariable Long storeId,
             Pageable pageable
     ) {
