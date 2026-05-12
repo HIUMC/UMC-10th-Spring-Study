@@ -26,7 +26,7 @@ public class Mission extends BaseEntity {
     private String conditional;
 
     @Column(name = "point", nullable = false)
-    private int point;
+    private Integer point;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", nullable = false)

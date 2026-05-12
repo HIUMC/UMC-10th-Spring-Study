@@ -1,56 +1,40 @@
 package com.example.umc10th.domain.mission.controller;
 
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/mission")
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class MissionController {
 
     private final MissionService missionService;
 
-    /* ───────────────────────────────────────────────────────────────
-       지역미션 조회  GET /api/mission/{region}?page=&size=
-       ─────────────────────────────────────────────────────────────── */
-    @GetMapping("/{region}")
-    public ApiResponse<MissionResDTO.RegionMissionResDTO> getMissionsByRegion(
-            @PathVariable String region,
-            @RequestParam Long memberId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        MissionResDTO.RegionMissionResDTO response = missionService.getMissionsByRegion(region, memberId, page, size);
-        return ApiResponse.onSuccess(response);
+    // 가게 미션 생성
+    @PostMapping("v1/stores/{storeId}/missions")
+    public ApiResponse<Void> createMission(
+            @PathVariable Long storeId,
+            @RequestBody MissionReqDTO.CreateMission dto
+    ) {
+        BaseSuccessCode code = MissionSuccessCode.CREATED;
+        return ApiResponse.onSuccess(code, missionService.createMission(storeId, dto));
     }
 
-    /* ───────────────────────────────────────────────────────────────
-       내 미션 조회  GET /api/mission/mission-challenge/me?memberId=&page=&size=
-       ─────────────────────────────────────────────────────────────── */
-    @GetMapping("/mission-challenge/me")
-    public ApiResponse<MissionResDTO.MyMissionResDTO> getMyMissions(
-            @RequestParam Long memberId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        MissionResDTO.MyMissionResDTO response = missionService.getMyMissions(memberId, page, size);
-        return ApiResponse.onSuccess(response);
-    }
-
-    /* ───────────────────────────────────────────────────────────────
-       미션 도전  POST /api/mission/{missionId}/mission-challenge?memberId=
-       ─────────────────────────────────────────────────────────────── */
-    @PostMapping("/{missionId}/mission-challenge")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<MissionResDTO.MissionChallengeResDTO> challengeMission(
-            @PathVariable Long missionId,
-            @RequestParam Long memberId) {
-
-        MissionResDTO.MissionChallengeResDTO response = missionService.challengeMission(missionId, memberId);
-        return ApiResponse.onSuccess(response);
+    // 가게 내 미션들 조회
+    @GetMapping("v1/stores/{storeId}/missions")
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>> getMissions(
+            @PathVariable Long storeId,
+            @RequestParam Integer pageSize,
+            @RequestParam String cursor,
+            @RequestParam String query
+    ) {
+        BaseSuccessCode code = MissionSuccessCode.OK;
+        return ApiResponse.onSuccess(code, missionService.getMissions(storeId, pageSize, cursor, query));
     }
 }

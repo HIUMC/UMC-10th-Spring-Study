@@ -1,16 +1,18 @@
 package com.example.umc10th.domain.mission.exception.code;
 
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum MissionErrorCode implements BaseErrorCode {
+public enum StoreErrorCode implements BaseErrorCode {
 
-    NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION404_1", "해당 미션을 찾을 수 없습니다."),
-    QUERY_NOT_VALID(HttpStatus.BAD_REQUEST, "MISSION400_1", "지원하지 않는 정렬 기준입니다.")
+    NOT_FOUND(HttpStatus.NOT_FOUND,
+            "STORE404_1",
+            "해당 가게가 존재하지 않습니다."),
     ;
 
     private final HttpStatus status;

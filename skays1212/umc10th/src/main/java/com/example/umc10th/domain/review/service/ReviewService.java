@@ -34,7 +34,7 @@ public class ReviewService {
 
         /* URL 경로에서 받은 storeId로 DB에서 가게를 조회 후 없으면 STORE_NOT_FOUND 예외 */
         Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new MissionException(MissionErrorCode.STORE_NOT_FOUND));
+                .orElseThrow(() -> new MissionException(MissionErrorCode.NOT_FOUND));
 
         /* 조회한 member, store와 요청 데이터(rating, content)를 조합해서 Review 엔티티 객체 생성 */
         Review review = ReviewConverter.toReview(member, store, request);
