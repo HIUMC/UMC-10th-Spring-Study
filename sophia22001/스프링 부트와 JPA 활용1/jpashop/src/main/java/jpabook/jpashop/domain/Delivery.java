@@ -12,7 +12,7 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
-    @OneToOne(mappedBy = "delivery") // 나(delivery)는 연관관계의 주인이 아니고, 주인의 거울이다.
+    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY) // 나(delivery)는 연관관계의 주인이 아니고, 주인의 거울이다.
     private Order order;
 
     @Embedded
