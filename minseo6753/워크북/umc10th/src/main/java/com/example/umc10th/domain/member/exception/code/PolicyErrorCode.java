@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum MemberErrorCode implements BaseErrorCode {
+public enum PolicyErrorCode implements BaseErrorCode {
 
     NOT_FOUND(HttpStatus.NOT_FOUND,
-            "MEMBER404_1",
+            "POLICY404_1",
             "해당 리소스를 찾을 수 없습니다."),
     ;
 

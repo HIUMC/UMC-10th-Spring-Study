@@ -8,16 +8,14 @@ import lombok.Builder;
 
 public class MemberResDTO {
 
+    @Builder
     public record Info(
+            Long id,
             String name,
             Gender gender,
             LocalDate birth,
-            String siDo,
-            String siGunGu,
             String eupMyeonDong,
-            List<String> preference,
-            Boolean agreeLocation,
-            Boolean agreeMarketing
+            List<String> preference
     ) {
     }
 
