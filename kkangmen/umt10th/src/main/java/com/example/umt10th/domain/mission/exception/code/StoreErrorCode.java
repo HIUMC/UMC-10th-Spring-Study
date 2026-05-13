@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 public enum StoreErrorCode implements BaseErrorCode {
 
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE404_1", "해당 Store를 찾을 수 없습니다.");
-    ;
 
     private final HttpStatus status;
     private final String message;

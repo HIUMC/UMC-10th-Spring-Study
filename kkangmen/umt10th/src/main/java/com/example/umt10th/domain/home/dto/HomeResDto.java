@@ -4,6 +4,7 @@ import com.example.umt10th.domain.member.enums.Address;
 import lombok.Builder;
 import org.hibernate.validator.constraints.BitcoinAddress;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class HomeResDto {
@@ -28,7 +29,7 @@ public class HomeResDto {
             Long missionId,
             String storeName,
             String category,
-            String deadline,
+            LocalDate deadline,
             Integer point
     ){}
 }

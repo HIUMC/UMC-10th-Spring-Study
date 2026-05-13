@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -22,7 +23,7 @@ public class Mission extends BaseEntity {
     private Long id;
 
     @Column(name = "deadline", nullable = false)
-    private String deadline;
+    private LocalDate deadline;
 
     @Column(name = "conditional", nullable = false)
     private String conditional;

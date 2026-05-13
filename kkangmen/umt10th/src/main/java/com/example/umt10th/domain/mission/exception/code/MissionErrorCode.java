@@ -14,7 +14,8 @@ public enum MissionErrorCode implements BaseErrorCode {
             "미션을 찾을 수 없습니다."),
     MISSION_FORBIDDEN(HttpStatus.FORBIDDEN,
             "MISSION403_1",
-            "미션 목록을 조회할 권한이 없습니다.");
+            "미션 목록을 조회할 권한이 없습니다."),
+    QUERY_NOT_VALID(HttpStatus.NOT_ACCEPTABLE, "MISSION406_1" , "잘못된 쿼리 요청입니다.");
 
     private final HttpStatus status;
     private final String code;
