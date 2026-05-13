@@ -31,7 +31,7 @@ public class MemberRepository {
     }
 
     // 단건 조회
-    public Member findById(Long id) {
+    public Member findOne(Long id) {
         return em.find(Member.class, id);
     }
 
