@@ -4,6 +4,7 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
 import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             "ORDER BY mm.updatedAt DESC, mm.id DESC")
     Slice<MemberMission> findNextPage(Member member, MissionStatus status, LocalDateTime updatedAt, Long id,
                                       Pageable pageable);
+
+    Page<MemberMission> findAllByMemberAndStatusOrderByUpdatedAtDesc(Member member, MissionStatus status, Pageable pageable);
 }
