@@ -6,9 +6,10 @@ import com.example.mission4.domain.review.exception.code.ReviewSuccessCode;
 import com.example.mission4.domain.review.service.ReviewService;
 import com.example.mission4.global.apiPayload.ApiResponse;
 import com.example.mission4.global.apiPayload.code.BaseSuccessCode;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +25,25 @@ public class ReviewController {
             @PathVariable Long storeId,
             @RequestBody ReviewReqDTO.MyPageReview dto
             ) {
-        BaseSuccessCode code = ReviewSuccessCode.REVIEW_REGISTERED;
 
+        BaseSuccessCode code = ReviewSuccessCode.REVIEW_REGISTERED;
         return ApiResponse.onSuccess(code, reviewService.myPageReview(memberId, storeId, dto));
+
+    }
+
+    // 나의 리뷰 조회하기
+    @GetMapping("reviews/my")
+    public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.GetMyReview>> getMyReview(
+            @RequestParam Long memberId,
+            @RequestParam Integer pageSize,
+            @RequestParam String cursor,
+            @RequestParam String query
+    ) {
+        BaseSuccessCode code = ReviewSuccessCode.REVIEW_FOUND;
+
+        return ApiResponse.onSuccess(code, reviewService.getMyReview(memberId, pageSize, cursor, query));
+
+
 
     }
 }

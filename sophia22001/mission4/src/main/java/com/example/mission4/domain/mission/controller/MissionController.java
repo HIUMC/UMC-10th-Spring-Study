@@ -30,19 +30,18 @@ public class MissionController {
     }
 
     // 가게 내 미션 조회
-    @PostMapping("/stores/{storeId}/missions")
+    @GetMapping("/stores/{storeId}/missions")
     public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetStoreMission>> getStoreMissions(
             @PathVariable Long storeId,
             @RequestParam Integer pageSize,
             @RequestParam Integer pageNumber,
             @RequestParam(required = false) String sort,
-            @RequestBody Long memberId) {
+            @RequestParam Long memberId) {
 
         BaseSuccessCode code = MissionSuccessCode.MISSIONS_FOUND;
         return ApiResponse.onSuccess(code, missionService.getStoreMissions(storeId, pageSize, pageNumber, sort, memberId));
 
     }
-
 
     // 미션 성공 요청
     @PostMapping("/stores/{storeId}/missions/{missionId}/complete")
