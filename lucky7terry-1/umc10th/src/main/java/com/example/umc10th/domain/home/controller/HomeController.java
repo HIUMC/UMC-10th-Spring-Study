@@ -18,9 +18,10 @@ public class HomeController {
 
     @GetMapping("/v1/home")
     public ApiResponse<HomeResDTO.HomeResponseDTO> getHome(
-            @ModelAttribute HomeReqDTO.HomeRequest dto
+            @RequestParam(value = "regionId", defaultValue = "1") Long regionId,
+            @RequestParam(name = "cursor", defaultValue = "0") Long cursor
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, homeService.getHome(dto));
+        return ApiResponse.onSuccess(code, homeService.getHome(regionId, cursor));
     }
 }

@@ -1,10 +1,7 @@
 package com.example.umc10th.domain.home.service;
 
-import com.example.umc10th.domain.home.converter.HomeConverter;
-import com.example.umc10th.domain.home.dto.HomeReqDTO;
 import com.example.umc10th.domain.home.dto.HomeResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
-import com.example.umc10th.domain.mission.entity.Region;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.domain.mission.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,36 +21,36 @@ public class HomeService {
     private final RegionRepository regionRepository;
 
     @Transactional(readOnly = true)
-    public HomeResDTO.HomeResponseDTO getHome(HomeReqDTO.HomeRequest dto) {
-        Long memberId = dto.memberId();
-        Long locateId = dto.locateId();
-        int pageSize = normalizeSize(dto.size());
-        Pageable pageable = PageRequest.of(0, pageSize + 1);
+    public HomeResDTO.HomeResponseDTO getHome(Long regionId, Long cursor) {
 
-        Region region = regionRepository.findById(locateId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역입니다."));
+        String regionName = regionRepository.findById(regionId).orElseThrow().getRegion();
 
-        List<Mission> rows = missionRepository.findAvailableMissionsByRegion(
-                locateId,
-                memberId,
-                dto.cursor() == null ? 0L : dto.cursor(),
-                LocalDate.now(),
-                pageable
-        );
+        HomeResDTO.RegionDTO regionDTO = HomeResDTO.RegionDTO.builder()
+                .regionId(regionId)
+                .regionName(regionName)
+                .build();
 
-        boolean hasNext = rows.size() > pageSize;
-        List<Mission> content = hasNext ? rows.subList(0, pageSize) : rows;
-        Long nextCursor = content.isEmpty() ? null : content.get(content.size() - 1).getId();
-        Long clearedMissionCount = missionRepository.countCompletedMissionsByMemberId(memberId);
+        int size = 10;
+        Pageable pageable = PageRequest.of(0,size+1);
+        List<Mission> missionList = missionRepository.findAllByRegionId(regionId, cursor, pageable);
 
-        return HomeConverter.toHomeResponseDTO(region, clearedMissionCount, content, hasNext, nextCursor);
-    }
+        List<HomeResDTO.MissionPreviewDTO> missions = new ArrayList<>();
+        for (Mission mission : missionList) {
+            HomeResDTO.MissionPreviewDTO findMission = HomeResDTO.MissionPreviewDTO.builder()
+                    .missionId(mission.getId())
+                    .storeName(mission.getStore().getStoreName())
+                    .deadline(mission.getDeadline())
+                    .point(mission.getPoint())
+                    .build();
 
-    private int normalizeSize(Integer size) {
-        if (size == null || size < 1) {
-            return 10;
+            missions.add(findMission);
         }
 
-        return Math.min(size, 20);
+
+        return HomeResDTO.HomeResponseDTO.builder()
+                .currentRegion(regionDTO)
+                .clearedMissionCount(10)
+                .missionList(missions)
+                .build();
     }
 }

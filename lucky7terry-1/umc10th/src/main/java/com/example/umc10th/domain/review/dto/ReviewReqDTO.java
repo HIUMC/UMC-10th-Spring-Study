@@ -1,19 +1,17 @@
 package com.example.umc10th.domain.review.dto;
 
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class ReviewReqDTO {
 
     public record CreateReviewRequest(
             Long memberId,
-            ReviewDetailDto reviewDetailDto,
-            List<String> images
-    ) {
-    }
 
-    public record ReviewDetailDto(
-            Double rating,
+            @NotNull(message = "별점을 입력하세요.")
+            Double star,
+
+            @NotBlank(message = "리뷰 내용을 입력하세요.")
             String content
-    ) {
-    }
+    ) {}
 }

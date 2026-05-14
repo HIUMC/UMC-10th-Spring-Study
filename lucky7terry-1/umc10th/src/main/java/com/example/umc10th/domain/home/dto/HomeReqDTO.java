@@ -7,10 +7,6 @@ import java.util.List;
 public class HomeReqDTO {
 
     public record HomeRequest(
-            Long memberId,
-            Long locateId,
-            Long cursor,
-            Integer size
     ) {
     }
 }
