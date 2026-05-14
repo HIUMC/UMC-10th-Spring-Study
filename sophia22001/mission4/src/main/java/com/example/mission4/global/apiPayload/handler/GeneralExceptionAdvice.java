@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
 
-    // Member
+    // Member, Mission 등 모든 도메인 예외
     @ExceptionHandler(ProjectException.class)
-    public ResponseEntity<ApiResponse<Void>> handleMemberException(ProjectException e) {
+    public ResponseEntity<ApiResponse<Void>> handleDomainException(ProjectException e) {
         BaseErrorCode errorCode = e.getErrorCode();
         return ResponseEntity.status(errorCode.getStatus())
                 .body(ApiResponse.onFailure(errorCode, null));
