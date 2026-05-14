@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReviewService {
 
@@ -26,6 +26,7 @@ public class ReviewService {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public Review createReview(Long memberId, Long restaurantId, ReviewReqDTO.CreateReviewDTO request) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
@@ -40,7 +41,6 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    @Transactional(readOnly = true)
     public ReviewResDTO.Pagination<ReviewResDTO.MyReviewDTO> getMyReviews(Long memberId, String cursor, String query, Integer size) {
         Slice<Review> reviewSlice;
         PageRequest pageRequest = PageRequest.of(0, size);
