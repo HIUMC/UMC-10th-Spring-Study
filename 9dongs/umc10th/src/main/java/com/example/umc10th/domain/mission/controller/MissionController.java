@@ -52,11 +52,11 @@ public class MissionController {
     // 미션 목록 조회
     @GetMapping("/members/me/missions")
     public ApiResponse<MissionResDTO.MyMissionListDTO> getMyMissions(
+            @RequestParam(name = "memberId", required = true) Long memberId,
             @RequestParam(name = "status", required = true) MemberMissionStatus status,
             @RequestParam(name = "cursor", defaultValue = "0") Long cursor,
             @RequestParam(name = "size", defaultValue = "10") Integer size
     ) {
-        Long memberId = 1L;
         List<MemberMission> myMissions = missionService.getMyMissions(memberId, status, cursor, size);
         MissionResDTO.MyMissionListDTO result = MissionConverter.toMyMissionListDTO(myMissions, size);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
