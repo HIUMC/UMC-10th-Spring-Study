@@ -49,16 +49,19 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
     }
 
-    // 미션 목록 조회
+    // 미션 목록 조회 (오프셋 페이징)
     @GetMapping("/members/me/missions")
-    public ApiResponse<MissionResDTO.MyMissionListDTO> getMyMissions(
-            @RequestParam(name = "memberId", required = true) Long memberId,
-            @RequestParam(name = "status", required = true) MemberMissionStatus status,
-            @RequestParam(name = "cursor", defaultValue = "0") Long cursor,
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.MyMissionDTO>> getMyMissions(
+            @RequestBody @jakarta.validation.Valid MissionReqDTO.MyMissionReq request,
+            @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestParam(name = "size", defaultValue = "10") Integer size
     ) {
-        List<MemberMission> myMissions = missionService.getMyMissions(memberId, status, cursor, size);
-        MissionResDTO.MyMissionListDTO result = MissionConverter.toMyMissionListDTO(myMissions, size);
+        MissionResDTO.Pagination<MissionResDTO.MyMissionDTO> result = missionService.getMyMissionsByOffset(
+                request.memberId(), 
+                MemberMissionStatus.IN_PROGRESS, 
+                page, 
+                size
+        );
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, result);
     }
 

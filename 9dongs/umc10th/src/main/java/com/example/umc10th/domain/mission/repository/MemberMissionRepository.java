@@ -10,7 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
+    Page<MemberMission> findAllByMemberIdAndStatus(Long memberId, MemberMissionStatus status, Pageable pageable);
     @Query("SELECT mm FROM MemberMission mm JOIN FETCH mm.mission m JOIN FETCH m.restaurant r " +
             "WHERE mm.member.id = :memberId AND mm.status = :status AND mm.id > :cursor " +
             "ORDER BY mm.id ASC")

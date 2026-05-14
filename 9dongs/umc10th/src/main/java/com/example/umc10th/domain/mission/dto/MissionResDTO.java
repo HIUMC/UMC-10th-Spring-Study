@@ -6,6 +6,26 @@ import java.util.List;
 public class MissionResDTO {
 
     @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize,
+            Integer totalPages,
+            Long totalElements
+    ) {
+    }
+
+    @Builder
+    public record MyMissionDTO(
+            Long memberMissionId,
+            Long missionId,
+            String restaurantName,
+            Integer reward,
+            String status
+    ) {
+    }
+
+    @Builder
     public record MissionProgressSummaryDTO(
             Integer currentMissions,
             Integer targetMissions,
