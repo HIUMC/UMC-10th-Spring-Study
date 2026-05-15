@@ -44,6 +44,9 @@ public class Member {
     @Column(length = 100)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false, length = 13)
     private String number;
 
