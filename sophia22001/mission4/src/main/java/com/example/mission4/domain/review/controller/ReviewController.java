@@ -7,6 +7,7 @@ import com.example.mission4.domain.review.service.ReviewService;
 import com.example.mission4.global.apiPayload.ApiResponse;
 import com.example.mission4.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,13 +38,9 @@ public class ReviewController {
             @RequestParam Long memberId,
             @RequestParam Integer pageSize,
             @RequestParam String cursor,
-            @RequestParam String query
+            @RequestParam(required = false) String query
     ) {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_FOUND;
-
         return ApiResponse.onSuccess(code, reviewService.getMyReview(memberId, pageSize, cursor, query));
-
-
-
     }
 }

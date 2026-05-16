@@ -74,16 +74,25 @@ public class ReviewService {
             switch (query.toLowerCase()) {
                 case "id":
 
-                    // 커서 타입 반환
+                    // 커서 타입 반환 (포맷: "id")
                     Long prevCursor = Long.parseLong(cursorSplit[0]);
                     idCursor = Long.parseLong(cursorSplit[1]);
 
                     /**
                      * 리뷰 조회 & where 절에 커서 값 기입
                      */
-                        // 2. 그 유저의 리뷰 조회
                     reviewList = reviewRepository.findAllByMemberIdAndIdLessThanOrderByIdDesc(memberId, idCursor, pageRequest);
                     break;
+                case "star":
+                    // (포맷: "star:id")
+                    int starCursor = Integer.parseInt(cursorSplit[0]);
+                    long starIdCursor = Long.parseLong(cursorSplit[1]);
+
+                    // 복합 커서 쿼리 호출
+                    reviewList = reviewRepository.findAllByMemberIdAndStarCursor(memberId, starCursor, starIdCursor, pageRequest);
+                    break;
+
+
                 default:
                     throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
             }
@@ -91,13 +100,27 @@ public class ReviewService {
 
         } else {
             // 커서 없이 조회
-            reviewList = reviewRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequest);
+            switch (query.toLowerCase()) {
+                case "id":
+                    reviewList = reviewRepository.findAllByMemberIdOrderByIdDesc(memberId, pageRequest);
+                    break;
+                case "star":
+                    reviewList = reviewRepository.findAllByMemberIdOrderByStarDescIdDesc(memberId, pageRequest);
+                    break;
+                default:
+                    throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
+            }
 
         }
 
         // 다음 커서 계산
-        nextCursor = reviewList.getContent().get(reviewList.getContent().size() - 1).getId() + ":" + reviewList.getContent().get(reviewList.getContent().size() - 1).getId();
+        Review lastReview = reviewList.getContent().get(reviewList.getContent().size() - 1);
 
+        if (query.equalsIgnoreCase("star")) {
+            nextCursor = lastReview.getStar() + ":" + lastReview.getId(); // "별점:ID" 복합 커서 포맷
+        } else {
+            nextCursor = lastReview.getId() + ":" + lastReview.getId(); // "ID:ID"
+        }
         // 리뷰들 응답 DTO로 포장하기
         return ReviewConverter.toPagination(
                 reviewList.map(review->ReviewConverter.toGetMyReview(review, member)).toList(),
