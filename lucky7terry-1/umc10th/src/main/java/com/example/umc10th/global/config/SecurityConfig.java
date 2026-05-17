@@ -1,5 +1,7 @@
 package com.example.umc10th.global.config;
 
+import com.example.umc10th.global.security.exception.CustomAccessDenied;
+import com.example.umc10th.global.security.exception.CustomEntryPoint;
 import com.example.umc10th.global.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 // Spring Security 설정을 활성화하는 어노테이션
 @EnableWebSecurity
 @Configuration
-@RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final CustomUserDetailsService customUserDetailsService;
 
     /**
      * 인증 없이 접근을 허용할 URL 목록
@@ -28,7 +27,7 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**",
+            "/auth/**"
     };
 
     /**
@@ -62,7 +61,11 @@ public class SecurityConfig {
                         // 로그아웃 성공 후 이동할 URL
                         .logoutSuccessUrl("/login?logout")
                         // 로그아웃 요청도 인증 여부와 관계없이 접근 가능하도록 허용
-                        .permitAll());
+                        .permitAll())
+                // 예외 상황 핸들러
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(customAccessDenied())
+                        .authenticationEntryPoint(customEntryPoint()));
 
         // 위에서 설정한 내용을 기반으로 SecurityFilterChain 객체 생성
         return http.build();
@@ -76,5 +79,15 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         // BCrypt는 Spring Security에서 많이 사용하는 안전한 단방향 비밀번호 암호화 방식
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CustomAccessDenied customAccessDenied() {
+        return new CustomAccessDenied();
+    }
+
+    @Bean
+    public CustomEntryPoint customEntryPoint() {
+        return new CustomEntryPoint();
     }
 }
