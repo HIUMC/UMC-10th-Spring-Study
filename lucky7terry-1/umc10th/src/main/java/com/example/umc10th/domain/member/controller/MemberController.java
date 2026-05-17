@@ -18,16 +18,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 회원가입
-    @PostMapping("/v1/users")
-    public ApiResponse<MemberResDTO.SignupDTO> createMember(
-            @RequestParam @Valid MemberReqDTO.SignupDTO dto) {
-
-        BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.saveMember(dto));
-
-    }
-
     // 마이페이지
     @GetMapping("/v1/users/me")
     public ApiResponse<MemberResDTO.MyPageDTO> getInfo( @RequestHeader Long memberId) {

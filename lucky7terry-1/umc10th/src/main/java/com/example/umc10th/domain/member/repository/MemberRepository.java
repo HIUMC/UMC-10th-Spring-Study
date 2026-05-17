@@ -13,4 +13,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m WHERE m.name = :nmae AND m.deletedAt is null")
     Optional<Member> findActiveMember(String name);
+
+    @Query("select m from Member m where m.email = :username")
+    Optional<Member> findByEmail(String username);
 }

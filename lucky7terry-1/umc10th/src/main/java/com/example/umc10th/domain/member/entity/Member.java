@@ -47,7 +47,7 @@ public class Member extends BaseEntity {
     private String detailAddress;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "socia_provider", nullable = false)
+    @Column(name = "social_provider")
     private Provider socialProvider;
 
     @Column(name = "social_uid")
@@ -67,6 +67,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "marketing_allow", nullable = false)
     private Boolean marketingAllow;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     public void addPoint(int point) {
         this.point += point;

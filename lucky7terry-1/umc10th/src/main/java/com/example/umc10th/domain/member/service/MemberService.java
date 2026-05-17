@@ -9,6 +9,7 @@ import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public MemberResDTO.MyPageDTO getInfo(MemberReqDTO.GetInfo dto) {
@@ -36,13 +38,5 @@ public class MemberService {
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         return MemberConverter.toMyPageDTO(member);
-    }
-
-    public MemberResDTO.SignupDTO saveMember(MemberReqDTO.@Valid SignupDTO dto) {
-        memberRepository.save(MemberConverter.createMember(dto));
-
-        return MemberResDTO.SignupDTO.builder()
-                .createdAt(LocalDateTime.now())
-                .build();
     }
 }
