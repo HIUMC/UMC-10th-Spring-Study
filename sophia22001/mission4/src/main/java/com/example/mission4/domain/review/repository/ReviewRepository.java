@@ -1,7 +1,7 @@
 package com.example.mission4.domain.review.repository;
 
 import com.example.mission4.domain.review.entity.Review;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,11 +15,11 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     List<Review> findAllByMemberId(Long memberId);
 
     // id 정렬
-    Slice<Review> findAllByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, long idCursor, PageRequest pageRequest);
-    Slice<Review> findAllByMemberIdOrderByIdDesc(Long memberId, PageRequest pageRequest);
+    Slice<Review> findAllByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, long idCursor, Pageable pageable);
+    Slice<Review> findAllByMemberIdOrderByIdDesc(Long memberId, Pageable pageable);
 
     // star 정렬 - 커서 X
-    Slice<Review> findAllByMemberIdOrderByStarDescIdDesc(Long memberId, PageRequest pageRequest);
+    Slice<Review> findAllByMemberIdOrderByStarDescIdDesc(Long memberId, Pageable pageable);
 
     // star 정렬 - 커서 O
     // (star < :star) OR (star = :star AND id < :id)
@@ -30,6 +30,6 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     Slice<Review> findAllByMemberIdAndStarCursor(@Param("memberId") Long memberId,
                                                  @Param("starCursor") Integer starCursor,
                                                  @Param("idCursor") Long idCursor,
-                                                 PageRequest pageRequest);
+                                                 Pageable pageable);
 
 }

@@ -38,7 +38,7 @@ public class ReviewController {
             @RequestParam Long memberId,
             @RequestParam Integer pageSize,
             @RequestParam String cursor,
-            @RequestParam(required = false) String query
+            @RequestParam String query
     ) {
         BaseSuccessCode code = ReviewSuccessCode.REVIEW_FOUND;
         return ApiResponse.onSuccess(code, reviewService.getMyReview(memberId, pageSize, cursor, query));
