@@ -6,8 +6,9 @@ import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
-import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.domain.member.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,24 +18,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberTermRepository memberTermRepository;
+    private final MemberFoodRepository memberFoodRepository;
+    private final TermRepository termRepository;
+    private final FoodRepository foodRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /* 회원 가입 */
-    @Transactional // 메서드 레벨에서 db필드 변경이 필요할 경우 Transactional 작성해줌
-    public MemberResDTO.SignupResDTO signup(MemberReqDTO.SignupReqDTO request) {
-        return MemberResDTO.SignupResDTO.builder()
-                .memberId(0L)
-                .userId(request.getUserId())
-                .nickname(request.getNickname())
-                .build();
-    }
-
-    /* 로그인 */
     @Transactional
-    public MemberResDTO.LoginResDTO login(MemberReqDTO.LoginReqDTO request) {
-        return MemberResDTO.LoginResDTO.builder()
-                .accessToken("dummy-token")
-                .tokenType("Bearer")
-                .build();
+    public MemberResDTO.SignupResDTO signup(MemberReqDTO.SignupReqDTO request) {
+        if (memberRepository.findByEmail(request.getUserId()).isPresent()) {
+            throw new MemberException(MemberErrorCode.MEMBER_ALREADY_EXISTS);
+        }
+
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        Member member = MemberConverter.toMember(request, encodedPassword);
+        return MemberConverter.toSignupResDTO(memberRepository.save(member));
     }
 
     /* 회원 탈퇴 */

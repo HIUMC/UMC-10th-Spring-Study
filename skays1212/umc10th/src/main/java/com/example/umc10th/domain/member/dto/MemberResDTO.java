@@ -16,15 +16,6 @@ public class MemberResDTO {
         private String nickname;
     }
 
-    /* ───────────── 로그인 ───────────── */
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class LoginResDTO {
-        private String accessToken;
-        private String tokenType; // "Bearer"
-    }
-
     /* ───────────── 내 정보 조회 ───────────── */
     @Getter
     @Builder

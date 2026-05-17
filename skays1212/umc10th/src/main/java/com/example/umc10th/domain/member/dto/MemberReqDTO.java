@@ -12,8 +12,13 @@ public class MemberReqDTO {
     @NoArgsConstructor
     public static class SignupReqDTO {
 
-        @NotBlank(message = "아이디는 필수입니다.")
+        @NotBlank(message = "이메일은 필수입니다.")
+        @Email(message = "이메일 형식이 올바르지 않습니다.")
         private String userId;
+
+        @NotBlank(message = "비밀번호는 필수입니다.")
+        @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.")
+        private String password;
 
         @NotBlank(message = "이름은 필수입니다.")
         private String name;
@@ -50,19 +55,6 @@ public class MemberReqDTO {
             private boolean marketingEmail;      // (선택) 마케팅 이메일 수신 동의
             private boolean locationInformation; // (선택) 위치정보 수신 동의
         }
-    }
-
-    /* ───────────── 로그인 ───────────── */
-    @Getter
-    @NoArgsConstructor
-    public static class LoginReqDTO {
-
-        @NotBlank(message = "이메일은 필수입니다.")
-        @Email(message = "이메일 형식이 올바르지 않습니다.")
-        private String email;
-
-        @NotBlank(message = "비밀번호는 필수입니다.")
-        private String password;
     }
 
     /* ───────────── 1:1 문의 ───────────── */

@@ -25,15 +25,6 @@ public class MemberController {
         return ApiResponse.onSuccess(response);
     }
 
-    /* ───────────── 로그인 POST /auth/login ───────────── */
-    @PostMapping("/auth/login")
-    public ApiResponse<MemberResDTO.LoginResDTO> login(
-            @Valid @RequestBody MemberReqDTO.LoginReqDTO request) {
-
-        MemberResDTO.LoginResDTO response = memberService.login(request);
-        return ApiResponse.onSuccess(response);
-    }
-
     /* ───────────── 회원탈퇴 DELETE /users/me ───────────── */
     // Authorization: Bearer <token> → Security 필터에서 인증 처리
     @DeleteMapping("/users/me")

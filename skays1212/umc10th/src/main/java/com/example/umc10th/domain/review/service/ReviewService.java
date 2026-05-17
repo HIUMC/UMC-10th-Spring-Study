@@ -14,8 +14,15 @@ import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +50,47 @@ public class ReviewService {
         Review saved = reviewRepository.save(review);
 
         return ReviewConverter.toReviewWriteResDTO(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewResDTO.ReviewPagination getMyReviews(Long memberId, String sort, String cursor, int size) {
+        if (!memberRepository.existsById(memberId)) {
+            throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
+        }
+
+        Pageable pageable = PageRequest.of(0, size);
+        Slice<Review> slice;
+
+        if ("star".equals(sort)) {
+            if (cursor == null) {
+                slice = reviewRepository.findByMemberIdOrderByStarDesc(memberId, pageable);
+            } else {
+                String[] parts = cursor.split("_");
+                BigDecimal star = new BigDecimal(parts[0]);
+                Long cursorId = Long.parseLong(parts[1]);
+                slice = reviewRepository.findByMemberIdCursorByStar(memberId, star, cursorId, pageable);
+            }
+        } else {
+            if (cursor == null) {
+                slice = reviewRepository.findByMember_IdOrderByIdDesc(memberId, pageable);
+            } else {
+                Long cursorId = Long.parseLong(cursor);
+                slice = reviewRepository.findByMember_IdAndIdLessThanOrderByIdDesc(memberId, cursorId, pageable);
+            }
+        }
+
+        List<ReviewResDTO.GetReview> data = slice.getContent().stream()
+                .map(ReviewConverter::toGetReview)
+                .collect(Collectors.toList());
+
+        String nextCursor = null;
+        if (slice.hasNext() && !data.isEmpty()) {
+            Review last = slice.getContent().get(slice.getContent().size() - 1);
+            nextCursor = "star".equals(sort)
+                    ? last.getStar() + "_" + last.getId()
+                    : String.valueOf(last.getId());
+        }
+
+        return ReviewConverter.toReviewPagination(data, slice.hasNext(), nextCursor, size);
     }
 }
