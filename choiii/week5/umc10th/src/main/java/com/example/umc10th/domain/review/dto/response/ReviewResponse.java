@@ -11,6 +11,6 @@ public record ReviewResponse(
         String storeName,
         Integer rating,
         String reviewContent,
-        List<String> imageUrls,
+//        List<String> imageUrls,
         LocalDateTime createdAt
 ) {}

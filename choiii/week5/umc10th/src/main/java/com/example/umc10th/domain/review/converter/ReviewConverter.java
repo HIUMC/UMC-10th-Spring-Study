@@ -32,7 +32,7 @@ public class ReviewConverter {
         return new ReviewResponse(
                 review.getId(), review.getUser().getId(), review.getUser().getName(),
                 review.getStore().getId(), review.getStore().getStoreName(),
-                review.getRating(), review.getReviewContent(), imageUrls, review.getCreatedAt()
+                review.getRating(), review.getReviewContent(), review.getCreatedAt()
         );
     }
 }

@@ -10,12 +10,15 @@ import com.example.umc10th.domain.mission.dto.response.UserMissionResponse;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.api.ApiResponse;
 import com.example.umc10th.global.api.code.CommonSuccessCode;
+import com.example.umc10th.global.api.code.MissionSuccessCode;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.example.umc10th.domain.mission.dto.request.UserMissionInProgressRequest;
+import org.springframework.data.domain.PageRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +30,7 @@ public class MissionController {
     @PostMapping("/missions")
     public ApiResponse<MissionResponse> createMission(@RequestBody @Valid MissionCreateRequest request) {
         return ApiResponse.onSuccess(
-                CommonSuccessCode.CREATED,
+                MissionSuccessCode.CREATED,
                 missionService.createMission(request)
         );
     }
@@ -40,6 +43,16 @@ public class MissionController {
         );
     }
 
+    @PostMapping("/users/missions/in-progress")
+    public ApiResponse<Page<UserMissionResponse>> getInProgressUserMissions(
+            @RequestBody @Valid UserMissionInProgressRequest request
+    ) {
+        return ApiResponse.onSuccess(
+                MissionSuccessCode.OK,
+                missionService.getInProgressUserMissions(request)
+        );
+    }
+
     @PatchMapping("/user-missions/{userMissionId}/complete")
     public ApiResponse<UserMissionResponse> completeMission(@PathVariable Long userMissionId, @RequestBody @Valid UserMissionCompleteRequest request) {
         return ApiResponse.onSuccess(
@@ -48,6 +61,7 @@ public class MissionController {
         );
     }
 
+
     @GetMapping("/users/{userId}/missions")
     public ApiResponse<Page<UserMissionResponse>> getUserMissions(
             @PathVariable Long userId,
@@ -55,8 +69,19 @@ public class MissionController {
             Pageable pageable
     ) {
         return ApiResponse.onSuccess(
-                CommonSuccessCode.OK,
+                MissionSuccessCode.OK,
                 missionService.getUserMissions(userId, status, pageable)
         );
     }
+    @GetMapping("/stores/{storeId}/missions")
+    public ApiResponse<Page<MissionResponse>> getStoreMissions(
+            @PathVariable Long storeId,
+            Pageable pageable
+    ) {
+        return ApiResponse.onSuccess(
+                MissionSuccessCode.OK,
+                missionService.getMissionsByStore(storeId, pageable)
+        );
+    }
+
 }

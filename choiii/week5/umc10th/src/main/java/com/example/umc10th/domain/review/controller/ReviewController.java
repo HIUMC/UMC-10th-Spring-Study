@@ -1,6 +1,8 @@
 package com.example.umc10th.domain.review.controller;
 
+import com.example.umc10th.domain.review.dto.request.MyReviewCursorRequest;
 import com.example.umc10th.domain.review.dto.request.ReviewCreateRequest;
+import com.example.umc10th.domain.review.dto.response.MyReviewCursorResponse;
 import com.example.umc10th.domain.review.dto.response.ReviewResponse;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.api.ApiResponse;
@@ -32,6 +34,16 @@ public class ReviewController {
         return ApiResponse.onSuccess(
                 CommonSuccessCode.OK,
                 reviewService.getStoreReviews(storeId, pageable)
+        );
+    }
+
+    @PostMapping("/reviews/my")
+    public ApiResponse<MyReviewCursorResponse> getMyReviews(
+            @RequestBody @Valid MyReviewCursorRequest request
+    ) {
+        return ApiResponse.onSuccess(
+                CommonSuccessCode.OK,
+                reviewService.getMyReviews(request)
         );
     }
 }

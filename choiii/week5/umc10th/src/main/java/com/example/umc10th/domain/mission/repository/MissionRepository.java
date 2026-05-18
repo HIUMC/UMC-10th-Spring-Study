@@ -8,4 +8,5 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
 
     Page<Mission> findAllByStoreRegionId(Long regionId, Pageable pageable);
 
+    Page<Mission> findAllByStoreId(Long storeId, Pageable pageable);
 }

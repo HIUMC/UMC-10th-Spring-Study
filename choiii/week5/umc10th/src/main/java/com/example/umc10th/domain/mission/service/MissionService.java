@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.umc10th.domain.common.enums.MissionStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.example.umc10th.domain.mission.dto.request.UserMissionInProgressRequest;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -78,6 +80,11 @@ public class MissionService {
                 .map(MissionConverter::toMissionResponse);
     }
 
+    public Page<MissionResponse> getMissionsByStore(Long storeId, Pageable pageable) {
+        return missionRepository.findAllByStoreId(storeId, pageable)
+                .map(MissionConverter::toMissionResponse);
+    }
+
     public Mission findMission(Long missionId) {
         return missionRepository.findById(missionId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 미션입니다. missionId=" + missionId));
@@ -86,5 +93,17 @@ public class MissionService {
     public UserMission findUserMission(Long userMissionId) {
         return userMissionRepository.findById(userMissionId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 유저 미션입니다. userMissionId=" + userMissionId));
+    }
+
+    public Page<UserMissionResponse> getInProgressUserMissions(
+            UserMissionInProgressRequest request
+    ) {
+        PageRequest pageRequest = PageRequest.of(request.page(), request.size());
+
+        return userMissionRepository.findAllByUserIdAndStatus(
+                request.userId(),
+                MissionStatus.CHALLENGING,
+                pageRequest
+        ).map(MissionConverter::toUserMissionResponse);
     }
 }
