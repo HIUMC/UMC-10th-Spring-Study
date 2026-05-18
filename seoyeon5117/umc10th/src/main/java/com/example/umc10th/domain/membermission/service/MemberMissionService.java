@@ -1,5 +1,8 @@
 package com.example.umc10th.domain.membermission.service;
 
+import com.example.umc10th.domain.member.enums.MemberErrorCode;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.membermission.converter.MemberMissionConverter;
 import com.example.umc10th.domain.membermission.dto.MemberMissionReqDTO;
 import com.example.umc10th.domain.membermission.dto.MemberMissionResDTO;
@@ -8,18 +11,40 @@ import com.example.umc10th.domain.membermission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.membermission.repository.MemberMissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MemberMissionService {
 
+    private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
 
-    public Page<MemberMissionResDTO.GetMemberMission> getMemberMissionsByStatus(Long memberId, MemberMissionStatus status, Pageable pageable) {
-        Page<MemberMission> missions = memberMissionRepository.findByMemberIdAndStatus(memberId, status, pageable);
-        return missions.map(MemberMissionConverter::toGetMemberMission);
+    public MemberMissionResDTO.Pagination<MemberMissionResDTO.GetMemberMission> getMemberMissionsByStatus(Long memberId, MemberMissionStatus status, Integer pageSize, Integer pageNumber, String sort) {
+
+        Sort sortInfo;
+        if(sort != null) {
+            sortInfo = Sort.by(sort);
+        } else {
+            sortInfo = Sort.by("id").descending();
+        }
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sortInfo);
+
+        if (!memberRepository.existsById(memberId)) {
+            throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
+        }
+
+        Page<MemberMission> missionList = memberMissionRepository.findByMemberIdAndStatus(memberId, status, pageRequest);
+
+        return MemberMissionConverter.toPagination(
+                missionList.map(MemberMissionConverter::toGetMemberMission).toList(),
+                missionList.getNumber(),
+                missionList.getSize()
+        );
     }
 
     public MemberMissionResDTO.GetHomeMemberMissions getHomeMemberMissions(Long memberId, String address, Pageable pageable) {

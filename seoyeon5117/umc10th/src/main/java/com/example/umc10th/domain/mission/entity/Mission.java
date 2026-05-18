@@ -18,6 +18,7 @@ public class Mission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "mission_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,14 +26,10 @@ public class Mission extends BaseEntity {
     private Store store;
 
     @NotNull
-    @Column(name = "content")
-    private String content;
-
-    @NotNull
-    @Column(name = "point")
     private Integer point;
 
     @NotNull
-    @Column(name = "min_price")
-    private Integer minPrice;
+    private String minPrice;
+
+    private LocalDateTime dueDate;
 }

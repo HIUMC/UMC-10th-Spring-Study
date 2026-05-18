@@ -20,9 +20,10 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "store_id")
+    private Long id;
 
-    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "store")
     private List<Mission> missions = new ArrayList<>();
 
     @NotBlank
