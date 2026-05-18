@@ -23,6 +23,9 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Column(name = "name", nullable = false)
     private String name;
 
