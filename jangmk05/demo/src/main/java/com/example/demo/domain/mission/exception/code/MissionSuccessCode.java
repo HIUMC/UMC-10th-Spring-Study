@@ -3,10 +3,11 @@ package com.example.demo.domain.mission.exception.code;
 import com.example.demo.global.apiPayload.code.BaseSuccessCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum MissionSuccessCode implements BaseSuccessCode {
     MISSION_FOUND(HttpStatus.OK, "MISSION2001", "미션 조회에 성공했습니다."),
     MISSION_CREATED(HttpStatus.CREATED, "MISSION2011", "미션이 성공적으로 생성되었습니다."),

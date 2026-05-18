@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Builder
@@ -21,7 +23,7 @@ public class Mission {
     private String missionPlace;
 
     @Column(name = "mission_point")
-    private Long missionPoint;
+    private Integer missionPoint;
 
     @Column(name = "manager_id")
     private Long managerId;
@@ -30,6 +32,9 @@ public class Mission {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @Column(name = "mission_spec")
-    private String missionSpec;
+    @Column(name = "conditional")
+    private String conditional;
+
+    @Column(name = "deadline")
+    private LocalDate deadline;
 }
