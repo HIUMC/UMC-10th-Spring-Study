@@ -6,9 +6,7 @@ import jpabook.jpashop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,5 +42,41 @@ public class ItemController {
         List<Item> items = itemService.findItems();
         model.addAttribute("items", items);
         return "items/itemList";
+    }
+
+    @GetMapping("items/{itemId}/edit")
+    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
+        Book item = (Book) itemService.findOne(itemId);
+
+        BookForm form = new BookForm();
+        form.setId(item.getId());
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+        form.setAuthor(item.getAuthor());
+        form.setIsbn(item.getIsbn());
+
+        model.addAttribute("form", form);
+        return "items/updateItemForm";
+    }
+
+    @PostMapping("items/{itemId}/edit")
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
+        Book book = new Book();
+
+        // 준영속 엔티티 - 식별자는 있지만 jpa가 관리하지 않음. 따라서 업데이트가 일어나도 디비에 반영이 안됨.
+        // 변경감지(dirty checking) 기능 사용하거나 merge를 사용해야 함
+        //book.setId(form.getId());
+        //book.setName(form.getName());
+        //book.setPrice(form.getPrice());
+        //book.setStockQuantity(form.getStockQuantity());
+        //book.setAuthor(form.getAuthor());
+        //book.setIsbn(form.getIsbn());
+        // 컨트롤러에서 위처럼 어설프게 엔티티를 만드는게 아닌, Service코드로 form을 넘겨서 처리해버릇 하기
+        // 아래 코드가 훨씬 좋은 설계
+        itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
+
+        itemService.saveItem(book);
+        return "redirect:/items";
     }
 }
