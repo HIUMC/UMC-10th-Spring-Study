@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.week4.domain.review.cursor.ReviewCursor;
+import com.example.week4.domain.review.cursor.ReviewCursorParser;
 
 import java.util.List;
 
@@ -47,27 +49,21 @@ public class ReviewService {
     ) {
         PageRequest pageRequest = PageRequest.of(0, pageSize + 1);
 
-        String[] cursorParts = cursor.split(":");
-        String sortType = cursorParts[0];
+        ReviewCursor reviewCursor = ReviewCursorParser.parse(cursor);
 
         List<Review> reviews;
 
-        if (sortType.equals("ID")) {
-            Long cursorId = Long.parseLong(cursorParts[1]);
-
+        if (reviewCursor.isIdSort()) {
             reviews = reviewRepository.findUserReviewByIdCursor(
                     dto.userId(),
-                    cursorId,
+                    reviewCursor.getCursorId(),
                     pageRequest
             );
-        } else if (sortType.equals("RATING")) {
-            Integer cursorRating = Integer.parseInt(cursorParts[1]);
-            Long cursorId = Long.parseLong(cursorParts[2]);
-
+        } else if (reviewCursor.isRatingSort()) {
             reviews = reviewRepository.findUserReviewByRatingCursor(
                     dto.userId(),
-                    cursorRating,
-                    cursorId,
+                    reviewCursor.getCursorRating(),
+                    reviewCursor.getCursorId(),
                     pageRequest
             );
         } else {
@@ -77,7 +73,7 @@ public class ReviewService {
         return ReviewConverter.toUserReviewCursorListResponse(
                 reviews,
                 pageSize,
-                sortType
+                reviewCursor.getSortType()
         );
     }
 

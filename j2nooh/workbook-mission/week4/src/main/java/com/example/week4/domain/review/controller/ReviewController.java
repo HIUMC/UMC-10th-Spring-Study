@@ -28,15 +28,15 @@ public class ReviewController {
     }
 
     // 유저가 작성한 리뷰 조회
-    @PostMapping("/v1/reviews/user")
+    @GetMapping("/v1/reviews/user")
     public ApiResponse<ReviewResDTO.UserReviewCursorListResponse> getUserReview(
-            @RequestBody @Valid ReviewReqDTO.UserReviewListRequest dto,
+            @RequestParam Long userId,
             @RequestParam(defaultValue = "ID:-1") String cursor,
             @RequestParam(defaultValue = "10") Integer pageSize
     ) {
         BaseSuccessCode code = ReviewSuccessCode.GET_USER_REVIEWS;
+        ReviewReqDTO.UserReviewListRequest dto = new ReviewReqDTO.UserReviewListRequest(userId);
         ReviewResDTO.UserReviewCursorListResponse response = reviewService.getUserReviews(dto, cursor, pageSize);
-
         return ApiResponse.onSuccess(code, response);
     }
 

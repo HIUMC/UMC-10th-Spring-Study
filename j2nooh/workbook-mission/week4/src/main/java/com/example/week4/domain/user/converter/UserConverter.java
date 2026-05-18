@@ -4,6 +4,13 @@ import com.example.week4.domain.user.dto.UserResDTO;
 import com.example.week4.domain.user.entity.User;
 
 public class UserConverter {
+    public static UserResDTO.SignUpResponse toSignUpResponse(User user) {
+        return UserResDTO.SignUpResponse.builder()
+                .userId(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
+    }
 
     public static UserResDTO.MyPageResponse toMyPageResponse(User user) {
         return UserResDTO.MyPageResponse.builder()
