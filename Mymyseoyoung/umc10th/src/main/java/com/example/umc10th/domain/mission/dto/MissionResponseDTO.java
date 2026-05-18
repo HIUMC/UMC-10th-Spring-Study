@@ -28,4 +28,25 @@ public class MissionResponseDTO {
             boolean hasNext,
             int page
     ) {}
+
+    @Builder
+    public record GetMission(
+            Long missionId,
+            Integer point,
+            String conditional
+    ){}
+
+    //페이지네이션 틀
+
+    @Builder
+    public record Pagination<T>(
+        List<T> data,
+        //다음 데이터가 있는지
+        Boolean hasNext,
+
+        //다음 커서는?
+        String nextCursor,
+        Integer pageSize
+    )
+    {}
 }

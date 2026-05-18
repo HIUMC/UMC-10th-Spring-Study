@@ -81,4 +81,14 @@ public class MemberResponseDTO {
             String status
     ) {}
 
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            //다음 데이터가 있는지
+            Integer pageNumber,
+            Integer pageSize
+    )
+    {}
+
 }
