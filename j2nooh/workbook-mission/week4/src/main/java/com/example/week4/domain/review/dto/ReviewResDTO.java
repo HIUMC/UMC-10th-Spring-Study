@@ -25,4 +25,14 @@ public class ReviewResDTO {
     public static class ReviewListResponse {
         private List<ReviewResponse> reviews;
     }
+
+    @Getter
+    @Builder
+    public static class UserReviewCursorListResponse {
+        private List<ReviewResponse> reviews;
+        private Boolean hasNext;
+        private String nextCursor;
+        private Integer pageSize;
+        private Integer currentCount;
+    }
 }

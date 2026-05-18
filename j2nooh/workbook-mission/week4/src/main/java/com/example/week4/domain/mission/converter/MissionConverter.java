@@ -3,6 +3,7 @@ package com.example.week4.domain.mission.converter;
 import com.example.week4.domain.mission.dto.MissionResDTO;
 import com.example.week4.domain.mission.entity.Mission;
 import com.example.week4.domain.mission.entity.mapping.UserMission;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -39,13 +40,19 @@ public class MissionConverter {
                 .build();
     }
 
-    public static MissionResDTO.UserMissionListResponse toUserMissionListResponse(List<UserMission> userMissions) {
-        List<MissionResDTO.UserMissionResponse> userMissionResponses = userMissions.stream()
+    public static MissionResDTO.UserMissionListResponse toUserMissionListResponse(Page<UserMission> userMissionPage) {
+        List<MissionResDTO.UserMissionResponse> userMissionResponses = userMissionPage.getContent().stream()
                 .map(MissionConverter::toUserMissionResponse)
                 .toList();
 
         return MissionResDTO.UserMissionListResponse.builder()
                 .userMissions(userMissionResponses)
+                .pageNumber(userMissionPage.getNumber())
+                .pageSize(userMissionPage.getSize())
+                .totalElements(userMissionPage.getTotalElements())
+                .totalPages(userMissionPage.getTotalPages())
+                .isFirst(userMissionPage.isFirst())
+                .isLast(userMissionPage.isLast())
                 .build();
     }
 }

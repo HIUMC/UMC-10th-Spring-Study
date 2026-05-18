@@ -29,14 +29,14 @@ public class MissionController {
     }
 
     // 유저 (진행중/완료) 미션 조회
-    @GetMapping("/v1/user-missions")
+    @PostMapping("/v1/user-missions")
     public ApiResponse<MissionResDTO.UserMissionListResponse> getUserMissions(
-            @RequestParam Long userId,
-            @RequestParam String missionStatus
+            @RequestBody @Valid MissionReqDTO.UserMissionListRequest dto,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize
     ) {
         BaseSuccessCode code = MissionSuccessCode.GET_USER_MISSIONS;
-        MissionReqDTO.UserMissionListRequest dto = new MissionReqDTO.UserMissionListRequest(userId, missionStatus);
-        MissionResDTO.UserMissionListResponse response = missionService.getUserMissions(dto);
+        MissionResDTO.UserMissionListResponse response = missionService.getUserMissions(dto, pageNumber, pageSize);
 
         return ApiResponse.onSuccess(code, response);
     }
