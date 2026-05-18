@@ -11,6 +11,7 @@ import com.example.umc10th.domain.user.repository.UserTermsRepository;
 import com.example.umc10th.global.exception.NotFoundException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +22,18 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserTermsRepository userTermsRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserResponse createUser(UserCreateRequest request) {
-        return UserConverter.toResponse(userRepository.save(UserConverter.toEntity(request)));
+        if(userRepository.existsByEmail(request.email())) {
+            throw new RuntimeException("이미 사용 중인 이메일입니다.");
+        }
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        User user = UserConverter.toEntity(request, encodedPassword);
+
+        return UserConverter.toResponse(userRepository.save(user));
     }
 
     public UserResponse getUser(Long userId) {
