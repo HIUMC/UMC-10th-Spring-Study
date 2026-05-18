@@ -9,6 +9,7 @@ import com.example.umc10th.domain.member.repository.MemberAddressRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.global.apiPayload.exception.ProjectException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberAddressRepository memberAddressRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 홈 화면 - 내 포인트, 미션 진행률 조회
     public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
@@ -39,7 +41,8 @@ public class MemberService {
     // 회원가입
     @Transactional
     public void signUp(MemberReqDTO.SignUp dto) {
-        Member savedMember = memberRepository.save(MemberConverter.toMember(dto));
+        String encodedPassword = passwordEncoder.encode(dto.password());
+        Member savedMember = memberRepository.save(MemberConverter.toMember(dto, encodedPassword));
         memberAddressRepository.save(MemberConverter.toMemberAddress(dto, savedMember));
     }
 }
