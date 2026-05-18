@@ -23,5 +23,4 @@ public class OrderRepository {
 
     // 쿼리 DSL로 jpql을 다루는게 가장 좋음
 
-
 }
