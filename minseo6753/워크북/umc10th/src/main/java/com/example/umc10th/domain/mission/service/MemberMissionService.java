@@ -13,6 +13,7 @@ import com.example.umc10th.domain.mission.exception.MemberMissionException;
 import com.example.umc10th.domain.mission.exception.code.MemberMissionErrorCode;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -24,25 +25,20 @@ public class MemberMissionService {
     private final MemberMissionRepository memberMissionRepository;
     private final MemberRepository memberRepository;
 
-    public MissionResDTO.InfoSlice getMemberMissions(Long memberId, MissionStatus status, Long cursor) {
+    public MissionResDTO.Pagination<MissionResDTO.Info> getMemberMissions(Long memberId, MissionStatus status, Integer pageSize, Integer pageNumber) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
 
-        PageRequest pageRequest = PageRequest.of(0, 10); // 한 번에 10개씩
-        Slice<MemberMission> missionSlice;
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize); // 한 번에 10개씩
 
-        if (cursor == null) {
-            missionSlice = memberMissionRepository.findFirstPage(member, status, pageRequest);
-        } else {
+        Page<MemberMission> memberMissionPage = memberMissionRepository.findAllByMemberAndStatusOrderByUpdatedAtDesc(
+                member, status, pageRequest);
 
-            MemberMission lastFound = memberMissionRepository.findById(cursor)
-                    .orElseThrow(() -> new MemberMissionException(MemberMissionErrorCode.NOT_FOUND));
-
-            missionSlice = memberMissionRepository.findNextPage(member,
-                    status, lastFound.getUpdatedAt(), lastFound.getId(), pageRequest);
-        }
-
-        return MemberMissionConverter.toInfoSlice(missionSlice);
+        return MemberMissionConverter.toPagination(
+                memberMissionPage.map(MemberMissionConverter::toInfo).toList(),
+                memberMissionPage.getNumber(),
+                memberMissionPage.getSize()
+        );
     }
 
     public MissionResDTO.Info updateMemberMission(Long missionId, Status request) {

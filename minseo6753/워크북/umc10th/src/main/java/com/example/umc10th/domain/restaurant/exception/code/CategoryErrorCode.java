@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.member.exception.code;
+package com.example.umc10th.domain.restaurant.exception.code;
 
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import lombok.Getter;
@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum MemberErrorCode implements BaseErrorCode {
+public enum CategoryErrorCode implements BaseErrorCode {
 
     NOT_FOUND(HttpStatus.NOT_FOUND,
-            "MEMBER404_1",
+            "CATEGORY404_1",
             "해당 리소스를 찾을 수 없습니다."),
     ;
 

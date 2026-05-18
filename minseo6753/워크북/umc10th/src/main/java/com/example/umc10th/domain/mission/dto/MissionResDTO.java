@@ -29,4 +29,12 @@ public class MissionResDTO {
             Boolean hasNext
     ) {
     }
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Integer pageNumber,
+            Integer pageSize
+    ) {
+    }
 }

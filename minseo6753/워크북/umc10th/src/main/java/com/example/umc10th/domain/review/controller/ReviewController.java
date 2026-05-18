@@ -11,22 +11,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/restaurants/{restaurantId}/reviews")
+@RequestMapping("/api")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping(value = "/", consumes = "multipart/form-data")
+    @PostMapping(value = "/restaurants/{restaurantId}/reviews", consumes = "multipart/form-data")
     public ApiResponse<ReviewResDTO.Info> createReview(
             @RequestHeader Long memberId, //todo 토큰인증으로 변경
             @PathVariable Long restaurantId,
@@ -43,6 +45,19 @@ public class ReviewController {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.CREATED,
                 reviewService.createReview(memberId, restaurantId, dto, files)
+        );
+    }
+
+    @GetMapping(value = "/users/reviews")
+    public ApiResponse<ReviewResDTO.Slice<ReviewResDTO.Info>> getReview(
+            @RequestHeader Long memberId, //todo 토큰인증으로 변경
+            @RequestParam Integer pageSize,
+            @RequestParam(required = false) Long cursor,
+            @RequestParam(defaultValue = "id") String query
+    ) {
+        return ApiResponse.onSuccess(
+                GeneralSuccessCode.OK,
+                reviewService.getReview(memberId, pageSize, cursor, query)
         );
     }
 }

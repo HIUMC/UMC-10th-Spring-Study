@@ -1,8 +1,10 @@
 package com.example.umc10th.domain.member.entity;
 
+import com.example.umc10th.domain.member.entity.mapping.Preference;
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.restaurant.entity.address.EupMyeonDong;
 import com.example.umc10th.global.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,8 +15,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,6 +50,10 @@ public class Member extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eup_myeon_dong_id", nullable = false)
     private EupMyeonDong eupMyeonDong;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<Preference> preference = new ArrayList<>();
 
     @Column(name = "mission_count", nullable = false)
     @Builder.Default

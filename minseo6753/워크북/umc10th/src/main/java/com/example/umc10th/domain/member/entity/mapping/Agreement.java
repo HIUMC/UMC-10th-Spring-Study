@@ -38,6 +38,9 @@ public class Agreement extends BaseEntity {
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
+    @Column(name = "agreed", nullable = false)
+    private Boolean agreed;
+
     @Column(name = "agree_date", nullable = false)
     private LocalDate agreeDate;
 }
