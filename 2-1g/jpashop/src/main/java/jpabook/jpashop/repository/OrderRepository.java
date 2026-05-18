@@ -5,6 +5,8 @@ import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class OrderRepository {
@@ -18,5 +20,8 @@ public class OrderRepository {
     public Order findOne(Long id) {
         return em.find(Order.class, id);
     }
+
+    // 쿼리 DSL로 jpql을 다루는게 가장 좋음
+
 
 }
