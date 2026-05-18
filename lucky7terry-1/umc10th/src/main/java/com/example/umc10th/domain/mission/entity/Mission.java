@@ -30,6 +30,8 @@ public class Mission extends BaseEntity {
     @Column(name = "deadline", nullable = false)
     private LocalDate deadline;
 
+    private String conditional;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
