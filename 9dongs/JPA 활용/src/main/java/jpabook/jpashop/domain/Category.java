@@ -27,10 +27,15 @@ public class Category {
     )
     private List<Item> items = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // ManyToOne, OneToOne ( xToOne )은 기본 Fetch 값이 EAGER
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent") // OneToMany, ManyToMany ( xToMany )는 기본 Fetch값이 LAZY
     private List<Category> child = new ArrayList<>();
+
+    public void addChild(Category child) {
+        this.child.add(child);
+        child.setParent(this);
+    }
 }

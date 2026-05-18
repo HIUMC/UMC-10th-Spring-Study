@@ -21,6 +21,6 @@ public class Member {
     @Embedded // 내장 타입 사용 표기
     private Address address;
 
-    @OneToMany(mappedBy = "member") // order table 속 member 필드에 의해 "맵핑됨"을 표기 ( 읽기 전용 )
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY) // order table 속 member 필드에 의해 "맵핑됨"을 표기 ( 읽기 전용 )
+    private List<Order> orders = new ArrayList<>(); // 컬렉션을 바꾸지 않기. ( 컬렉션은 필드에서 초기화 하는것이 좋다.)
 }

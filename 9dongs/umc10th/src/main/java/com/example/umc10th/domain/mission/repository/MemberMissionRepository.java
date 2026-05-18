@@ -3,17 +3,24 @@ package com.example.umc10th.domain.mission.repository;
 
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
+    Page<MemberMission> findAllByMemberIdAndStatus(Long memberId, MemberMissionStatus status, Pageable pageable);
     @Query("SELECT mm FROM MemberMission mm JOIN FETCH mm.mission m JOIN FETCH m.restaurant r " +
             "WHERE mm.member.id = :memberId AND mm.status = :status AND mm.id > :cursor " +
             "ORDER BY mm.id ASC")
-    List<MemberMission> findMyMissions(@Param("memberId") Long memberId, @Param("status") MemberMissionStatus status, @Param("cursor") Long cursor, PageRequest pageRequest);
+    List<MemberMission> findMyMissions(
+            @Param("memberId") Long memberId,
+            @Param("status") MemberMissionStatus status,
+            @Param("cursor") Long cursor,
+            Pageable pageable);
 }
 
