@@ -17,15 +17,18 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "member")
+@Table(name = "members")
 public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name="password")
+    private String password;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
