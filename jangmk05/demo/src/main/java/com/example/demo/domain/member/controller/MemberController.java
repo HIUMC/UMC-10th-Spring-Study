@@ -10,18 +10,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v1/users")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/v1/users/me")
+    @GetMapping("/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @RequestParam Long id
     ) {
-        MemberSuccessCode code = MemberSuccessCode.MEMBER_FOUND;
         MemberReqDTO.GetInfo dto = new MemberReqDTO.GetInfo(id);
-        return ApiResponse.onSuccess(code, memberService.getInfo(dto));
+        return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_FOUND, memberService.getInfo(dto));
     }
-
 }
+
