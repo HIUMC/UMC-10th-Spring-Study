@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.member.service;
 
+import com.example.umc10th.domain.foodpreference.service.FoodPreferenceService;
 import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
@@ -7,7 +8,9 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.enums.MemberErrorCode;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.domain.memberterm.service.MemberTermService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final FoodPreferenceService foodPreferenceService;
+    private final MemberTermService memberTermService;
+    private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public MemberResDTO.SignUpRes signUp(MemberReqDTO.SignUp dto) {
+        String encodedPassword = passwordEncoder.encode(dto.password());
+
+        if (memberRepository.findByEmail(dto.email()).isPresent()) {
+            throw new MemberException(MemberErrorCode.MEMBER_ALREADY_EXISTS);
+        }
+
+        Member member = MemberConverter.toMember(dto, encodedPassword);
+        memberRepository.save(member);
+
+        foodPreferenceService.saveFoodPreferences(member, dto.foodPreferences());
+        memberTermService.saveTermAgreements(member, dto.termAgreements());
+
+        return MemberConverter.toSignUp(member);
+    }
 
     public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
         //DTO에서 유저 ID를 추출

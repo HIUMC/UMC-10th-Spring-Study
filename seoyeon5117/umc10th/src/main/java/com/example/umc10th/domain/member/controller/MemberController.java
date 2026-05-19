@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/members")
+@RequestMapping("/api/v1")
 public class MemberController {
 
     private final MemberService memberService;
 
+    @PostMapping("/auth/sign-up")
+    public ApiResponse<MemberResDTO.SignUpRes> signUp(@RequestBody MemberReqDTO.SignUp dto) {
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_CREATED;
+        return ApiResponse.onSuccess(code, memberService.signUp(dto));
+    }
+
     // 마이페이지 조회
-    @GetMapping("/me")
+    @GetMapping("/members/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @RequestParam Long id // 로그인 기능이 없어서 임시로 id로 조회
     ) {
@@ -26,7 +32,7 @@ public class MemberController {
     }
 
     // 유저 수정
-    @PutMapping("/me")
+    @PutMapping("/members/me")
     public ApiResponse<MemberResDTO.UpdateInfo> updateInfo(
             @RequestBody MemberReqDTO.UpdateInfo dto
     ) {
@@ -35,7 +41,7 @@ public class MemberController {
     }
 
     // 내 포인트 조회
-    @GetMapping("/points")
+    @GetMapping("/members/me/points")
     public ApiResponse<MemberResDTO.GetPoint> getPoint(
             @RequestParam Long id
     ) {
