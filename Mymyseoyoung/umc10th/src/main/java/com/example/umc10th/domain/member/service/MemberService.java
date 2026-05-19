@@ -7,11 +7,14 @@ import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.enums.MemberErrorCode;
 import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.repository.FoodPreferenceRepository;
+import com.example.umc10th.domain.member.repository.FoodRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.usermission.entity.UserMission;
 import com.example.umc10th.global.apiPayload.exception.ProjectException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final FoodRepository foodRepository;
+    private final FoodPreferenceRepository foodPreferenceRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     //정보 가져오기
     public MemberResponseDTO.GetInfo getInfo(MemberRequestDTO.GetInfo dto) {
@@ -34,18 +40,6 @@ public class MemberService {
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         // 컨버터를 이용해서 응답 DTO 생성 & return
         return MemberConverter.toGetInfo(user);
-    }
-
-
-    //회원가입
-    public MemberResponseDTO.JoinResult join(MemberRequestDTO.Join request) {
-
-        //DTO 엔티티로 변환
-        Member newMember = MemberConverter.toMember(request);
-
-        Member savedMember = memberRepository.save(newMember);
-
-        return MemberConverter.toJoinResult(savedMember);
     }
 
     // 내 포인트 조회

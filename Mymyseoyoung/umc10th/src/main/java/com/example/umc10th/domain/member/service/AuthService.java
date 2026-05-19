@@ -1,0 +1,58 @@
+package com.example.umc10th.domain.member.service;
+
+import com.example.umc10th.domain.member.converter.MemberConverter;
+import com.example.umc10th.domain.member.dto.MemberRequestDTO;
+import com.example.umc10th.domain.member.dto.MemberResponseDTO;
+import com.example.umc10th.domain.member.entity.Food;
+import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.FoodPreference;
+import com.example.umc10th.domain.member.enums.MemberErrorCode;
+import com.example.umc10th.domain.member.repository.FoodPreferenceRepository;
+import com.example.umc10th.domain.member.repository.FoodRepository;
+import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.global.apiPayload.exception.ProjectException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class AuthService {
+
+    private final MemberRepository memberRepository;
+    private final FoodRepository foodRepository;
+    private final FoodPreferenceRepository foodPreferenceRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+
+
+    //회원가입
+    public MemberResponseDTO.JoinResult join(MemberRequestDTO.Join request) {
+
+        //이메일 중복 검사
+        if(memberRepository.existsByEmail(request.email()))
+        {
+            throw new ProjectException(MemberErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+        String encodedPassword = passwordEncoder.encode(request.password());
+
+        //DTO 엔티티로 변환
+        Member newMember = MemberConverter.toMember(request,encodedPassword);
+
+        Member savedMember = memberRepository.save(newMember);
+
+        // 선호 음식 저장
+        if (request.foodCategories() != null && !request.foodCategories().isEmpty()) {
+            List<Food> foods = foodRepository.findByFoodCategoryIn(request.foodCategories());
+            List<FoodPreference> preferences = MemberConverter.toFoodPreferenceList(newMember, foods);
+            foodPreferenceRepository.saveAll(preferences);
+        }
+
+        return MemberConverter.toJoinResult(savedMember);
+    }
+
+}

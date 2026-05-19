@@ -2,7 +2,9 @@ package com.example.umc10th.domain.member.converter;
 
 import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
+import com.example.umc10th.domain.member.entity.Food;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.FoodPreference;
 import com.example.umc10th.domain.mission.dto.MissionResponseDTO;
 import com.example.umc10th.domain.usermission.entity.UserMission;
 
@@ -13,24 +15,35 @@ public class MemberConverter {
     // 마이페이지 응답 DTO 변환
     public static MemberResponseDTO.GetInfo toGetInfo(Member user) {
         return MemberResponseDTO.GetInfo.builder()
-                .email(user.getEmail())
                 .name(user.getName())
+                .email(user.getEmail())
                 .point(user.getPoint())
                 .phoneNumber(user.getPhoneNumber())
                 .profileUrl(user.getProfileUrl())
                 .build();
     }
 
-    public static Member toMember(MemberRequestDTO.Join request) {
+    public static Member toMember(MemberRequestDTO.Join request,String encodedPassword) {
         return Member.builder()
                 .email(request.email())// 주의: 실제 구현 시에는 PasswordEncoder로 암호화 필요
                 .name(request.name())
+                .password(encodedPassword)
                 .gender(request.gender())
                 .birth(request.birth())
                 .address(request.address())
                 .phoneNumber(request.phoneNumber())
                 .point(0) // 초기 포인트는 0으로 설정
                 .build();
+    }
+
+    // FoodPreference 리스트 변환
+    public static List<FoodPreference> toFoodPreferenceList(Member member, List<Food> foods) {
+        return foods.stream()
+                .map(food -> FoodPreference.builder()
+                        .member(member)
+                        .food(food)
+                        .build())
+                .toList();
     }
 
     public static MemberResponseDTO.JoinResult toJoinResult(Member member) {

@@ -27,6 +27,8 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String email;
 
+    private String password;
+
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
