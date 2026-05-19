@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.member.entity;
 
 
-import com.example.umc10th.domain.common.base.BaseEntity;
+import com.example.umc10th.domain.member.enums.FoodCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +18,7 @@ public class Food {
     @Column(name="food_id")
     private Long id;
 
-    private String name;
+    private FoodCategory foodCategory;
+
 
 }

@@ -1,12 +1,13 @@
 package com.example.umc10th.domain.member.dto;
 
 
+import com.example.umc10th.domain.member.enums.FoodCategory;
 import com.example.umc10th.domain.region.enums.Address;
 import com.example.umc10th.domain.member.enums.Gender;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class MemberRequestDTO {
 
@@ -19,12 +20,26 @@ public class MemberRequestDTO {
 
     //회원가입
     public record Join(
+
+            @NotNull(message = "회원이름은 필수 항목입니다.")
             String name,
+
+            @NotBlank(message = "이메일은 필수 항목입니다.")
+            @Email(message = "이메일 형식이 올바르지 않습니다.")
             String email,
+
+            @NotBlank(message = "비밀번호는 필수 항목입니다.")
+            @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.")
+            String password,
             Gender gender,
             LocalDate birth,
             Address address,
-            String phoneNumber
+            String phoneNumber,
+
+            //선호 음식 선택
+            List<FoodCategory> foodCategories
+
+
     ){}
 
     public record getMyReviewRequest(
@@ -40,4 +55,5 @@ public class MemberRequestDTO {
             @Min(1)
             Integer pageSize
     ){}
+
 }
