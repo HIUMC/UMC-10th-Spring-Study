@@ -23,13 +23,17 @@ public class SecurityConfig {
     private final String[] allowUris = {
             // Swagger 허용
             "/swagger-ui/**",
+            "/swagger-ui.html",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**"
-    };
 
-    private final String[] publicAPI = {
+            // 인증 관련 허용
             "/auth/**",
+            "/login",
+            "/logout",
+
+            // 에러 응답 허용
+            "/error"
     };
 
     @Bean
@@ -38,10 +42,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(allowUris).permitAll()
-                        .requestMatchers(publicAPI).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
+                        .usernameParameter("email")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/swagger-ui/index.html", true)
                         .permitAll()
                 )
