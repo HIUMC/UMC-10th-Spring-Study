@@ -17,6 +17,8 @@ public class User {
     @Column(nullable = false, length = 50)
     private String nickname;
 
+    private String password;
+
     private String email;
 
     private String phoneNumber;
@@ -34,4 +36,6 @@ public class User {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+
+
 }
