@@ -4,6 +4,7 @@ import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.Preference;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.PolicyException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
@@ -11,7 +12,6 @@ import com.example.umc10th.domain.member.exception.code.PolicyErrorCode;
 import com.example.umc10th.domain.member.repository.AgreementRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.member.repository.PolicyRepository;
-import com.example.umc10th.domain.member.repository.PreferenceRepository;
 import com.example.umc10th.domain.restaurant.entity.address.EupMyeonDong;
 import com.example.umc10th.domain.restaurant.exception.CategoryException;
 import com.example.umc10th.domain.restaurant.exception.EupMyeonDongException;
@@ -32,7 +32,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final EupMyeonDongRepository eupMyeonDongRepository;
     private final CategoryRepository categoryRepository;
-    private final PreferenceRepository preferenceRepository;
     private final PolicyRepository policyRepository;
     private final AgreementRepository agreementRepository;
 
@@ -40,16 +39,25 @@ public class MemberService {
 
     @Transactional
     public MemberResDTO.Info signup(MemberReqDTO.SignUp request) {
+
         EupMyeonDong eupMyeonDong = eupMyeonDongRepository.findById(request.eupMyeonDongId())
                 .orElseThrow(() -> new EupMyeonDongException(EupMyeonDongErrorCode.NOT_FOUND));
 
-        // 카테고리 ID 일괄 검증
-        List<Long> categoryIds = request.categoryIds();
-        if (categoryIds != null && !categoryIds.isEmpty()) {
-            if (categoryIds.size() != categoryRepository.findAllById(categoryIds).size()) {
-                throw new CategoryException(CategoryErrorCode.NOT_FOUND);
-            }
-        }
+        String encodedPassword = passwordEncoder.encode(request.password());
+
+        Member member = MemberConverter.toMember(request, encodedPassword, eupMyeonDong);
+
+        List<Preference> preferenceList = request.categoryIds().stream().map(
+                        id -> Preference.builder()
+                                .member(member)
+                                .category(categoryRepository.findById(id).orElseThrow(
+                                        () -> new CategoryException(CategoryErrorCode.NOT_FOUND)
+                                ))
+                                .build())
+                .toList();
+
+        member.getPreference().addAll(preferenceList);
+        memberRepository.save(member); // cascade
 
         // 정책 ID 일괄 검증
         if (request.agreements() != null && !request.agreements().isEmpty()) {
@@ -59,16 +67,6 @@ public class MemberService {
             if (policyIds.size() != policyRepository.findAllById(policyIds).size()) {
                 throw new PolicyException(PolicyErrorCode.NOT_FOUND);
             }
-        }
-
-        String encodedPassword = passwordEncoder.encode(request.password());
-
-        Member member = MemberConverter.toMember(request, encodedPassword, eupMyeonDong);
-        memberRepository.save(member);
-
-        // Bulk Insert Preference
-        if (categoryIds != null && !categoryIds.isEmpty()) {
-            preferenceRepository.saveAllByJdbc(member.getId(), categoryIds);
         }
 
         // Bulk Insert Agreement
