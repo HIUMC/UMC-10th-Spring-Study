@@ -1,5 +1,7 @@
 package com.example.umc10th.domain.member.dto;
 
+import com.example.umc10th.domain.member.enums.Gender;
+
 import java.util.List;
 
 public class MemberReqDTO {
@@ -8,9 +10,14 @@ public class MemberReqDTO {
             String password,
             String name,
             String nickname,
-            String birth,
+            Gender gender,
+            Integer birthYear,
+            Integer birthMonth,
+            Integer birthDay,
+            String address,
+            String specAddress,
             String phoneNumber,
-            List<Long> preferenceIds
+            List<Long> preferCategory
     ) {
     }
 
