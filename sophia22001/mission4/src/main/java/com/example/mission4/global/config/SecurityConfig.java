@@ -1,5 +1,7 @@
 package com.example.mission4.global.config;
 
+import com.example.mission4.global.security.exception.CustomAccessDenied;
+import com.example.mission4.global.security.exception.CustomEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,7 +42,11 @@ public class SecurityConfig {
                     .logout(logout -> logout
                             .logoutUrl("/logout")
                             .logoutSuccessUrl("/login?logout") // 로그아웃 성공 시 → /login?logout 으로 리다이렉트
-                            .permitAll());
+                            .permitAll())
+                    // 인증 실패 에러 통일 객체 주입
+                    .exceptionHandling(exception -> exception
+                            .accessDeniedHandler(customAccessDenied())
+                            .authenticationEntryPoint(customEntryPoint()));
 
             return http.build();
 
@@ -49,5 +55,20 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // 비밀번호를 BCrypt 해시 알고리즘으로 암호화
+    }
+
+    /**
+     * 인증 실패 에러 통일 관련 객체들을 빈으로 등록한다.
+     * CustomAccessDenied
+     * CustomEntryPoint
+     */
+    @Bean
+    public CustomAccessDenied customAccessDenied() {
+        return new CustomAccessDenied();
+    }
+
+    @Bean
+    public CustomEntryPoint customEntryPoint() {
+        return new CustomEntryPoint();
     }
 }
