@@ -11,6 +11,10 @@ public class MemberReqDTO {
 
     public record SignUp(
             @NotBlank
+            String email,
+            @NotBlank
+            String password,
+            @NotBlank
             String name,
             @NotNull
             Gender gender,

@@ -7,8 +7,10 @@ import com.example.umc10th.domain.restaurant.entity.address.EupMyeonDong;
 
 public class MemberConverter {
 
-    public static Member toMember(MemberReqDTO.SignUp dto, EupMyeonDong eupMyeonDong) {
+    public static Member toMember(MemberReqDTO.SignUp dto, String encodedPassword, EupMyeonDong eupMyeonDong) {
         return Member.builder()
+                .email(dto.email())
+                .password(encodedPassword)
                 .name(dto.name())
                 .gender(dto.gender())
                 .birth(dto.birth())

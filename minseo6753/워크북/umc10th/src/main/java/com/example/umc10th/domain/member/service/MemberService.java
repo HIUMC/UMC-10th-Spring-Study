@@ -4,9 +4,6 @@ import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.member.entity.Policy;
-import com.example.umc10th.domain.member.entity.mapping.Agreement;
-import com.example.umc10th.domain.member.entity.mapping.Preference;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.PolicyException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
@@ -22,9 +19,9 @@ import com.example.umc10th.domain.restaurant.exception.code.CategoryErrorCode;
 import com.example.umc10th.domain.restaurant.exception.code.EupMyeonDongErrorCode;
 import com.example.umc10th.domain.restaurant.repository.CategoryRepository;
 import com.example.umc10th.domain.restaurant.repository.EupMyeonDongRepository;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +35,8 @@ public class MemberService {
     private final PreferenceRepository preferenceRepository;
     private final PolicyRepository policyRepository;
     private final AgreementRepository agreementRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public MemberResDTO.Info signup(MemberReqDTO.SignUp request) {
@@ -62,7 +61,9 @@ public class MemberService {
             }
         }
 
-        Member member = MemberConverter.toMember(request, eupMyeonDong);
+        String encodedPassword = passwordEncoder.encode(request.password());
+
+        Member member = MemberConverter.toMember(request, encodedPassword, eupMyeonDong);
         memberRepository.save(member);
 
         // Bulk Insert Preference
