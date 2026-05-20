@@ -17,7 +17,7 @@ public class ItemRepository {
         if (item.getId() == null) {
         } else {
             em.persist(item);
-            em.merge(item);
+            em.merge(item); //변경 감지 merge 방법? 열심히 짠 코드를 jpa가 한줄로 바꿔버림..
         }
     }
 
