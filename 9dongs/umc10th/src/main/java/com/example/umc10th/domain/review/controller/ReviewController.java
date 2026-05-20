@@ -30,7 +30,7 @@ public class ReviewController {
     // 내가 작성한 리뷰 목록 조회
     @GetMapping("/members/me/reviews")
     public ApiResponse<ReviewResDTO.Pagination<ReviewResDTO.MyReviewDTO>> getMyReviews(
-            @RequestHeader("memberId") Long memberId,
+            @RequestParam(name = "memberId") Long memberId,
             @RequestParam(name = "cursor", required = false) String cursor,
             @RequestParam(name = "query", defaultValue = "id") String query,
             @RequestParam(name = "size", defaultValue = "10") Integer size
