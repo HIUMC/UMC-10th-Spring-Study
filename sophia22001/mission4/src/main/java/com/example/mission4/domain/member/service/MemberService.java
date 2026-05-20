@@ -8,6 +8,7 @@ import com.example.mission4.domain.member.exception.MemberException;
 import com.example.mission4.domain.member.exception.code.MemberErrorCode;
 import com.example.mission4.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public MemberResDTO.GetInfo getInfo(Long memberId) {
 
@@ -29,7 +31,9 @@ public class MemberService {
 
     public MemberResDTO.SignUp signup(MemberReqDTO.SignUp dto) {
 
-        Member newMember = MemberConverter.toSignUp(dto); // dto -> Entity
+        String encodedPassword = passwordEncoder.encode(dto.password());
+
+        Member newMember = MemberConverter.toSignUp(dto, encodedPassword); // dto -> Entity
 
         memberRepository.save(newMember);
         // 이미 같은 회원이 존재하면 에러 반환하는 코드 필요 (현재는 구현 불가)

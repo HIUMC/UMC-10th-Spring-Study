@@ -23,6 +23,14 @@ public class MemberReqDTO {
         @NotNull(message = "주소는 필수입니다.")
         Address address,
 
+        @NotNull(message = "상세 주소는 필수입니다.")
+        String detailAddress,
+
+        @NotNull(message = "이메일은 필수입니다.")
+        String email,
+        @NotNull(message = "비밀번호는 필수입니다.")
+        String password,
+
         @NotNull(message = "선호 음식은 필수입니다.")
         @Size(min = 1, message = "선호 음식은 하나 이상이어야 합니다.")
         List<FoodName> preferFoods

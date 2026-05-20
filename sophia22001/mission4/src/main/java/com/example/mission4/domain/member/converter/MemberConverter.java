@@ -19,13 +19,16 @@ public class MemberConverter {
                 .build();
     }
 
-    public static Member toSignUp(MemberReqDTO.SignUp dto) {
+    public static Member toSignUp(MemberReqDTO.SignUp dto, String encodedPassword) {
         // 1. Member 객체 생성
         Member member = Member.builder()
                 .name(dto.name())
                 .gender(dto.gender())
                 .birth(dto.birth())
                 .address(dto.address())
+                .detailAddress(dto.detailAddress())
+                .email(dto.email())
+                .password(encodedPassword)
                 .memberFoodList(new ArrayList<>()) // // 여기서 리스트를 비워두고, 나중에 채움
                 .build();
 
