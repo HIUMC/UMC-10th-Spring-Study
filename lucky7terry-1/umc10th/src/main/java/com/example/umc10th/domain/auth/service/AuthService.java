@@ -24,7 +24,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthResDTO.SignupDTO saveMember(AuthReqDTO.@Valid SignupDTO dto) {
+    public AuthResDTO.SignupDTO saveMember(@Valid AuthReqDTO.SignupDTO dto) {
 
         String encodedPassword = passwordEncoder.encode(dto.password());
 

@@ -77,7 +77,7 @@ public class MissionService {
     }
 
     // 가게 미션 생성
-    public Void createMission(Long storeId, MissionReqDTO.@Valid CreateMission dto) {
+    public Void createMission(Long storeId, @Valid MissionReqDTO.CreateMission dto) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
 
@@ -108,7 +108,8 @@ public class MissionService {
                     missionSlice = missionRepository.findMissionByStore_IdAndIdLessThanOrderByIdDesc(
                             storeId,
                             idCursor,
-                            prevCursor
+                            prevCursor,
+                            pageRequest
                     );
 
                     break;

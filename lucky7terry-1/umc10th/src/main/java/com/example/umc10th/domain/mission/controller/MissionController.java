@@ -20,7 +20,7 @@ public class MissionController {
     // 미션 목록 조회
     @GetMapping("/v1/members/me/missions")
     public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMission>> getMissions(
-            @RequestBody MissionReqDTO.GetMission dto,
+            @RequestParam MissionReqDTO.GetMission dto,
             @RequestParam Boolean status,
             @RequestParam Integer pageSize,
             @RequestParam String cursor
