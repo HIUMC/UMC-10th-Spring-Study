@@ -1,12 +1,10 @@
 package jpabook.jpashop.repository;
 
-import jakarta.persistence.EntityManager;
 import jpabook.jpashop.domain.item.Item;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.parser.Entity;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 
 @Repository
@@ -18,7 +16,7 @@ public class ItemRepository {
     public void save(Item item) {
         if (item.getId() == null) {
             em.persist(item);
-        } else{
+        } else {
             em.merge(item);
         }
     }
@@ -28,7 +26,6 @@ public class ItemRepository {
     }
 
     public List<Item> findAll() {
-        return em.createQuery("select i from Item i", item.class)
-                .getResultList();
+        return em.createQuery("select i from Item i",Item.class).getResultList();
     }
 }
