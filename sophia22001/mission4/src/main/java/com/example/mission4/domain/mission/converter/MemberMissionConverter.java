@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 public class MemberMissionConverter {
 
     // 단건 변환 (엔티티 -> DTO)
-    public static MissionResDTO.GetMissions toGetMission(MemberMission memberMission) {
-        return MissionResDTO.GetMissions.builder()
+    public static MissionResDTO.GetMyMission toGetMission(MemberMission memberMission) {
+        return MissionResDTO.GetMyMission.builder()
                 .storeName(memberMission.getMission().getStore().getName())
                 .point(memberMission.getMission().getPoint())
                 .condition(memberMission.getMission().getCondition())
@@ -18,7 +18,7 @@ public class MemberMissionConverter {
     }
 
     // 리스트 변환 (엔티티 리스트 -> DTO 리스트)
-    public static List<MissionResDTO.GetMissions> toGetMissionsList(List<MemberMission> memberMissions) {
+    public static List<MissionResDTO.GetMyMission> toGetMissionsList(List<MemberMission> memberMissions) {
         return memberMissions.stream()
                 .map(MemberMissionConverter::toGetMission)
                 .collect(Collectors.toList());
