@@ -18,6 +18,8 @@ public class ItemRepository {
             em.persist(item);
         } else {
             em.merge(item); // 업데이트와 비슷함
+            // merge: 준영속 상태의 엔티티를 영속 상태로 변경할 때 사용. 모든 필드들 대체함
+            // 병합 시 값이 없으면 null로 업데이트되어서 위험하다 !!
         }
     }
 
