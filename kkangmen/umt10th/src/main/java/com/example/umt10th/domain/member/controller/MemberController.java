@@ -9,7 +9,6 @@ import com.example.umt10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umt10th.global.apiPayload.code.BaseSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,16 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-
-    // 회원가입
-    @PostMapping("/v1/users")
-    public ApiResponse<MemberResDTO.saveSuccessMember> createMember(
-            @RequestBody @Valid MemberReqDTO.saveMember dto){
-
-        BaseSuccessCode code = MemberSuccessCode.OK_2;
-        return ApiResponse.onSuccess(code, memberService.saveMember(dto));
-    }
-
 
     /***
      * 마이페이지
