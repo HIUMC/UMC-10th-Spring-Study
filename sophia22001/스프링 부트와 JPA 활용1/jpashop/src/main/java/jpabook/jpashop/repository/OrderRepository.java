@@ -30,7 +30,7 @@ public class OrderRepository {
     // 검색 기능
 
     // 1. JPQL로 처리
-    public List<Order> findAll(OrderSearch orderSearch) {
+    public List<Order> findAllByString(OrderSearch orderSearch) {
         //language=JPAQL
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
