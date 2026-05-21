@@ -1,4 +1,4 @@
-package japbook.japshop.domain.exception;
+package japbook.japshop.exception;
 
 public class NotEnoughStockException extends RuntimeException {
 

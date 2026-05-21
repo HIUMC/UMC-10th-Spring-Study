@@ -1,4 +1,4 @@
-package japbook.japshop.domain.item;
+package japbook.japshop.domain;
 
 public enum DeliveryStatus {
 

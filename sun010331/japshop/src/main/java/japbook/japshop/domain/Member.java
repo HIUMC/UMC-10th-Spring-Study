@@ -2,7 +2,6 @@ package japbook.japshop.domain;
 
 
 import jakarta.persistence.*;
-import japbook.japshop.domain.item.Address;
 import lombok.Getter;
 import lombok.Setter;
 
