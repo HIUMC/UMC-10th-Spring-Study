@@ -1,10 +1,8 @@
 package jpabook.jpashop.domain;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +12,14 @@ import java.util.List;
 public class Member {
 
     @Id @GeneratedValue
-    @Column (name = "member_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String name;
 
     @Embedded
-    private RabbitConnectionDetails.Address address;
+    private Address address;
 
-    @OneToMany (mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 }
