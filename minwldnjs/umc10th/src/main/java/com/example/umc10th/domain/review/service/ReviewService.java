@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 
 @Service
@@ -53,7 +52,6 @@ public class ReviewService {
         String nextCursor = null;
 
         if (sort.equals("star")) {
-            // 별점 순
             if (cursor == null || cursor.equals("-1")) {
                 slice = reviewRepository.findByMemberIdOrderByStar(memberId, pageRequest);
             } else {
@@ -62,13 +60,11 @@ public class ReviewService {
                 Long idCursor = Long.parseLong(parts[1]);
                 slice = reviewRepository.findByMemberIdOrderByStar(memberId, starCursor, idCursor, pageRequest);
             }
-            // 다음 커서 계산 (별점:ID)
             if (slice.hasNext()) {
                 Review last = slice.getContent().get(slice.getContent().size() - 1);
                 nextCursor = last.getStar() + ":" + last.getId();
             }
         } else {
-            // ID 순 (기본)
             if (cursor == null || cursor.equals("-1")) {
                 slice = reviewRepository.findByMemberIdOrderById(memberId, pageRequest);
             } else {
@@ -76,7 +72,6 @@ public class ReviewService {
                 Long idCursor = Long.parseLong(parts[1]);
                 slice = reviewRepository.findByMemberIdOrderById(memberId, idCursor, pageRequest);
             }
-            // 다음 커서 계산 (ID:ID)
             if (slice.hasNext()) {
                 Review last = slice.getContent().get(slice.getContent().size() - 1);
                 nextCursor = "id:" + last.getId();

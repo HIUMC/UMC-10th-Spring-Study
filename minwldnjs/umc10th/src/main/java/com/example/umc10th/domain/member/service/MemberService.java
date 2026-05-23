@@ -26,7 +26,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
-    private final PasswordEncoder passwordEncoder; // SecurityConfig에서 Bean으로 등록한 PasswordEncoder DI
+    private final PasswordEncoder passwordEncoder;
 
     // 회원가입 - BCrypt로 비밀번호 솔트 처리
     @Transactional
@@ -40,7 +40,7 @@ public class MemberService {
                 .socialUid("")
                 .socialType(SocialType.LOCAL)
                 .point(0)
-                .password(passwordEncoder.encode(request.getPassword())) // BCrypt 암호화
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         memberRepository.save(member);

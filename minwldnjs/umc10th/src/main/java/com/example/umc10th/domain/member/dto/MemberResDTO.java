@@ -13,7 +13,6 @@ public class MemberResDTO {
         private Integer point;
     }
 
-
     @Builder @Getter @NoArgsConstructor @AllArgsConstructor
     public static class OngoingMissionPageDTO {
         private List<OngoingMissionDTO> missions;
