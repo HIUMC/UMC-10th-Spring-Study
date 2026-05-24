@@ -40,9 +40,9 @@ public class MemberConverter {
                 .number(request.getNumber())
                 .nickname(request.getNickname())
                 .password(encodedPassword)
-                .point(0L)                 // 가입 시 기본 포인트 0
-                .completionCount(0L)       // 가입 시 기본 미션 완료 횟수 0
-                .socialLogin(SocialType.NONE) // 일반 로그인이므로 NONE으로 설정 (엔티티에 맞춰 임의 설정)
+                .point(0L)
+                .completionCount(0L)
+                .socialLogin(SocialType.NONE)
                 .build();
     }
 }

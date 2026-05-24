@@ -38,15 +38,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = authorization.replace("Bearer ", "");
 
         if (jwtUtil.isValid(token)) {
-            String email = jwtUtil.getEmail(token);
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+            Long memberId = jwtUtil.getMemberId(token);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken
-                    (
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
+            if (memberId == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            UserDetails userDetails = customUserDetailsService.loadUserByMemberId(memberId);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

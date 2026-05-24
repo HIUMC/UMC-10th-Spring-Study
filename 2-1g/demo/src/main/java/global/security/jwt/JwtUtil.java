@@ -23,7 +23,6 @@ public class JwtUtil {
     private final SecretKey secretKey;
     private final Duration accessExpiration;
 
-    // secretKey와 expiration.access로 토큰 생성
     public JwtUtil(
             @Value("${jwt.token.secretKey}") String secret,
             @Value("${jwt.token.expiration.access}") Long accessExpiration
@@ -32,7 +31,6 @@ public class JwtUtil {
         this.accessExpiration = Duration.ofMillis(accessExpiration);
     }
 
-    // 엑세스 토큰 생성
     public String createAccessToken(AuthMember member) {
         Instant now = Instant.now();
 
@@ -41,7 +39,7 @@ public class JwtUtil {
                 .collect(Collectors.joining(","));
 
         return Jwts.builder()
-                .subject(member.getUsername())
+                .subject(String.valueOf(member.getMemberId()))
                 .claim("role", authorities)
                 .claim("memberId", member.getMemberId())
                 .issuedAt(Date.from(now))
@@ -50,10 +48,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String getEmail(String token) {
+    public Long getMemberId(String token) {
         try {
-            return getClaims(token).getPayload().getSubject();
-        } catch (JwtException e) {
+            return Long.valueOf(getClaims(token).getPayload().getSubject());
+        } catch (JwtException | NumberFormatException e) {
             return null;
         }
     }

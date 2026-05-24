@@ -29,10 +29,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(oauth2User.getAttributes());
 
-        String email = kakaoUserInfo.getEmail();
-        String nickname = kakaoUserInfo.getNickname();
+        String socialId = kakaoUserInfo.getSocialId();
+        String nickname = truncate(kakaoUserInfo.getNickname(), 10);
 
-        Member member = memberRepository.findByEmail(email)
+        Member member = memberRepository.findBySocialLoginAndSocialId(SocialType.KAKAO, socialId)
                 .orElseGet(() -> memberRepository.save(
                         Member.builder()
                                 .name(nickname)
@@ -42,7 +42,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                 .point(0L)
                                 .agreement(true)
                                 .socialLogin(SocialType.KAKAO)
-                                .email(email)
+                                .socialId(socialId)
                                 .password(passwordEncoder.encode("OAUTH2_USER"))
                                 .number("010-0000-0000")
                                 .nickname(nickname)
@@ -53,10 +53,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return new DefaultOAuth2User(
                 List.of(() -> "ROLE_USER"),
                 Map.of(
-                        "email", member.getEmail(),
+                        "memberId", member.getId(),
+                        "socialId", socialId,
                         "nickname", member.getNickname()
                 ),
-                "email"
+                "socialId"
         );
+    }
+
+    private String truncate(String value, int maxLength) {
+        if (value == null) {
+            return "카카오회원";
+        }
+
+        return value.length() <= maxLength ? value : value.substring(0, maxLength);
     }
 }

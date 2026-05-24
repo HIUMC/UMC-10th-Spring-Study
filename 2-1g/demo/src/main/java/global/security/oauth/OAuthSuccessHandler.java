@@ -33,9 +33,9 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
             Authentication authentication
     ) throws IOException, ServletException {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-        String email = oauth2User.getAttribute("email");
+        Number memberId = oauth2User.getAttribute("memberId");
 
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+        UserDetails userDetails = customUserDetailsService.loadUserByMemberId(memberId.longValue());
         AuthMember authMember = (AuthMember) userDetails;
 
         String accessToken = jwtUtil.createAccessToken(authMember);

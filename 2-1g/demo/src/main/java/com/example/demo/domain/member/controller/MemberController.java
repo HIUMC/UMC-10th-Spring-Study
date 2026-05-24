@@ -40,8 +40,6 @@ public class MemberController {
         return ApiResponse.onSuccess(response);
     }
 
-    // 마이페이지 조회
-    // Member로 조회하는 것이 아닌 authMember를 통해 토큰에서 Id를 꺼내주기
     @GetMapping("/users/me")
     public ApiResponse<MemberResponseDTO.MeResultDTO> getHomeSummary(
             @AuthenticationPrincipal AuthMember authMember
