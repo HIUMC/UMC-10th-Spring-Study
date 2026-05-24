@@ -4,6 +4,7 @@ import global.security.CustomUserDetailsService;
 import global.security.jwt.JwtAuthFilter;
 import global.security.jwt.JwtUtil;
 import global.security.oauth.CustomOAuth2UserService;
+import global.security.oauth.OAuthFailureHandler;
 import global.security.oauth.OAuthSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuthSuccessHandler oauthSuccessHandler;
+    private final OAuthFailureHandler oauthFailureHandler;
 
     // 인증인가 과정 없이 호용할 URL
     private final String[] allowUris = {
@@ -37,7 +39,8 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/auth/**",
             "/oauth2/**",
-            "/login/oauth2/**"
+            "/login/oauth2/**",
+            "/login/**"
     };
     private final String[] publicAPI = {
             "/auth/**",
@@ -58,6 +61,7 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService)
                         )
                         .successHandler(oauthSuccessHandler)
+                        .failureHandler(oauthFailureHandler)
                 )
                 .csrf(AbstractHttpConfigurer::disable) // CSRF 공격 방어 비활성화
                 .authorizeHttpRequests(requests -> requests
