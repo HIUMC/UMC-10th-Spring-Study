@@ -2,10 +2,13 @@ package com.example.demo.domain.member.controller;
 
 import com.example.demo.domain.member.dto.MemberReqDTO;
 import com.example.demo.domain.member.dto.MemberResDTO;
+import com.example.demo.domain.member.entity.AuthMember;
 import com.example.demo.domain.member.exception.code.MemberSuccessCode;
 import com.example.demo.domain.member.service.MemberService;
 import com.example.demo.global.apiPayload.ApiResponse;
+import com.example.demo.global.apiPayload.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,10 +20,10 @@ public class MemberController {
 
     @GetMapping("/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
-            @RequestParam Long id
-    ) {
-        MemberReqDTO.GetInfo dto = new MemberReqDTO.GetInfo(id);
-        return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_FOUND, memberService.getInfo(dto));
+            @AuthenticationPrincipal AuthMember member
+            ) {
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_FOUND;
+        return ApiResponse.onSuccess(code, memberService.getInfo(member));
     }
 }
 

@@ -27,4 +27,15 @@ public class AuthController {
                 memberService.signup(request)
         );
     }
+
+    @PostMapping("/login")
+    public ApiResponse<MemberResDTO.LoginResponse> login(
+            @RequestBody MemberReqDTO.LoginRequest request
+    ) {
+        return ApiResponse.onSuccess(
+                // 성공 코드 변경 (필요시)
+                MemberSuccessCode.MEMBER_LOGIN_SUCCESS,
+                memberService.login(request)
+        );
+    }
 }

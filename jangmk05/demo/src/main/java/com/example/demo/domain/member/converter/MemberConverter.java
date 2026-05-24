@@ -17,8 +17,6 @@ public class MemberConverter {
                 member.getMemberFoodList(),
                 member.getMemberTermList()
         );
-
-
     }
 
     public static Member toEntity(MemberReqDTO.SignupRequest request, String encodedPassword) {
@@ -38,6 +36,13 @@ public class MemberConverter {
                 .id(member.getId())
                 .name(member.getName())
                 .email(member.getEmail())
+                .build();
+    }
+
+    public static MemberResDTO.LoginResponse toLoginResponse(Long memberId, String accessToken) {
+        return MemberResDTO.LoginResponse.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
                 .build();
     }
 }

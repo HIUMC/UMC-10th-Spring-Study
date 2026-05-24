@@ -29,4 +29,10 @@ public class MemberResDTO {
             String name,
             String email
     ) {}
+
+    @Builder
+    public record LoginResponse(
+            Long memberId,
+            String accessToken
+    ) {}
 }
