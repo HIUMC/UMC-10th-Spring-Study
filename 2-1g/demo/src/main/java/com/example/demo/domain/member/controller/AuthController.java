@@ -2,6 +2,7 @@ package com.example.demo.domain.member.controller;
 
 
 import com.example.demo.domain.member.dto.MemberRequestDTO;
+import com.example.demo.domain.member.dto.MemberResponseDTO;
 import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.service.MemberService;
 import global.apiPayload.ApiResponse;
@@ -18,6 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final MemberService memberService;
+
+    // 로그인
+    @PostMapping("/login")
+    public ApiResponse<MemberResponseDTO.LoginResultDTO> login(
+            @RequestBody @Valid MemberRequestDTO.LoginRequest request
+    ) {
+        MemberResponseDTO.LoginResultDTO response = memberService.login(request);
+        return ApiResponse.onSuccess(response);
+    }
 
     // 회원가입 API (POST /auth/signup)
     @PostMapping("/signup")
