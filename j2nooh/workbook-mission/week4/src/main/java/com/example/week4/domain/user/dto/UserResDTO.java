@@ -15,4 +15,12 @@ public class UserResDTO {
         private Boolean phoneVerified;
         private Integer userPoint;
     }
+
+    @Getter
+    @Builder
+    public static class SignUpResponse {
+        private Long userId;
+        private String name;
+        private String email;
+    }
 }
