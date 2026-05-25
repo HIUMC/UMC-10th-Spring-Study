@@ -24,6 +24,12 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private Gender gender;
@@ -41,18 +47,8 @@ public class User extends BaseEntity {
     @Column(name = "profile_url")
     private String profileUrl;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
     @Column(name = "phone_number")
     private String phoneNumber;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "social_provider", nullable = false, length = 20)
-    private SocialProvider socialProvider;
-
-    @Column(name = "social_id", nullable = false)
-    private String socialId;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;

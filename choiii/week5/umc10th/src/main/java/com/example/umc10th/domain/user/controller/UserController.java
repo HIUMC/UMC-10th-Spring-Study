@@ -19,11 +19,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
-    public ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreateRequest request) {
-        return ApiResponse.onSuccess(MemberSuccessCode.CREATED,
-                userService.createUser(request));
-    }
 
     @PostMapping("/me")
     public ApiResponse<UserResponse> getUser(

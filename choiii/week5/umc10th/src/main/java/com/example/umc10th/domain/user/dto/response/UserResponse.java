@@ -9,14 +9,13 @@ import java.time.LocalDateTime;
 public record UserResponse(
         Long userId,
         String name,
+        String email,
+
         Gender gender,
         LocalDate birthDate,
         Address address,
         Integer point,
         String profileUrl,
-        String email,
         String phoneNumber,
-        SocialProvider socialProvider,
-        String socialId,
         LocalDateTime createdAt
 ) {}
