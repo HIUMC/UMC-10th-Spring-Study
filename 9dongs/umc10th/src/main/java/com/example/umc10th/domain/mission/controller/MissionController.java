@@ -3,7 +3,6 @@ package com.example.umc10th.domain.mission.controller;
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
-import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
@@ -52,13 +51,14 @@ public class MissionController {
     // 미션 목록 조회 (오프셋 페이징)
     @GetMapping("/members/me/missions")
     public ApiResponse<MissionResDTO.Pagination<MissionResDTO.MyMissionDTO>> getMyMissions(
-            @RequestBody @jakarta.validation.Valid MissionReqDTO.MyMissionReq request,
+            @RequestParam(name = "memberId") Long memberId,
+            @RequestParam(name = "status") MemberMissionStatus status,
             @RequestParam(name = "page", defaultValue = "0") Integer page,
             @RequestParam(name = "size", defaultValue = "10") Integer size
     ) {
         MissionResDTO.Pagination<MissionResDTO.MyMissionDTO> result = missionService.getMyMissionsByOffset(
-                request.memberId(), 
-                MemberMissionStatus.IN_PROGRESS, 
+                memberId, 
+                status, 
                 page, 
                 size
         );

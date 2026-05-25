@@ -2,6 +2,8 @@ package com.example.umc10th.domain.member.controller;
 
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
@@ -20,7 +22,8 @@ public class MemberController {
     public ApiResponse<MemberResDTO.SignUpResultDTO> signUp(
             @RequestBody MemberReqDTO.SignUpDTO request
     ) {
-        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, null);
+        Member member = memberService.signUp(request);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, MemberConverter.toSignUpResultDTO(member));
     }
 
     // 마이페이지 조회
