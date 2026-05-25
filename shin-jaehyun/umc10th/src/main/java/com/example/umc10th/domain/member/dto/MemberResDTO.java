@@ -18,4 +18,10 @@ public class MemberResDTO {
         String phoneNumber,
         Long point
     ) {}
+
+    // 로그인
+    @Builder
+    public record GetAccessToken(
+        String accessToken
+    ) {}
 }

@@ -22,7 +22,12 @@ public enum MemberErrorCode implements BaseErrorCode {
             "USER404_1",
             "해당 유저를 찾을 수 없습니다"
     ),
-    ;
+    LOGIN_FAILED(HttpStatus.BAD_REQUEST,
+            "USER405_1",
+            "로그인 정보가 올바르지 않습니다."),
+    NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST,
+            "SOCIAL401",
+            "지원하지 않는 소셜 로그인 제공자입니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -18,4 +18,10 @@ public class MemberReqDTO {
             String phoneNumber,
             List<Long> foodCategoryIds
     ) {}
+
+    // 로그인
+    public record Login(
+        String email,
+        String password
+    ) {}
 }
