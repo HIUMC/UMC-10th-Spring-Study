@@ -36,4 +36,13 @@ public class MemberResponseDTO {
         private Long point;
         private Long completionCount;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class LoginResultDTO {
+        private Long memberId;
+        private String accessToken;
+        private String tokenType;
+    }
 }

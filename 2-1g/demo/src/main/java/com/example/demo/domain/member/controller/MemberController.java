@@ -7,8 +7,10 @@ import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.service.MemberService;
 import com.example.demo.domain.store.entity.Region;
 import global.apiPayload.ApiResponse;
+import global.security.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +24,6 @@ import java.time.LocalDateTime;
 @RequestMapping
 @RequiredArgsConstructor
 public class MemberController {
-    // 이번 주차는 Service/Repository 이전 단계라서 명세 확인용 샘플 응답을 바로 반환하도록 구성했다.
 
     private final MemberService memberService;
 
@@ -41,9 +42,9 @@ public class MemberController {
 
     @GetMapping("/users/me")
     public ApiResponse<MemberResponseDTO.MeResultDTO> getHomeSummary(
-            @ModelAttribute MemberRequestDTO.MeRequest request
+            @AuthenticationPrincipal AuthMember authMember
     ) {
-        Member member = memberService.getMemberProfile(request.getMemberId());
+        Member member = memberService.getMemberProfile(authMember.getMemberId());
 
         MemberResponseDTO.MeResultDTO response = MemberConverter.toHomeSummaryResultDTO(member);
 
