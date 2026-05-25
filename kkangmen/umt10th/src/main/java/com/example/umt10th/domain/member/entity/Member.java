@@ -6,6 +6,7 @@ import com.example.umt10th.domain.member.enums.SocialType;
 import com.example.umt10th.global.baseEntity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
 
@@ -40,19 +41,23 @@ public class Member extends BaseEntity {
     @Column(name = "detail_address", nullable = false)
     private String detailAddress;
 
-    @Column(name = "social_uid", nullable = false)
+    @Column(name = "social_uid")
     private String socialUid;
 
-    @Column(name = "social_type", nullable = false)
+    @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
-    private SocialType socialType;
+    @Builder.Default
+    private SocialType socialType = SocialType.NONE;
 
-    @Column(name = "point", nullable = false)
-    private Integer point;
+    @Column(name = "point")
+    private Integer point = 0;
 
     @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "phone_number", length = 11)
     private String phoneNumber;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 }

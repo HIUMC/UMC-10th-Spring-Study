@@ -43,7 +43,10 @@ public class MemberReqDTO {
             String email,
 
             @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "올바른 전화번호 형식이 아닙니다. (예: 010-1111-1111")
-            String phoneNumber
+            String phoneNumber,
+
+            @NotBlank(message = "비밀번호를 입력해주세요")
+            String password
     ){
         public saveMember {
             if (point == null){

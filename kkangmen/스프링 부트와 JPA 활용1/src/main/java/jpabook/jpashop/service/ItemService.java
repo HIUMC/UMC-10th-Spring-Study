@@ -27,4 +27,12 @@ public class ItemService {
     public Item findOne(Long itemId){
         return itemRepository.findOne(itemId);
     }
+
+    /***
+     * 영속성 컨텍스트가 TX이 커밋될 때 DirtyChecking을 통해 DB 업데이트
+     */
+    public void updateItem(Long itemId, String name) {
+        Item item = itemRepository.findOne(itemId); // 영속 상태인 객체를 꺼낸다.
+        item.setName(name);
+    }
 }
