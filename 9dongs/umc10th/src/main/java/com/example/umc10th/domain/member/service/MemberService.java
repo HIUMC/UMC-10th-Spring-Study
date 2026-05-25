@@ -4,6 +4,8 @@ import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,7 @@ public class MemberService {
     @Transactional
     public Member signUp(MemberReqDTO.SignUpDTO request) {
         if (memberRepository.findByEmail(request.email()).isPresent()) {
-            throw new RuntimeException("이미 존재하는 이메일입니다.");
+            throw new MemberException(MemberErrorCode.DUPLICATE_EMAIL);
         }
 
         // 비밀번호 암호화 (BCrypt)
