@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.member.entity;
+ package com.example.umc10th.domain.member.entity;
 
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.SocialType;
@@ -30,6 +30,9 @@ public class Member extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "nickname")
+    private String nickname;
+
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default
@@ -45,10 +48,10 @@ public class Member extends BaseEntity {
     @Column(name = "detail_address", nullable = false)
     private String detailAddress;
 
-    @Column(name = "social_uid", nullable = false)
+    @Column(name = "social_uid")
     private String social_uid;
 
-    @Column(name = "social_type", nullable = false)
+    @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
     private SocialType social_type;
 
@@ -59,10 +62,13 @@ public class Member extends BaseEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "phone_number")
     private String phone_number;
 
-    @Column(name = "profile_url", nullable = false)
+    @Column(name = "profile_url")
     private String profile_url;
 
 }

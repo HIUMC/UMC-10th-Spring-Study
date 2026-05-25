@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     //회원 가입
     @Transactional
@@ -26,7 +26,7 @@ public class MemberService {
 
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByName(member.getName());
-        if (findMembers.isEmpty()) {
+        if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
 
