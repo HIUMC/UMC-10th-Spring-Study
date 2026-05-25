@@ -34,7 +34,9 @@ public class MissionResDTO {
     public record Pagination<T>(
             List<T> data,
             Integer pageNumber,
-            Integer pageSize
+            Integer pageSize,
+            Integer totalPages,
+            Long totalElements
     ) {
     }
 }

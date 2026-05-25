@@ -5,7 +5,6 @@ import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 
 public class MemberMissionConverter {
@@ -42,12 +41,16 @@ public class MemberMissionConverter {
     public static <T> MissionResDTO.Pagination<T> toPagination(
             List<T> data,
             Integer pageNumber,
-            Integer pageSize
+            Integer pageSize,
+            Integer totalPages,
+            Long totalElements
     ) {
         return MissionResDTO.Pagination.<T>builder()
                 .data(data)
                 .pageNumber(pageNumber)
                 .pageSize(pageSize)
+                .totalPages(totalPages)
+                .totalElements(totalElements)
                 .build();
     }
 }

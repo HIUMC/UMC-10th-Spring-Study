@@ -9,13 +9,10 @@ import com.example.umc10th.domain.mission.dto.MissionReqDTO.Status;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
-import com.example.umc10th.domain.mission.exception.MemberMissionException;
-import com.example.umc10th.domain.mission.exception.code.MemberMissionErrorCode;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,7 +34,9 @@ public class MemberMissionService {
         return MemberMissionConverter.toPagination(
                 memberMissionPage.map(MemberMissionConverter::toInfo).toList(),
                 memberMissionPage.getNumber(),
-                memberMissionPage.getSize()
+                memberMissionPage.getSize(),
+                memberMissionPage.getTotalPages(),
+                memberMissionPage.getTotalElements()
         );
     }
 

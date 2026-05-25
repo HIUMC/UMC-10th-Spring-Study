@@ -63,8 +63,11 @@ public class Member extends BaseEntity {
     @Builder.Default
     private long point = 0;
 
-    @Column(name = "email", length = 50)
+    @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
+
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
 
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
