@@ -6,47 +6,45 @@ import com.example.umc10th.domain.member.enums.MemberSuccessCode;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
+@Tag(name = "멤버 관리")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/auth/sign-up")
-    public ApiResponse<MemberResDTO.SignUpRes> signUp(@RequestBody MemberReqDTO.SignUp dto) {
-        BaseSuccessCode code = MemberSuccessCode.MEMBER_CREATED;
-        return ApiResponse.onSuccess(code, memberService.signUp(dto));
-    }
-
     // 마이페이지 조회
-    @GetMapping("/members/me")
+    @GetMapping("/v2/members/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
-            @RequestParam Long id // 로그인 기능이 없어서 임시로 id로 조회
-    ) {
+            @AuthenticationPrincipal AuthMember member
+            ) {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_GET;
-        return ApiResponse.onSuccess(code, memberService.getInfo(new MemberReqDTO.GetInfo(id)));
+        return ApiResponse.onSuccess(code, memberService.getInfo(member));
     }
 
     // 유저 수정
-    @PutMapping("/members/me")
+    @PutMapping("/v2/members/me")
     public ApiResponse<MemberResDTO.UpdateInfo> updateInfo(
-            @RequestBody MemberReqDTO.UpdateInfo dto
+            @AuthenticationPrincipal AuthMember member
     ) {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_UPDATE;
-        return ApiResponse.onSuccess(code, memberService.updateInfo(dto));
+        return ApiResponse.onSuccess(code, memberService.updateInfo(member));
     }
 
     // 내 포인트 조회
-    @GetMapping("/members/me/points")
+    @GetMapping("/v2/members/me/points")
     public ApiResponse<MemberResDTO.GetPoint> getPoint(
-            @RequestParam Long id
+            @AuthenticationPrincipal AuthMember member
     ) {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_GET_POINT;
-        return ApiResponse.onSuccess(code, memberService.getPoint(new MemberReqDTO.GetPoint(id)));
+        return ApiResponse.onSuccess(code, memberService.getPoint(member));
     }
 
 }
