@@ -7,7 +7,9 @@ import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,9 +30,8 @@ public class MemberController {
 
     // 마이페이지 조회
     @GetMapping("/members/me")
-    public ApiResponse<MemberResDTO.MyPageDTO> getMyPage() {
-        Long memberId = 1L; // 임시 하드코딩
-        MemberResDTO.MyPageDTO result = memberService.getMyPage(memberId);
+    public ApiResponse<MemberResDTO.MyPageDTO> getMyPage(@AuthenticationPrincipal AuthMember member) {
+        MemberResDTO.MyPageDTO result = memberService.getMyPage(member);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 

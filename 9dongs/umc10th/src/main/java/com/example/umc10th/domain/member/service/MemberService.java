@@ -8,6 +8,7 @@ import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.repository.PointRepository;
+import com.example.umc10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,10 +38,8 @@ public class MemberService {
         return memberRepository.save(newMember);
     }
 
-    public MemberResDTO.MyPageDTO getMyPage(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
-        Integer totalPoint = pointRepository.sumPointChangeByMemberId(memberId).orElse(0);
-
-        return MemberConverter.toMyPageDTO(member, totalPoint);
+    public MemberResDTO.MyPageDTO getMyPage(AuthMember member) {
+        Integer totalPoint = pointRepository.sumPointChangeByMemberId(member.getMember().getId()).orElse(0);
+        return MemberConverter.toMyPageDTO(member.getMember(), totalPoint);
     }
 }
