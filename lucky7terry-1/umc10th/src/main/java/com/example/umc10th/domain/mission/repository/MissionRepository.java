@@ -25,7 +25,7 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
     List<Mission> findAllByRegionId(Long regionId, Long cursor, Pageable pageable);
 
 
-    Slice<Mission> findMissionByStore_IdAndIdLessThanOrderByIdDesc(Long storeId, long idCursor, long prevCursor);
+    Slice<Mission> findMissionByStore_IdAndIdLessThanOrderByIdDesc(Long storeId, long idCursor, long prevCursor, PageRequest pageRequest);
 
 
     Slice<Mission> findMissionByStore_IdOrderByIdDesc(Long storeId, PageRequest pageRequest);

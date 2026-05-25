@@ -11,6 +11,9 @@ import java.util.Optional;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByIdAndDeletedAtIsNull(Long id);
 
-    @Query("SELECT m FROM Member m WHERE m.name = :nmae AND m.deletedAt is null")
+    @Query("SELECT m FROM Member m WHERE m.name = :name AND m.deletedAt is null")
     Optional<Member> findActiveMember(String name);
+
+    @Query("select m from Member m where m.email = :username")
+    Optional<Member> findByEmail(String username);
 }
