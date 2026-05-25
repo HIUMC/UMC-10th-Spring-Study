@@ -1,10 +1,10 @@
 package com.example.demo.domain.member.dto;
 
-import com.example.demo.domain.member.entity.Food;
+import com.example.demo.domain.member.entity.Term;
 import com.example.demo.domain.member.entity.mapping.MemberFood;
 import com.example.demo.domain.member.entity.mapping.MemberTerm;
-import com.example.demo.domain.member.enums.Gender;
 import com.example.demo.domain.member.enums.FoodName;
+import com.example.demo.domain.member.enums.Gender;
 import com.example.demo.domain.mission.enums.Address;
 
 import java.time.LocalDate;
@@ -16,14 +16,29 @@ public class MemberReqDTO {
             Long id
     ) {}
 
+    public record AgreeRequest(
+            Boolean age,
+            Boolean service,
+            Boolean privacy,
+            Boolean location,
+            Boolean marketing
+    ) {}
+
     public record SignupRequest(
+            AgreeRequest agree,
             String name,
             Gender gender,
             LocalDate birth,
             Address address,
-            List<MemberFood> memberFoodList,
-            List<MemberTerm> memberTermList
-    ){}
+            String detailAddress,
+            List<FoodName> foodList,
+            String email,
+            String password
+    ) {}
 
+    public record LoginRequest(
+            String email,
+            String password
+    ) {}
 
 }

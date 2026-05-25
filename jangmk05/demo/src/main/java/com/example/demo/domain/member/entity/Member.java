@@ -3,7 +3,6 @@ package com.example.demo.domain.member.entity;
 import com.example.demo.domain.member.entity.mapping.MemberFood;
 import com.example.demo.domain.member.entity.mapping.MemberTerm;
 import com.example.demo.domain.member.enums.Gender;
-import com.example.demo.domain.member.enums.FoodName;
 import com.example.demo.domain.member.enums.SocialType;
 import com.example.demo.domain.mission.enums.Address;
 import com.example.demo.global.BaseEntity;
@@ -13,7 +12,6 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Entity
@@ -24,7 +22,7 @@ import java.util.Set;
 public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -40,7 +38,7 @@ public class Member extends BaseEntity {
     @Column(name = "address")
     private Address address;
 
-    @Column(name = "detailAddress")
+    @Column(name = "detail_address")
     private String detailAddress;
 
     @Column(name = "social_uid")
@@ -49,6 +47,12 @@ public class Member extends BaseEntity {
     @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(mappedBy = "member")
     private List<MemberFood> memberFoodList = new ArrayList<>();

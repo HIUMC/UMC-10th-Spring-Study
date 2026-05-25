@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     boolean existsByMemberAndMission(Member member, Mission mission);
-    Slice<Review> findByStore_IdOrderByIdDesc(Long storeId, Pageable pageable);
+    Slice<Review> findByMission_Store_IdOrderByIdDesc(Long storeId, Pageable pageable);
 
-    Slice<Review> findByStore_IdAndIdLessThanOrderByIdDesc(Long storeId, Long idCursor, Pageable pageable);
+    Slice<Review> findByMission_Store_IdAndIdLessThanOrderByIdDesc(Long storeId, Long idCursor, Pageable pageable);
 }

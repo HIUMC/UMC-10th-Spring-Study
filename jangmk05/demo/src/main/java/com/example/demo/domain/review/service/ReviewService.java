@@ -19,14 +19,10 @@ import com.example.demo.domain.review.exception.ReviewException;
 import com.example.demo.domain.review.exception.code.ReviewErrorCode;
 import com.example.demo.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +64,6 @@ public class ReviewService {
 
         PageRequest pageRequest = PageRequest.of(0, pageSize);
 
-        long idCursor;
         Slice<Review> reviewList;
         String nextCursor;
 
@@ -77,18 +72,22 @@ public class ReviewService {
 
             switch (query.toLowerCase()) {
                 case "id":
-                    idCursor = Long.parseLong(split[0]);
+                    long idCursor = Long.parseLong(split[0]);
 
                     reviewList = reviewRepository
-                            .findByStore_IdAndIdLessThanOrderByIdDesc(storeId, idCursor, pageRequest);
+                            .findByMission_Store_IdAndIdLessThanOrderByIdDesc(
+                                    storeId,
+                                    idCursor,
+                                    pageRequest
+                            );
                     break;
 
                 default:
-                    throw new ReviewException(ReviewErrorCode.REVIEW_FORBIDDEN);
+                    throw new ReviewException(ReviewErrorCode.REVIEW_CURSOR_INVALID);
             }
         } else {
             reviewList = reviewRepository
-                    .findByStore_IdOrderByIdDesc(storeId, pageRequest);
+                    .findByMission_Store_IdOrderByIdDesc(storeId, pageRequest);
         }
 
         if (reviewList.isEmpty()) {
@@ -112,8 +111,7 @@ public class ReviewService {
                 reviewList.map(ReviewConverter::toGetReview).toList(),
                 reviewList.hasNext(),
                 nextCursor,
-                reviewList.getSize()
+                reviewList.getNumberOfElements()
         );
-
     }
 }

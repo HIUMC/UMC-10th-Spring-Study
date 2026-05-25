@@ -22,4 +22,17 @@ public class MemberResDTO {
             List<MemberFood> memberFoodList,
             List<MemberTerm> memberTermList
     ){}
+
+    @Builder
+    public record SignupResponse(
+            Long id,
+            String name,
+            String email
+    ) {}
+
+    @Builder
+    public record LoginResponse(
+            Long memberId,
+            String accessToken
+    ) {}
 }

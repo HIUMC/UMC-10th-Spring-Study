@@ -2,6 +2,7 @@ package com.example.demo.domain.member.entity.mapping;
 
 import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.entity.Term;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class MemberTerm {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonIgnore
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)

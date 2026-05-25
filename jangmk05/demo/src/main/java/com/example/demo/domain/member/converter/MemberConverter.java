@@ -4,11 +4,6 @@ import com.example.demo.domain.member.dto.MemberReqDTO;
 import com.example.demo.domain.member.dto.MemberResDTO;
 import com.example.demo.domain.member.entity.Member;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 public class MemberConverter {
 
     // 마이 페이지
@@ -22,19 +17,32 @@ public class MemberConverter {
                 member.getMemberFoodList(),
                 member.getMemberTermList()
         );
-
-
     }
 
-    public static Member toEntity(MemberReqDTO.SignupRequest req) {
+    public static Member toEntity(MemberReqDTO.SignupRequest request, String encodedPassword) {
         return Member.builder()
-                .name(req.name())
-                .gender(req.gender())
-                .birth(req.birth())
-                .address(req.address())
-                .memberFoodList(req.memberFoodList())
-                .memberTermList(req.memberTermList())
+                .name(request.name())
+                .gender(request.gender())
+                .birth(request.birth())
+                .address(request.address())
+                .detailAddress(request.detailAddress())
+                .email(request.email())
+                .password(encodedPassword)
                 .build();
+    }
 
+    public static MemberResDTO.SignupResponse toSignupResponse(Member member) {
+        return MemberResDTO.SignupResponse.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .build();
+    }
+
+    public static MemberResDTO.LoginResponse toLoginResponse(Long memberId, String accessToken) {
+        return MemberResDTO.LoginResponse.builder()
+                .memberId(memberId)
+                .accessToken(accessToken)
+                .build();
     }
 }

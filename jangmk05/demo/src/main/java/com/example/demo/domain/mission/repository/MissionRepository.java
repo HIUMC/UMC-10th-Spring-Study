@@ -26,8 +26,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             Pageable pageable
     );
 
-    Page<Mission> findAllByStore_Id(Long storeId);
-
     Slice<Mission> findMissionsByStore_IdAndIdLessThanOrderByIdDesc(Long storeId, long idCursor, PageRequest pageRequest);
 
     Slice<Mission> findMissionByStore_IdOrderByIdDesc(Long storeId, PageRequest pageRequest);
