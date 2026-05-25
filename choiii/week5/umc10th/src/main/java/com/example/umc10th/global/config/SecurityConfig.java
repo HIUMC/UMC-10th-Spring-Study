@@ -2,6 +2,12 @@ package com.example.umc10th.global.config;
 
 import com.example.umc10th.global.security.exception.CustomAccessDenied;
 import com.example.umc10th.global.security.exception.CustomEntryPoint;
+import com.example.umc10th.global.security.filter.JwtAuthFilter;
+import com.example.umc10th.global.security.handler.OAuthSuccessHandler;
+import com.example.umc10th.global.security.service.CustomOAuthService;
+import com.example.umc10th.global.security.service.CustomUserDetailsService;
+import com.example.umc10th.global.security.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,17 +16,26 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailService;
+    private final CustomOAuthService customOAuthService;
+//    private final OAuthSuccessHandler oAuthSuccessHandler;
 
     private final String[] allowUris = {
             // Swagger 허용
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/api/auth/**"
+            "/api/auth/**",
+            "/oauth/authorize/**",
+            "/oauth/callback/**"
     };
 
     private final String[] publicAPI = {
@@ -40,6 +55,22 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .defaultSuccessUrl("/swagger-ui/index.html", true)
                         .permitAll()
+                )
+                // 세션
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                // JWT 필터
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth -> oauth
+                        .authorizationEndpoint(auth -> auth
+                                .baseUri("/oauth/authorize")
+                        )
+                        .redirectionEndpoint(redirect -> redirect
+                                .baseUri("/oauth/callback/**")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuthService)
+                        )
+                        .successHandler(new OAuthSuccessHandler(jwtUtil))
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -69,4 +100,15 @@ public class SecurityConfig {
     public CustomEntryPoint customEntryPoint() {
         return new CustomEntryPoint();
     }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtUtil, customUserDetailService);
+    }
+
+//    @Bean
+//    public OAuthSuccessHandler oAuthSuccessHandler() {  // 추가
+//        return new OAuthSuccessHandler(jwtUtil);
+//    }
+
 }

@@ -3,6 +3,7 @@ package com.example.umc10th.domain.user.converter;
 import com.example.umc10th.domain.user.dto.request.UserCreateRequest;
 import com.example.umc10th.domain.user.dto.response.UserResponse;
 import com.example.umc10th.domain.user.entity.User;
+import com.example.umc10th.global.security.entity.AuthMember;
 
 public class UserConverter {
 
@@ -28,5 +29,9 @@ public class UserConverter {
                 user.getPoint(), user.getProfileUrl(), user.getPhoneNumber(),
                   user.getCreatedAt()
         );
+    }
+
+    public static UserResponse.Login toLoginResponse(String accessToken) {
+        return new UserResponse.Login(accessToken);
     }
 }

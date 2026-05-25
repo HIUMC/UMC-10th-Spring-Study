@@ -2,7 +2,6 @@ package com.example.umc10th.domain.user.dto.response;
 
 import com.example.umc10th.domain.common.enums.Address;
 import com.example.umc10th.domain.common.enums.Gender;
-import com.example.umc10th.domain.common.enums.SocialProvider;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -18,4 +17,7 @@ public record UserResponse(
         String profileUrl,
         String phoneNumber,
         LocalDateTime createdAt
-) {}
+) {
+    // 추가
+    public record Login(String accessToken) {}
+}
