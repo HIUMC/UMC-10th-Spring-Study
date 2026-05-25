@@ -3,11 +3,13 @@ package com.example.week4.domain.user.controller;
 import com.example.week4.domain.user.dto.UserReqDTO;
 import com.example.week4.domain.user.dto.UserResDTO;
 import com.example.week4.domain.user.exception.code.UserSuccessCode;
+import com.example.week4.domain.user.security.AuthUserDetails;
 import com.example.week4.domain.user.service.UserService;
 import com.example.week4.global.apiPayload.ApiResponse;
 import com.example.week4.global.apiPayload.code.BaseSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,14 +19,13 @@ public class UserController {
 
     private final UserService userService;
 
-    // 마이페이지 조회
+    // 마이페이지 조회 - JWT 토큰 기반
     @GetMapping("/v1/users/me")
     public ApiResponse<UserResDTO.MyPageResponse> getMyPage(
-            @RequestParam Long userId
+            @AuthenticationPrincipal AuthUserDetails authUserDetails
     ) {
         BaseSuccessCode code = UserSuccessCode.GET_MY_PAGE;
-        UserReqDTO.MyPageRequest dto = new UserReqDTO.MyPageRequest(userId);
-        UserResDTO.MyPageResponse response = userService.getMyPage(dto);
+        UserResDTO.MyPageResponse response = userService.getMyPage(authUserDetails.getUser());
         return ApiResponse.onSuccess(code, response);
     }
 
@@ -37,4 +38,5 @@ public class UserController {
         UserResDTO.MyPageResponse response = userService.updateMyPage(dto);
         return ApiResponse.onSuccess(code, response);
     }
+
 }

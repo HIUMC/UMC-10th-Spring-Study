@@ -23,4 +23,10 @@ public class UserResDTO {
         private String name;
         private String email;
     }
+
+    @Getter
+    @Builder
+    public static class LoginResponse {
+        private String accessToken;
+    }
 }
