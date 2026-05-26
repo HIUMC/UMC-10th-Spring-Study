@@ -2,11 +2,15 @@ package com.example.umc10th.domain.member.controller;
 
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +29,15 @@ public class MemberController {
         return ApiResponse.onSuccess(response);
     }
 
+    /* ───────────── 로그인 POST /auth/login ───────────── */
+    @PostMapping("/auth/login")
+    public ApiResponse<MemberResDTO.Login> login(
+            @Valid @RequestBody MemberReqDTO.LoginReqDTO request) {
+
+        MemberResDTO.Login response = memberService.login(request);
+        return ApiResponse.onSuccess(response);
+    }
+
     /* ───────────── 회원탈퇴 DELETE /users/me ───────────── */
     // Authorization: Bearer <token> → Security 필터에서 인증 처리
     @DeleteMapping("/users/me")
@@ -33,12 +46,12 @@ public class MemberController {
         return ApiResponse.onSuccess(null);
     }
 
-    /* ───────────── 내 정보 조회 GET /api/users/me?memberId= ───────────── */
+    /* ───────────── 내 정보 조회 GET /api/users/me ───────────── */
     @GetMapping("/api/users/me")
-    public ApiResponse<MemberResDTO.MyInfoResDTO> getMyInfo(
-            @RequestParam Long memberId) {
-        MemberResDTO.MyInfoResDTO response = memberService.getMyInfo(memberId);
-        return ApiResponse.onSuccess(response);
+    public ApiResponse<MemberResDTO.GetInfo> getInfo(
+            @AuthenticationPrincipal AuthMember authMember) {
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_FOUND;
+        return ApiResponse.onSuccess(code, memberService.getInfo(authMember));
     }
 
     /* ───────────── 1:1 문의 POST /api/users/qna ───────────── */

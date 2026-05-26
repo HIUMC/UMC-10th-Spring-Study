@@ -63,7 +63,7 @@ public class ReviewService {
 
         if ("star".equals(sort)) {
             if (cursor == null) {
-                slice = reviewRepository.findByMemberIdOrderByStarDesc(memberId, pageable);
+                slice = reviewRepository.findByMember_IdOrderByStarDescIdDesc(memberId, pageable);
             } else {
                 String[] parts = cursor.split("_");
                 BigDecimal star = new BigDecimal(parts[0]);

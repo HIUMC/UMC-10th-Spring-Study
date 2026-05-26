@@ -6,6 +6,14 @@ import lombok.Getter;
 
 public class MemberResDTO {
 
+    /* ───────────── 로그인 ───────────── */
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class Login {
+        private String accessToken;
+    }
+
     /* ───────────── 회원가입 ───────────── */
     @Getter
     @Builder
@@ -20,7 +28,7 @@ public class MemberResDTO {
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class MyInfoResDTO {
+    public static class GetInfo {
         private Long memberId;
         private String userId;
         private String name;

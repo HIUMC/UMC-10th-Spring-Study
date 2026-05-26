@@ -7,6 +7,8 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.*;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class MemberService {
     private final TermRepository termRepository;
     private final FoodRepository foodRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     /* 회원 가입 */
     @Transactional
@@ -36,17 +39,33 @@ public class MemberService {
         return MemberConverter.toSignupResDTO(memberRepository.save(member));
     }
 
+    /* 로그인 */
+    public MemberResDTO.Login login(MemberReqDTO.LoginReqDTO request) {
+        Member member = memberRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.LOGIN_FAILED));
+
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.LOGIN_FAILED);
+        }
+
+        String accessToken = jwtUtil.createAccessToken(new AuthMember(member));
+        return MemberConverter.toLogin(accessToken);
+    }
+
     /* 회원 탈퇴 */
     @Transactional
     public void withdraw() {
     }
 
     /* 내 정보 조회 */
-    public MemberResDTO.MyInfoResDTO getMyInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-        return MemberConverter.toMyInfoResDTO(member);
+    public MemberResDTO.GetInfo getInfo(
+            AuthMember member
+        ) {
+            // 컨버터를 이용해서 응답 DTO 생성 & 리턴
+            return MemberConverter.toGetInfo(member.getMember());
     }
+
+
 
     /* 문의사항 작성 */
     @Transactional

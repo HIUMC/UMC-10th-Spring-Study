@@ -26,4 +26,28 @@ public class ReviewConverter {
                 .photoUrl(null)
                 .build();
     }
+
+    public static ReviewResDTO.GetReview toGetReview(Review review) {
+        return ReviewResDTO.GetReview.builder()
+                .reviewId(review.getId())
+                .storeName(review.getStore().getName())
+                .star(review.getStar())
+                .content(review.getContent())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    public static ReviewResDTO.ReviewPagination toReviewPagination(
+            java.util.List<ReviewResDTO.GetReview> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ) {
+        return ReviewResDTO.ReviewPagination.builder()
+                .data(data)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .pageSize(pageSize)
+                .build();
+    }
 }
