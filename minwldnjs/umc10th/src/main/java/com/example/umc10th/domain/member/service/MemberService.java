@@ -9,6 +9,8 @@ import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.mapping.MemberMission;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,8 +29,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    // 회원가입 - BCrypt로 비밀번호 솔트 처리
     @Transactional
     public void join(MemberReqDTO.JoinDTO request) {
         Member member = Member.builder()
@@ -46,10 +48,23 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public MemberResDTO.MyPageDTO getMyPage(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    @Transactional
+    public MemberResDTO.Login login(MemberReqDTO.LoginDTO request) {
+        Member member = memberRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
 
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String accessToken = jwtUtil.createAccessToken(new AuthMember(member));
+        return MemberResDTO.Login.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public MemberResDTO.MyPageDTO getMyPage(AuthMember authMember) {
+        Member member = authMember.getMember();
         return MemberResDTO.MyPageDTO.builder()
                 .name(member.getName())
                 .email(member.getEmail())

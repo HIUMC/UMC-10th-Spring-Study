@@ -5,8 +5,10 @@ import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,10 +24,16 @@ public class MemberController {
         return ApiResponse.onSuccess("회원가입 성공");
     }
 
-    // Private API - 마이페이지
-    @GetMapping("/api/users/{memberId}")
-    public ApiResponse<MemberResDTO.MyPageDTO> getMyPage(@PathVariable Long memberId) {
-        return ApiResponse.onSuccess(memberService.getMyPage(memberId));
+    // Public API - 로그인
+    @PostMapping("/auth/sign-in")
+    public ApiResponse<MemberResDTO.Login> login(@RequestBody @Valid MemberReqDTO.LoginDTO request) {
+        return ApiResponse.onSuccess(memberService.login(request));
+    }
+
+    // Private API - 마이페이지 (JWT 토큰에서 인증 객체 추출)
+    @GetMapping("/api/users/me")
+    public ApiResponse<MemberResDTO.MyPageDTO> getMyPage(@AuthenticationPrincipal AuthMember authMember) {
+        return ApiResponse.onSuccess(memberService.getMyPage(authMember));
     }
 
     // Private API - 내 미션 목록 조회

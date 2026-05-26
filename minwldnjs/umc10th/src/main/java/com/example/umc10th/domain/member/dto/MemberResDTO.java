@@ -29,4 +29,9 @@ public class MemberResDTO {
         private Integer point;
         private String missionContent;
     }
+
+    @Builder @Getter @NoArgsConstructor @AllArgsConstructor
+    public static class Login {
+        private String accessToken;
+    }
 }
