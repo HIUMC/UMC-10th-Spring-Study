@@ -1,12 +1,13 @@
 package com.example.umc10th.global.security.filter;
 
+import com.example.umc10th.domain.member.enums.SocialType;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc10th.global.security.service.CustomUserDetailsService;
 import com.example.umc10th.global.security.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.io.IOException;
+import java.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             // 토큰 가져오기
             String token = request.getHeader("Authorization");
+
             // token이 없거나 Bearer가 아니면 넘기기
             if (token == null || !token.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
@@ -44,10 +46,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             token = token.replace("Bearer ", "");
             // AccessToken 검증하기: 올바른 토큰이면
             if (jwtUtil.isValid(token)) {
-                // 토큰에서 이메일 추출
-                String email = jwtUtil.getEmail(token);
-                // 인증 객체 생성: 이메일로 찾아온 뒤, 인증 객체 생성
-                UserDetails user = customUserDetailsService.loadUserByUsername(email);
+                // JWT 토큰에서 유저 정보 조회 : UID와 소셜 로그인 타입 가져오기
+                String uid = jwtUtil.getUid(token);
+                SocialType socialType = jwtUtil.getSocialType(token);
+                // 인증 객체 생성: 로그인 타입과 UID로 찾아온 뒤, 인증 객체 생성
+                UserDetails user = customUserDetailsService.loadUserByUidAndSocialType(uid, socialType);
                 Authentication auth = new UsernamePasswordAuthenticationToken(
                         user,
                         null,
@@ -58,6 +61,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
+            e.printStackTrace();
             ObjectMapper mapper = new ObjectMapper();
             BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
 
@@ -69,4 +73,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             mapper.writeValue(response.getOutputStream(), errorResponse);
         }
     }
+
+
 }
