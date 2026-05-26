@@ -26,7 +26,19 @@ public class MemberController {
             @RequestBody MemberReqDTO.SignUpDTO request
     ) {
         Member member = memberService.signUp(request);
-        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, MemberConverter.toSignUpResultDTO(member));
+        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, MemberConverter.toSignUpResultDTO(member));
+    }
+
+    // 로그인
+    @PostMapping("/auth/login")
+    public ApiResponse<MemberResDTO.LoginResultDTO> login(
+            @RequestBody MemberReqDTO.LoginDTO request
+    ) {
+        String accessToken = memberService.login(request);
+        return ApiResponse.onSuccess(
+                MemberSuccessCode.OK,
+                MemberConverter.toLoginResultDTO(accessToken)
+        );
     }
 
     // 마이페이지 조회

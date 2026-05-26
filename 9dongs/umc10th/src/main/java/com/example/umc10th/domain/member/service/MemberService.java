@@ -9,6 +9,7 @@ import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.repository.PointRepository;
 import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PointRepository pointRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public Member signUp(MemberReqDTO.SignUpDTO request) {
@@ -42,4 +44,17 @@ public class MemberService {
         Integer totalPoint = pointRepository.sumPointChangeByMemberId(member.getMember().getId()).orElse(0);
         return MemberConverter.toMyPageDTO(member.getMember(), totalPoint);
     }
-}
+
+    // 일반 로그인
+    public String login(MemberReqDTO.LoginDTO request) {
+        // 이메일로 유저 조회
+        Member member = memberRepository.findByEmail(request.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(request.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.UNAUTHORIZED);
+        }
+
+        return jwtUtil.createAccessToken(new AuthMember(member));
+    }}

@@ -33,6 +33,7 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
             "/auth/**",
+            "/api/auth/**",
             "/oauth/**"
     };
 
@@ -75,7 +76,7 @@ public class SecurityConfig {
                     // 성공시 JWT 토큰 발행할 핸들러
                     .successHandler(oAuthSuccessHandler())
 
-                    // 🌟 여기부터 강제 에러 출력용 커스텀 실패 핸들러 추가!
+                    // 에러 출력용 커스텀 실패 핸들러
                     .failureHandler((request, response, exception) -> {
                         System.out.println(" 카카오 로그인 실패 원인 ");
                         exception.printStackTrace(); // 콘솔에 빨간 줄로 진짜 에러를 출력합니다.
