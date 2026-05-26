@@ -3,6 +3,7 @@ package com.example.umc10th.domain.member.service;
 import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
+import com.example.umc10th.domain.member.dto.TokenResponse;
 import com.example.umc10th.domain.member.entity.Food;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.FoodPreference;
@@ -11,6 +12,8 @@ import com.example.umc10th.domain.member.repository.FoodPreferenceRepository;
 import com.example.umc10th.domain.member.repository.FoodRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.global.apiPayload.exception.ProjectException;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,7 @@ public class AuthService {
     private final FoodPreferenceRepository foodPreferenceRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final JwtUtil jwtUtil;
 
 
     //회원가입
@@ -52,7 +56,9 @@ public class AuthService {
             foodPreferenceRepository.saveAll(preferences);
         }
 
-        return MemberConverter.toJoinResult(savedMember);
+        String token= jwtUtil.createAccessToken(AuthMember.from(savedMember));
+
+        return MemberConverter.toJoinResult(savedMember,token);
     }
 
 }
