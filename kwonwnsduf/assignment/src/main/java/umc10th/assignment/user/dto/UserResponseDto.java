@@ -3,6 +3,10 @@ package umc10th.assignment.user.dto;
 import lombok.Builder;
 
 public class UserResponseDto {
+    @Builder
+    public record Login(
+            String accessToken
+    ) {}
     public record MyPageDTO(
             Long memberId,
             String nickname,
