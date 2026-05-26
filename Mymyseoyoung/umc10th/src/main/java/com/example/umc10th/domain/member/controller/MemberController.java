@@ -6,7 +6,9 @@ import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,19 +29,19 @@ public class MemberController {
 
     //내 포인트 조회
     @GetMapping("/points")
-    public ApiResponse<MemberResponseDTO.GetMyPointInfo> getMyPointInfo(@PathVariable Long memberId) {
+    public ApiResponse<MemberResponseDTO.GetMyPointInfo> getMyPointInfo(@AuthenticationPrincipal AuthMember authMember){
 
         BaseSuccessCode code = MemberSuccessCode.MEMBER_POINT_FOUND;
 
-        return ApiResponse.onSuccess(code,memberService.getMyPointInfo(memberId));
+        return ApiResponse.onSuccess(code,memberService.getMyPointInfo(authMember.getMember().getId()));
 
 
     }
 
     //마이페이지 전체 정보 조회
     @GetMapping("/{memberId}/my-page")
-    public ApiResponse<MemberResponseDTO.MemberProfileResponse> getMyPage(@PathVariable Long memberId) {
-        return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_POINT_FOUND,memberService.getMyPage(memberId));
+    public ApiResponse<MemberResponseDTO.MemberProfileResponse> getMyPage(@AuthenticationPrincipal AuthMember authMember) {
+        return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_POINT_FOUND,memberService.getMyPage(authMember.getMember().getId()));
     }
 
 }
