@@ -27,4 +27,11 @@ public class MemberResDTO {
             String updatedAt
     ) {
     }
+
+    @Builder
+    public record LoginResultDTO(
+            String accessToken
+    ){
+
+    }
 }
