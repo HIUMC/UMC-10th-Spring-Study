@@ -12,6 +12,7 @@ public enum GeneralSuccessCode implements BaseSuccessCode {
     CREATED(HttpStatus.CREATED, "COMMON201_1", "성공적으로 생성되었습니다.")
     ;
     private final HttpStatus status;
-    private final String message;
     private final String code;
+    private final String message;
+
 }
