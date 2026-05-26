@@ -1,12 +1,12 @@
 package com.example.umc10th.domain.member.controller;
 
 
+import com.example.umc10th.domain.member.dto.LoginRequest;
 import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.dto.TokenResponse;
-import com.example.umc10th.domain.member.enums.MemberSuccessCode;
+import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th.domain.member.service.AuthService;
-import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.security.util.HeaderUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,8 +27,20 @@ private final AuthService authService;
         MemberResponseDTO.JoinResult result = authService.join(request);
         HeaderUtil.setAuthorizationHeader(response, result.accessToken());
         // 회원가입 로직 호출
-        return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_JOINED, result);
+        return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_JOIN, result);
     }
+
+    @PostMapping("/login")
+    public ApiResponse<Void> login(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
+
+TokenResponse tokenResponse = authService.login(request);
+
+HeaderUtil.setAuthorizationHeader(response,tokenResponse.token());
+return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_LOGIN,null);
+
+
+    }
+
 
 
 }

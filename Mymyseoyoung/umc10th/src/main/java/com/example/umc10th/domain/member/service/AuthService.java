@@ -1,13 +1,14 @@
 package com.example.umc10th.domain.member.service;
 
 import com.example.umc10th.domain.member.converter.MemberConverter;
+import com.example.umc10th.domain.member.dto.LoginRequest;
 import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
 import com.example.umc10th.domain.member.dto.TokenResponse;
 import com.example.umc10th.domain.member.entity.Food;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.FoodPreference;
-import com.example.umc10th.domain.member.enums.MemberErrorCode;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.FoodPreferenceRepository;
 import com.example.umc10th.domain.member.repository.FoodRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
@@ -61,4 +62,17 @@ public class AuthService {
         return MemberConverter.toJoinResult(savedMember,token);
     }
 
+    public TokenResponse login(LoginRequest request)
+    {
+        Member member = memberRepository.findByEmail(request.email())
+                .orElseThrow(()->new ProjectException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(request.password(), member.getPassword()))
+        {
+            throw new ProjectException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        String accessToken = jwtUtil.createAccessToken(AuthMember.from(member));
+        return new TokenResponse(accessToken);
+    }
 }
