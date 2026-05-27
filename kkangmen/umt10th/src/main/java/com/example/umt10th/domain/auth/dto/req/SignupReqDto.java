@@ -1,4 +1,4 @@
-package com.example.umt10th.domain.auth.dto;
+package com.example.umt10th.domain.auth.dto.req;
 
 import com.example.umt10th.domain.member.enums.Address;
 import com.example.umt10th.domain.member.enums.FoodType;

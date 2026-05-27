@@ -1,14 +1,13 @@
 package com.example.umt10th.domain.member.controller;
 
-import com.example.umt10th.domain.member.dto.MemberReqDTO;
 import com.example.umt10th.domain.member.dto.MemberResDTO;
 import com.example.umt10th.domain.member.exception.code.MemberSuccessCode;
 import com.example.umt10th.domain.member.service.MemberService;
 import com.example.umt10th.global.apiPayload.ApiResponse;
-import com.example.umt10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umt10th.global.apiPayload.code.BaseSuccessCode;
-import jakarta.validation.Valid;
+import com.example.umt10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,8 +23,10 @@ public class MemberController {
      * 추후 추가 - @AuthenticationPrincipal로 유저 확인 및 memberService에 전달
      */
     @GetMapping("/v1/users/me")
-    public ApiResponse<MemberResDTO.GetInfo> getInfo(){
+    public ApiResponse<MemberResDTO.GetInfo> getInfo(
+            @AuthenticationPrincipal AuthMember member
+    ){
         BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getInfo());
+        return ApiResponse.onSuccess(code, memberService.getInfo(member));
     }
 }

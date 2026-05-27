@@ -1,9 +1,9 @@
 package com.example.umt10th.domain.member.converter;
 
-import com.example.umt10th.domain.auth.dto.SignupReqDto;
-import com.example.umt10th.domain.member.dto.MemberReqDTO;
+import com.example.umt10th.domain.auth.dto.req.SignupReqDto;
 import com.example.umt10th.domain.member.dto.MemberResDTO;
 import com.example.umt10th.domain.member.entity.Member;
+import com.example.umt10th.global.security.dto.OAuthDTO;
 
 public class MemberConverter {
 
@@ -29,6 +29,15 @@ public class MemberConverter {
                 .detailAddress(dto.detailAddress())
                 .email(dto.email())
                 .password(encodedPw)
+                .build();
+    }
+
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .name(dto.getName())
+                .email(dto.getSocialEmail())
+                .socialType(dto.getSocialType())
+                .socialUid(dto.getSocialUid())
                 .build();
     }
 }

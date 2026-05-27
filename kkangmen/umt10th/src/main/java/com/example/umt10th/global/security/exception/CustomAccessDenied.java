@@ -1,4 +1,4 @@
-package com.example.umt10th.global.security.entity;
+package com.example.umt10th.global.security.exception;
 
 import com.example.umt10th.global.apiPayload.ApiResponse;
 import com.example.umt10th.global.apiPayload.code.BaseErrorCode;

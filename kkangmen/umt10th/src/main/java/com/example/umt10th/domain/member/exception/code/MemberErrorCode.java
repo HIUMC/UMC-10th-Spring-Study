@@ -14,7 +14,11 @@ public enum MemberErrorCode implements BaseErrorCode {
             "회원을 찾을 수 없습니다."),
     MEMBER_BAD_REQUEST(HttpStatus.BAD_REQUEST,
             "COMMON400_1",
-            "잘못된 요청입니다.");
+            "잘못된 요청입니다."),
+    NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST,
+            "COMMON400_2",
+            "해당 기관의 소셜 로그인을 지원하지 않습니다.")
+    ;
 
 
     private final HttpStatus status;
