@@ -7,7 +7,11 @@ import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +27,7 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public AuthResDTO.SignupDTO saveMember(@Valid AuthReqDTO.SignupDTO dto) {
 
@@ -36,5 +41,17 @@ public class AuthService {
                 .memberId(savedMember.getId())
                 .createdAt(LocalDateTime.now())
                 .build();
+    }
+
+    public String  login(AuthReqDTO.LoginDTO dto) {
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() ->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        if(!passwordEncoder.matches(dto.password(), member.getPassword())){
+            throw new MemberException(MemberErrorCode.UNAUTHORIZED);
+        }
+
+        return jwtUtil.createAccessToken(new AuthMember(member));
+
+
     }
 }

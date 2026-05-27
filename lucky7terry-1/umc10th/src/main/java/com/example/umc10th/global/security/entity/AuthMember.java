@@ -27,13 +27,13 @@ public class AuthMember implements UserDetails {
     // Member 엔티티에 저장된 암호화된 비밀번호를 반환함
     @Override
     public @Nullable String getPassword() {
-        return member.getPassword();
+        return null;
     }
 
     // 로그인할 때 사용자를 식별하는 값 반환
     // 여기서는 username 대신 email을 로그인 ID로 사용
     @Override
     public String getUsername() {
-        return member.getEmail();
+        return member.getSocialUid();
     }
 }

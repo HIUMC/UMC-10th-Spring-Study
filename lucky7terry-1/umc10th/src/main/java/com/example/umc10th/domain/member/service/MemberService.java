@@ -7,6 +7,7 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,13 +24,9 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
-    public MemberResDTO.MyPageDTO getInfo(MemberReqDTO.GetInfo dto) {
+    public MemberResDTO.MyPageDTO getInfo(AuthMember member) {
 
-        Long memberId = dto.id();
-        Member member = memberRepository.findByIdAndDeletedAtIsNull(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
-        return MemberConverter.toMyPageDTO(member);
+        return MemberConverter.toMyPageDTO(member.getMember());
     }
 
 
