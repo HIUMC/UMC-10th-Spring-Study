@@ -7,6 +7,7 @@ public class MypageResDTO {
     @Builder
     public record GetMypage(
             String username,
+            String profileUrl,
             String email,
             String phoneNumber,
             Long point

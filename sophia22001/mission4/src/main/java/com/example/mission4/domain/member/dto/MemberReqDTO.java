@@ -35,4 +35,12 @@ public class MemberReqDTO {
         @Size(min = 1, message = "선호 음식은 하나 이상이어야 합니다.")
         List<FoodName> preferFoods
     ){}
+
+    public record Login(
+        @NotNull(message = "이메일은 필수입니다.")
+        String email,
+
+        @NotNull(message = "비밀번호는 필수입니다.")
+        String password
+    ){}
 }
