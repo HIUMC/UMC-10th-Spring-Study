@@ -55,4 +55,9 @@ public class AuthReqDTO {
             Boolean marketing
     ) {}
 
+    public record LoginDTO(
+            String email,
+            String password
+    ) {}
+
 }

@@ -12,4 +12,9 @@ public class AuthResDTO {
             LocalDateTime createdAt
     ) {}
 
+    @Builder
+    public record LoginDTO(
+            String accessToken
+    ) {}
+
 }
