@@ -1,4 +1,4 @@
-package com.example.umt10th.global.security.entity;
+package com.example.umt10th.global.security.exception;
 
 import com.example.umt10th.global.apiPayload.ApiResponse;
 import com.example.umt10th.global.apiPayload.code.BaseErrorCode;
@@ -7,15 +7,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
 
+@Slf4j
 public class CustomEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+
+        log.error("소셜 로그인 실패 원인: {}", authException.getMessage());
+
         ObjectMapper objectMapper = new ObjectMapper();
         BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
 
