@@ -1,9 +1,8 @@
 package com.example.umc10th.domain.auth.converter;
 
 import com.example.umc10th.domain.auth.dto.AuthReqDTO;
-import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.member.enums.Provider;
+import com.example.umc10th.domain.member.enums.SocialType;
 
 public class AuthConverter {
 
@@ -18,7 +17,7 @@ public class AuthConverter {
                 .password(encodedPassword)
                 .locationAllow(dto.agree().location())
                 .marketingAllow(dto.agree().marketing())
-                .socialProvider(Provider.LOCAL)
+                .socialType(SocialType.LOCAL)
                 .socialUid("0")
                 .point(0)
                 .build();

@@ -1,6 +1,6 @@
 package com.example.umc10th.domain.member.enums;
 
-public enum Provider {
+public enum SocialType {
     LOCAL,
     KAKAO
 }

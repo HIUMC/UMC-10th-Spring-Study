@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.member.entity;
 
 import com.example.umc10th.domain.member.enums.Gender;
-import com.example.umc10th.domain.member.enums.Provider;
+import com.example.umc10th.domain.member.enums.SocialType;
 import com.example.umc10th.domain.mission.enums.Address;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,13 +32,13 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address")
     @Enumerated(EnumType.STRING)
     private Address address;
 
@@ -47,8 +46,8 @@ public class Member extends BaseEntity {
     private String detailAddress;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "social_provider")
-    private Provider socialProvider;
+    @Column(name = "social_type")
+    private SocialType socialType;
 
     @Column(name = "social_uid")
     private String socialUid;

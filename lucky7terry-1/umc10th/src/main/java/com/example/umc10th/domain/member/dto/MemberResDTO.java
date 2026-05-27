@@ -12,5 +12,10 @@ public class MemberResDTO {
             String phoneNumber
     ) {
     }
+
+    @Builder
+    public record Login(
+            String accessToken
+    ) {}
 }
 

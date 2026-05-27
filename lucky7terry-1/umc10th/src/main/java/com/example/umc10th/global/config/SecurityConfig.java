@@ -3,6 +3,8 @@ package com.example.umc10th.global.config;
 import com.example.umc10th.global.security.exception.CustomAccessDenied;
 import com.example.umc10th.global.security.exception.CustomEntryPoint;
 import com.example.umc10th.global.security.filter.JwtAuthFilter;
+import com.example.umc10th.global.security.handler.OAuthSuccessHandler;
+import com.example.umc10th.global.security.service.CustomOAuthService;
 import com.example.umc10th.global.security.service.CustomUserDetailsService;
 import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuthService customOAuthService;
 
     /**
      * 인증 없이 접근을 허용할 URL 목록
@@ -35,7 +38,8 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**"
+            "/auth/**",
+            "/oauth/**"
     };
 
 
@@ -55,9 +59,9 @@ public class SecurityConfig {
                         // 위에서 허용한 경로를 제외한 나머지 모든 요청은 로그인한 사용자만 접근 가능
                         .anyRequest().authenticated())
                 // formLogin
-                .formLogin(AbstractHttpConfigurer::disable)
+                 .formLogin(AbstractHttpConfigurer::disable)
                 // 세션
-                .sessionManagement(AbstractHttpConfigurer::disable)
+                // .sessionManagement(AbstractHttpConfigurer::disable)
                 // JWT 필터
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
@@ -68,6 +72,24 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         // 로그아웃 요청도 인증 여부와 관계없이 접근 가능하도록 허용
                         .permitAll())
+
+                // OAuth
+                .oauth2Login(oauth -> oauth
+                        // 인증 엔트리 포인트
+                        .authorizationEndpoint(auth -> auth
+                                .baseUri("/oauth/authorize")
+                        )
+                        // 콜백 주소
+                        .redirectionEndpoint(redirect -> redirect
+                                .baseUri("/oauth/callback/**")
+                        )
+                        // 인증 완료 후 정보 활용
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuthService)
+                        )
+                        // 성공 시 JWT 토큰 발행할 핸들러
+                        .successHandler(oAuthSuccessHandler())
+                )
                 // 예외 상황 핸들러
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(customAccessDenied())
@@ -100,5 +122,10 @@ public class SecurityConfig {
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
+
+    @Bean
+    public OAuthSuccessHandler oAuthSuccessHandler() {
+        return new OAuthSuccessHandler(jwtUtil);
     }
 }
