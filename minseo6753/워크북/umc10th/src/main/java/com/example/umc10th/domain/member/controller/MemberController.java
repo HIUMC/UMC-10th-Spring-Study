@@ -5,11 +5,12 @@ import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,11 +53,11 @@ public class MemberController {
 
     @GetMapping("/my-page")
     public ApiResponse<MemberResDTO.MyPage> myPage(
-            @RequestHeader Long memberId //todo 토큰인증으로 변경
-    ) {
+            @AuthenticationPrincipal AuthMember authMember
+            ) {
         return ApiResponse.onSuccess(
                 GeneralSuccessCode.OK,
-                memberService.myPage(memberId)
+                memberService.myPage(authMember)
         );
     }
 }

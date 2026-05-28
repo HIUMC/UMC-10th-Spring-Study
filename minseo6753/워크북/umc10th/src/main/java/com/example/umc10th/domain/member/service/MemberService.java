@@ -92,11 +92,8 @@ public class MemberService {
         return null;
     }
 
-    public MemberResDTO.MyPage myPage(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
-
-        return MemberConverter.toMyPage(member);
+    public MemberResDTO.MyPage myPage(AuthMember authMember) {
+        return MemberConverter.toMyPage(authMember.getMember());
     }
 
     @Transactional(readOnly = true)
