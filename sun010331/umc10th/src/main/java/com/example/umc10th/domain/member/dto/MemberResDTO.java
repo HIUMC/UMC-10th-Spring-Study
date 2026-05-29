@@ -22,8 +22,9 @@ public class MemberResDTO {
 
     @Builder
     public record JoinDTO(
-            Long memberId,
-            LocalDateTime createdAt
+            String email,
+            Long memberId
+
             ) {
     }
 }
