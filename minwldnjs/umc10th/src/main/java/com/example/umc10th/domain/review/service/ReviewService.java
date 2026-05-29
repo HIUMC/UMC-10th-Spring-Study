@@ -4,11 +4,14 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.entity.Store;
 import com.example.umc10th.domain.mission.repository.StoreRepository;
+import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
@@ -39,5 +42,42 @@ public class ReviewService {
         return ReviewResDTO.CreateReviewResultDTO.builder()
                 .reviewId(review.getId())
                 .build();
+    }
+
+    // 커서 기반 페이지네이션으로 내 리뷰 조회
+    @Transactional(readOnly = true)
+    public ReviewResDTO.ReviewSliceDTO getMyReviews(Long memberId, String cursor, String sort, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+        Slice<Review> slice;
+        String nextCursor = null;
+
+        if (sort.equals("star")) {
+            if (cursor == null || cursor.equals("-1")) {
+                slice = reviewRepository.findByMemberIdOrderByStar(memberId, pageRequest);
+            } else {
+                String[] parts = cursor.split(":");
+                BigDecimal starCursor = new BigDecimal(parts[0]);
+                Long idCursor = Long.parseLong(parts[1]);
+                slice = reviewRepository.findByMemberIdOrderByStar(memberId, starCursor, idCursor, pageRequest);
+            }
+            if (slice.hasNext()) {
+                Review last = slice.getContent().get(slice.getContent().size() - 1);
+                nextCursor = last.getStar() + ":" + last.getId();
+            }
+        } else {
+            if (cursor == null || cursor.equals("-1")) {
+                slice = reviewRepository.findByMemberIdOrderById(memberId, pageRequest);
+            } else {
+                String[] parts = cursor.split(":");
+                Long idCursor = Long.parseLong(parts[1]);
+                slice = reviewRepository.findByMemberIdOrderById(memberId, idCursor, pageRequest);
+            }
+            if (slice.hasNext()) {
+                Review last = slice.getContent().get(slice.getContent().size() - 1);
+                nextCursor = "id:" + last.getId();
+            }
+        }
+
+        return ReviewConverter.toReviewSliceDTO(slice, nextCursor);
     }
 }
