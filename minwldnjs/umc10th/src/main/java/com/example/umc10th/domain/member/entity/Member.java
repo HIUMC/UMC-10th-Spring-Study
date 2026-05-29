@@ -49,6 +49,10 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private Integer point;
 
+    // 폼 로그인을 위한 password 필드 추가
+    @Column
+    private String password;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<MemberFood> memberFoodList = new ArrayList<>();
@@ -60,5 +64,4 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<MemberMission> memberMissionList = new ArrayList<>();
-
 }
