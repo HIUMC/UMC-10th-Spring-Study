@@ -15,4 +15,11 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResDTO.JoinDTO joinDTO(Member member){
+        return MemberResDTO.JoinDTO.builder()
+                .email(member.getEmail())
+                .memberId(member.getId())
+                .build();
+    }
+
 }

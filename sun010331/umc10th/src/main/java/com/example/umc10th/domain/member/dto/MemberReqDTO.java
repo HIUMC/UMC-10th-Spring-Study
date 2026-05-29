@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -21,7 +22,7 @@ public class MemberReqDTO {
         String email;
         String password;
         Gender gender;
-        LocalDateTime birthday;
+        LocalDate birthday;
         String address;
         String nickName;
         String phoneNumber;
@@ -30,8 +31,9 @@ public class MemberReqDTO {
     @Getter
     @Builder
     public static class LoginDTO{
-        String email;
+        String name;
         String password;
+        String email;
     }
 
 
