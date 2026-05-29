@@ -46,6 +46,9 @@ public class Member extends BaseEntity {
     @Builder.Default
     private String email = "이메일없음";
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "phone_number")
     private String phoneNumber;
 

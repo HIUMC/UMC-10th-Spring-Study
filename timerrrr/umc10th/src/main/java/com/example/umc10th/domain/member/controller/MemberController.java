@@ -1,13 +1,16 @@
 package com.example.umc10th.domain.member.controller;
 
+import com.example.umc10th.domain.member.dto.AuthResDTO;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.code.GeneralSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,21 +30,20 @@ public class MemberController {
     }
 
     // 마이페이지 조회
-    @GetMapping("/members/{memberId}/my-page")
+    @GetMapping("/members/my-page")
     public ApiResponse<MemberResDTO.GetMyPage> getMyPage(
-            @PathVariable Long memberId
+            @AuthenticationPrincipal AuthMember authMember
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getMyPage(new MemberReqDTO.GetInfo(memberId)));
+        return ApiResponse.onSuccess(code, memberService.getMyPage(authMember));
     }
 
     // 회원가입
     @PostMapping("/members")
-    public ApiResponse<Void> signUp(
+    public ApiResponse<AuthResDTO.Login> signUp(
             @RequestBody @Valid MemberReqDTO.SignUp dto
     ) {
         BaseSuccessCode code = GeneralSuccessCode.OK;
-        memberService.signUp(dto);
-        return ApiResponse.onSuccess(code, null);
+        return ApiResponse.onSuccess(code, memberService.signUp(dto));
     }
 }
