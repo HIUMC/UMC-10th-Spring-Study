@@ -64,8 +64,6 @@ public class MemberService {
         AuthMember authMember = new AuthMember(member);
         String accessToken = jwtUtil.createAccessToken(authMember);
 
-        return MemberResDTO.Login.builder()
-                .accessToken(accessToken)
-                .build();
+        return MemberConverter.toLogin(accessToken);
     }
 }

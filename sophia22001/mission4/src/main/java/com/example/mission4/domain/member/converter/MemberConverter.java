@@ -4,6 +4,8 @@ import com.example.mission4.domain.member.dto.MemberReqDTO;
 import com.example.mission4.domain.member.dto.MemberResDTO;
 import com.example.mission4.domain.member.entity.Member;
 import com.example.mission4.domain.member.entity.mapping.MemberFood;
+import com.example.mission4.domain.member.enums.SocialType;
+import com.example.mission4.global.security.dto.OAuthDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +47,20 @@ public class MemberConverter {
         memberFoodList.forEach(memberFood -> member.getMemberFoodList().add(memberFood));
 
         return member;
+    }
+
+    public static MemberResDTO.Login toLogin(String accessToken) {
+        return MemberResDTO.Login.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .socialType(dto.getSocialType())
+                .socialUid(dto.getSocialUid())
+                .email(dto.getSocialEmail())
+                .name(dto.getName())
+                .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.mission4.global.security.service;
 
 import com.example.mission4.domain.member.entity.Member;
+import com.example.mission4.domain.member.enums.SocialType;
 import com.example.mission4.domain.member.exception.MemberException;
 import com.example.mission4.domain.member.exception.code.MemberErrorCode;
 import com.example.mission4.domain.member.repository.MemberRepository;
@@ -16,15 +17,27 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService {
 
     private final MemberRepository memberRepository;
 
+    // 1. username & pasaword 버전
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Member member = memberRepository.findByEmail(username)
+//                .orElseThrow(()-> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+//
+//        return new AuthMember(member);
+//    }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(username)
-                .orElseThrow(()-> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+    // 2. 소셜 로그인 버전
+    public UserDetails loadUserByUidAndSocialType(
+            SocialType socialType,
+            String username
+    ) throws UsernameNotFoundException {
+        // DB에서 기존 회원 정보 조회 & 인증 객체 생성
+        Member member = memberRepository.findBySocialTypeAndSocialUid(socialType, username)
+            .orElseThrow(()-> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         return new AuthMember(member);
     }

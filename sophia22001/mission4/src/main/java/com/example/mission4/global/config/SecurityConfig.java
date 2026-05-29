@@ -3,6 +3,8 @@ package com.example.mission4.global.config;
 import com.example.mission4.global.security.exception.CustomAccessDenied;
 import com.example.mission4.global.security.exception.CustomEntryPoint;
 import com.example.mission4.global.security.filter.JwtAuthFilter;
+import com.example.mission4.global.security.handler.CustomOAuthService;
+import com.example.mission4.global.security.handler.OAuthSuccessHandler;
 import com.example.mission4.global.security.service.CustomUserDetailsService;
 import com.example.mission4.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +25,16 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuthService customOAuthService;
 
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
+
+    @Bean
+    public OAuthSuccessHandler oAuthSuccessHandler() {
+        return new OAuthSuccessHandler(jwtUtil);
     }
 
     // 인증 없이 접근 가능한 경로
@@ -43,7 +51,7 @@ public class SecurityConfig {
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter, CustomOAuthService customOAuthService) throws Exception {
             http
                     .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
                     // URI 허용 여부
@@ -55,6 +63,24 @@ public class SecurityConfig {
                     .formLogin(form -> form
                             .defaultSuccessUrl("/swagger-ui/index.html", true) // 로그인 성공 시 → Swagger UI로 리다이렉트
                             .permitAll()) // 로그인 페이지 자체는 누구나 접근 가능
+                    .oauth2Login(oauth -> oauth
+                            // 인증 엔트리 포인트
+                            .authorizationEndpoint(auth -> auth.
+                                    baseUri("/oauth/authorize"))
+                            // 콜백 주소
+                            .redirectionEndpoint(redirect -> redirect
+                                    .baseUri("/oauth/callback/**"))
+                            // 인증 완료 후 정보 활용
+                            .userInfoEndpoint(userInfo -> userInfo
+                                    .userService(customOAuthService))
+                            // 성공 시 JWT 토큰을 발행할 핸들러
+                            .successHandler(oAuthSuccessHandler())
+                            .failureHandler((request, response, exception) -> {
+                                // 실제 에러 확인용 - 콘솔에 출력
+                                exception.printStackTrace();
+                                response.setStatus(400);
+                                response.getWriter().write("OAuth2 Error: " + exception.getMessage());
+                            }))
                     // 세션
                     .sessionManagement(AbstractHttpConfigurer::disable)
                     // JWT 필터

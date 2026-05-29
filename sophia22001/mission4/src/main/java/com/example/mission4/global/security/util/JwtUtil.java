@@ -1,5 +1,6 @@
 package com.example.mission4.global.security.util;
 
+import com.example.mission4.domain.member.enums.SocialType;
 import com.example.mission4.global.security.entity.AuthMember;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -45,10 +46,31 @@ public class JwtUtil {
      * @param token 유저 정보를 추출할 토큰
      * @return 유저 이메일을 토큰에서 추출합니다.
      */
-    public String getEmail(String token) {
+//    public String getEmail(String token) {
+//        try {
+//            // 파싱해서 subject 가져오기
+//            return getClaims(token).getPayload().getSubject();
+//        } catch (JwtException e) {
+//            return null;
+//        }
+//    }
+
+    public String getUid(String token) {
         try {
-            // 파싱해서 subject 가져오기
             return getClaims(token).getPayload().getSubject();
+        } catch (JwtException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 토큰에서 소셜 로그인 타입 가져오기
+     * @param token 유저 정보를 추출할 토큰
+     * @return 유저 소셜 로그인 타입을 추출합니다.
+     */
+    public SocialType getSocialType(String token) {
+        try {
+            return  SocialType.valueOf(getClaims(token).getPayload().get("social_type").toString().toUpperCase());
         } catch (JwtException e) {
             return null;
         }
@@ -80,9 +102,9 @@ public class JwtUtil {
 
         // Claims 구성, 유저의 권한들을 토큰에 담기
         return Jwts.builder()
-                .subject(member.getUsername()) // User 이메일은 Subject로
+                .subject(member.getUsername()) // User OAuth UID를 Subject로
                 .claim("role",authorities)
-                .claim("email", member.getUsername())
+                .claim("social_type", member.getMember().getSocialType()) // JWT 토큰을 생성할때 소셜 타입 넣기
                 .issuedAt(Date.from(now)) // 언제 발근했는지
                 .expiration(Date.from(now.plus(expiration))) // 언제까지 유효한지
                 .signWith(secretKey) // sign할 Key
@@ -97,4 +119,5 @@ public class JwtUtil {
                 .build()
                 .parseSignedClaims(token);
     }
+
 }
