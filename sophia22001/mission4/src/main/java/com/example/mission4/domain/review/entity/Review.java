@@ -2,6 +2,7 @@ package com.example.mission4.domain.review.entity;
 
 import com.example.mission4.domain.member.entity.Member;
 import com.example.mission4.domain.store.entity.Store;
+import com.example.mission4.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="review")
-public class Review {
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +29,6 @@ public class Review {
     private Integer star = 0;
 
     @Column(nullable = false)
-    @Builder.Default
     private String content = "미지정";
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
