@@ -8,6 +8,7 @@ import com.example.mission4.domain.member.exception.code.MemberSuccessCode;
 import com.example.mission4.domain.member.service.MemberService;
 import com.example.mission4.global.apiPayload.ApiResponse;
 import com.example.mission4.global.apiPayload.code.BaseSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-
-
 
     // 예시 요청 (멤버를 찾을 수 없음)
     @GetMapping("/test")
@@ -36,14 +35,7 @@ public class MemberController {
         return ApiResponse.onSuccess(code, memberService.getInfo(memberId)); // code, result
     }
 
-    // 유저 회원가입 - 유저 id 반환
-    @PostMapping("/users/signup")
-    public ApiResponse<MemberResDTO.SignUp> signUp(
-            @RequestBody MemberReqDTO.SignUp dto
-    ) {
-        BaseSuccessCode code = MemberSuccessCode.MEMBER_SIGNUP;
-        return ApiResponse.onSuccess(code, memberService.signup(dto));
-    }
+
 
 
 

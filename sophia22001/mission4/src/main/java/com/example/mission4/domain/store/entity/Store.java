@@ -28,10 +28,12 @@ public class Store {
     // 식당 종류 - 일식, 양식 ,,
     @Column(nullable = false)
     @Builder.Default
+    @Enumerated(value = EnumType.STRING)
     private FoodName storeCategory = FoodName.NONE;
 
     @Column(nullable = false)
     @Builder.Default
+    @Enumerated(value = EnumType.STRING)
     private Address address = Address.NONE;
 
     @Column(nullable = false)

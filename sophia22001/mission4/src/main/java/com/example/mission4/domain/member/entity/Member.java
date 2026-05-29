@@ -55,6 +55,10 @@ public class Member extends BaseEntity {
     @Builder.Default
     private String email = "미지정";
 
+    @Column(nullable = false)
+    @Builder.Default
+    private String password = "미지정";
+
     // null 가능
     private String phoneNumber; // 스프링부트는 CamelCase를 snake_case로 자동 변환해준다.
 
