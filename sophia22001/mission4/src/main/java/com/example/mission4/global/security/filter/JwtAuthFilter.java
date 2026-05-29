@@ -20,6 +20,9 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+/**
+ * JWT 토큰이 들어왔을때 인증 객체를 생성하는 필터
+ */
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 

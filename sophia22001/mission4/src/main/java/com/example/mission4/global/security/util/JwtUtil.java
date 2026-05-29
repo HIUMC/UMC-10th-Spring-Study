@@ -17,6 +17,9 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/**
+ * JWT 토큰 관련 작업을 하는 유틸
+ */
 @Component
 public class JwtUtil {
 
