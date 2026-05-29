@@ -25,13 +25,14 @@ public class MemberConverter {
     }
 
     // 회원가입 - MemberReqDTO.SignUp -> Member
-    public static Member toMember(MemberReqDTO.SignUp dto) {
+    public static Member toMember(MemberReqDTO.SignUp dto, String encodedPassword) {
         return Member.builder()
                 .name(dto.name())
                 .gender(dto.gender())
                 .birthDate(dto.birthDate())
                 .nickname(dto.nickname())
                 .email(dto.email())
+                .password(encodedPassword)
                 .phoneNumber(dto.phoneNumber())
                 .build();
     }
