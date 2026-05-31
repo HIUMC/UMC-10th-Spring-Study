@@ -12,6 +12,12 @@ public enum MemberErrorCode implements BaseErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND,
             "MEMBER404_1",
             "해당 리소스를 찾을 수 없습니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST,
+            "MEMBER400_1",
+            "비밀번호가 일치하지 않습니다."),
+    NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST,
+            "MEMBER400_2",
+            "지원하지 않는 소셜 로그인입니다."),
     ;
 
     private final HttpStatus status;

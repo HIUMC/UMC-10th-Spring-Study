@@ -19,6 +19,12 @@ public class MemberResDTO {
     ) {
     }
 
+    @Builder
+    public record Token(
+            String accessToken
+    ) {
+    }
+
     public record Location(
             EupMyeonDong eupMyeonDong
     ) {

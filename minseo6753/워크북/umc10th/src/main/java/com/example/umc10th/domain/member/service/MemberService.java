@@ -19,6 +19,8 @@ import com.example.umc10th.domain.restaurant.exception.code.CategoryErrorCode;
 import com.example.umc10th.domain.restaurant.exception.code.EupMyeonDongErrorCode;
 import com.example.umc10th.domain.restaurant.repository.CategoryRepository;
 import com.example.umc10th.domain.restaurant.repository.EupMyeonDongRepository;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +38,7 @@ public class MemberService {
     private final AgreementRepository agreementRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public MemberResDTO.Info signup(MemberReqDTO.SignUp request) {
@@ -89,10 +92,22 @@ public class MemberService {
         return null;
     }
 
-    public MemberResDTO.MyPage myPage(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    public MemberResDTO.MyPage myPage(AuthMember authMember) {
+        return MemberConverter.toMyPage(authMember.getMember());
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResDTO.Token login(MemberReqDTO.Login request) {
+        Member member = memberRepository.findByEmail(request.email())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
 
-        return MemberConverter.toMyPage(member);
+        if(!passwordEncoder.matches(request.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        AuthMember authMember = new AuthMember(member);
+        String accessToken = jwtUtil.createAccessToken(authMember);
+
+        return MemberConverter.toToken(accessToken);
     }
 }

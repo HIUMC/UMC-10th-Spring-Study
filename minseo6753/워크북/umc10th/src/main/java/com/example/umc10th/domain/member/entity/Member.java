@@ -2,6 +2,7 @@ package com.example.umc10th.domain.member.entity;
 
 import com.example.umc10th.domain.member.entity.mapping.Preference;
 import com.example.umc10th.domain.member.enums.Gender;
+import com.example.umc10th.domain.member.enums.SocialType;
 import com.example.umc10th.domain.restaurant.entity.address.EupMyeonDong;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.CascadeType;
@@ -40,15 +41,15 @@ public class Member extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "birth", nullable = false)
+    @Column(name = "birth")
     private LocalDate birth;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "eup_myeon_dong_id", nullable = false)
+    @JoinColumn(name = "eup_myeon_dong_id")
     private EupMyeonDong eupMyeonDong;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -66,7 +67,7 @@ public class Member extends BaseEntity {
     @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 100)
+    @Column(name = "password", length = 100)
     private String password;
 
     @Column(name = "phone_number", length = 20)
@@ -74,5 +75,12 @@ public class Member extends BaseEntity {
 
     @Column(name = "nickname", length = 10)
     private String nickname;
+
+    @Column(name = "social_type")
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    @Column(name = "social_uid")
+    private String socialUid;
 
 }
