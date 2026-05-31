@@ -4,6 +4,7 @@ import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.restaurant.entity.address.EupMyeonDong;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 
 public class MemberConverter {
 
@@ -17,6 +18,15 @@ public class MemberConverter {
                 .eupMyeonDong(eupMyeonDong)
                 .build();
 
+    }
+
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .socialType(dto.getSocialType())
+                .socialUid(dto.getSocialUid())
+                .email(dto.getSocialEmail())
+                .name(dto.getName())
+                .build();
     }
 
     public static MemberResDTO.Info toInfo(Member member) {
@@ -37,6 +47,12 @@ public class MemberConverter {
                 .email(member.getEmail())
                 .phoneNumber(member.getPhoneNumber())
                 .point(member.getPoint())
+                .build();
+    }
+
+    public static MemberResDTO.Token toToken(String accessToken) {
+        return MemberResDTO.Token.builder()
+                .accessToken(accessToken)
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.umc10th.global.security.filter;
 
+import com.example.umc10th.domain.member.enums.SocialType;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10th.global.apiPayload.code.GeneralErrorCode;
@@ -44,14 +45,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             token = token.replace("Bearer ", "");
             // AccessToken 검증하기: 올바른 토큰이면
             if (jwtUtil.isValid(token)) {
-                // 토큰에서 이메일 추출
-                String email = jwtUtil.getEmail(token);
-                // 인증 객체 생성: 이메일로 찾아온 뒤, 인증 객체 생성
-                UserDetails user = customUserDetailsService.loadUserByUsername(email);
+
+                UserDetails userDetails;
+
+                if (jwtUtil.isSocialUidNull(token)) {
+                    // 토큰에서 이메일 추출
+                    String email = jwtUtil.getEmail(token);
+                    userDetails = customUserDetailsService.loadUserByUsername(email);
+                } else {
+                    String socialUid = jwtUtil.getSocialUid(token);
+                    SocialType socialType = jwtUtil.getSocialType(token);
+                    userDetails = customUserDetailsService.loadUserByUidAndSocialType(socialType,
+                            socialUid);
+                }
+
                 Authentication auth = new UsernamePasswordAuthenticationToken(
-                        user,
+                        userDetails,
                         null,
-                        user.getAuthorities()
+                        userDetails.getAuthorities()
                 );
                 // 인증 완료 후 SecurityContextHolder에 넣기
                 SecurityContextHolder.getContext().setAuthentication(auth);

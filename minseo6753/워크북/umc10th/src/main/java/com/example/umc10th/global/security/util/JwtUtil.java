@@ -1,5 +1,6 @@
 package com.example.umc10th.global.security.util;
 
+import com.example.umc10th.domain.member.enums.SocialType;
 import com.example.umc10th.global.security.entity.AuthMember;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -35,20 +36,55 @@ public class JwtUtil {
         return createToken(member, accessExpiration);
     }
 
-    /** 토큰에서 이메일 가져오기
+    /**
+     * 토큰에서 이메일 가져오기
      *
      * @param token 유저 정보를 추출할 토큰
      * @return 유저 이메일을 토큰에서 추출합니다
      */
     public String getEmail(String token) {
         try {
-            return getClaims(token).getPayload().getSubject(); // Parsing해서 Subject 가져오기
+            return getClaims(token).getPayload().get("email").toString(); // Parsing해서 Subject 가져오기
         } catch (JwtException e) {
             return null;
         }
     }
 
-    /** 토큰 유효성 확인
+    /**
+     * 토큰에서 소셜 로그인 타입 가져오기
+     *
+     * @param token 유저 정보를 추출할 토큰
+     * @return 유저 소셜 로그인 타입을 추출합니다
+     */
+    public SocialType getSocialType(String token) {
+        try {
+            return SocialType.valueOf(getClaims(token).getPayload().get("social_type").toString().toUpperCase());
+        } catch (JwtException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 토큰에서 소셜 로그인 id 가져오기
+     *
+     * @param token 유저 정보를 추출할 토큰
+     * @return 유저 소셜 로그인 id를 추출합니다
+     */
+    public String getSocialUid(String token) {
+        try {
+            return getClaims(token).getPayload().get("social_uid").toString();
+        } catch (JwtException e) {
+            return null;
+        }
+    }
+
+    public boolean isSocialUidNull(String token) {
+
+        return getClaims(token).getPayload().get("social_uid") == null;
+    }
+
+    /**
+     * 토큰 유효성 확인
      *
      * @param token 유효한지 확인할 토큰
      * @return True, False 반환합니다
@@ -72,9 +108,11 @@ public class JwtUtil {
                 .collect(Collectors.joining(","));
 
         return Jwts.builder()
-                .subject(member.getUsername()) // User 이메일을 Subject로
+                .subject(member.getUsername())
                 .claim("role", authorities)
                 .claim("email", member.getUsername())
+                .claim("social_type", member.getMember().getSocialType())
+                .claim("social_uid", member.getMember().getSocialUid())
                 .issuedAt(Date.from(now)) // 언제 발급한지
                 .expiration(Date.from(now.plus(expiration))) // 언제까지 유효한지
                 .signWith(secretKey) // sign할 Key

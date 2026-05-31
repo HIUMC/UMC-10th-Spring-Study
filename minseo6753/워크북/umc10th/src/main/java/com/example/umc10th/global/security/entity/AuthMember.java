@@ -27,6 +27,10 @@ public class AuthMember implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getEmail();
+        if (member.getSocialUid() != null) {
+            return member.getSocialUid();
+        } else {
+            return member.getEmail();
+        }
     }
 }

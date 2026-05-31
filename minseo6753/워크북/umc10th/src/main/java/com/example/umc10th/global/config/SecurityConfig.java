@@ -3,6 +3,8 @@ package com.example.umc10th.global.config;
 import com.example.umc10th.global.security.exception.CustomAccessDenied;
 import com.example.umc10th.global.security.exception.CustomEntryPoint;
 import com.example.umc10th.global.security.filter.JwtAuthFilter;
+import com.example.umc10th.global.security.handler.OAuthSuccessHandler;
+import com.example.umc10th.global.security.service.CustomOAuthService;
 import com.example.umc10th.global.security.service.CustomUserDetailsService;
 import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +25,15 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuthService customOAuthService;
 
     private final String[] allowUris = {
             // Swagger 허용
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**"
+            "/auth/**",
+            "/oauth/**",
     };
 
     @Bean
@@ -43,6 +47,18 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth -> oauth
+                        .authorizationEndpoint(auth -> auth
+                                .baseUri("/oauth/authorize")
+                        )
+                        .redirectionEndpoint(redirect -> redirect
+                                .baseUri("/oauth/callback/**")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuthService)
+                        )
+                        .successHandler(oAuthSuccessHandler())
+                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
@@ -75,5 +91,10 @@ public class SecurityConfig {
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
+
+    @Bean
+    public OAuthSuccessHandler oAuthSuccessHandler() {
+        return new OAuthSuccessHandler(jwtUtil);
     }
 }
