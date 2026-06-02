@@ -7,6 +7,7 @@ import com.example.umc10th.domain.memberterm.entity.MemberTerm;
 import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.domain.reviewreply.entity.ReviewReply;
 import com.example.umc10th.global.apiPayload.entity.BaseEntity;
+import com.example.umc10th.global.enums.SocialType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -37,6 +38,10 @@ public class Member extends BaseEntity {
 
     @Column(name = "email", length = 100)
     private String email;
+
+    private String socialUid;
+
+    private SocialType socialType;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)

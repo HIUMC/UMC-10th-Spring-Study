@@ -8,20 +8,6 @@ import java.util.List;
 
 public class MemberReqDTO {
 
-    public record SignUp(
-            String email,
-            String password,
-            String nickname,
-            String phoneNumber,
-            Gender gender,
-            LocalDate birthday,
-            String address,
-            String profileUrl,
-            List<Food> foodPreferences,
-            List<TermAgreement> termAgreements
-    ) {
-    }
-
     public record TermAgreement(
             Long termId,
             Boolean isAgreed

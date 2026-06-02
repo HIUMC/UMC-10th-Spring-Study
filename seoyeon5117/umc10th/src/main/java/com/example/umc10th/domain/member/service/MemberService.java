@@ -1,5 +1,7 @@
 package com.example.umc10th.domain.member.service;
 
+import com.example.umc10th.domain.auth.dto.AuthReqDTO;
+import com.example.umc10th.domain.auth.dto.AuthResDTO;
 import com.example.umc10th.domain.foodpreference.service.FoodPreferenceService;
 import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
@@ -9,6 +11,8 @@ import com.example.umc10th.domain.member.enums.MemberErrorCode;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.memberterm.service.MemberTermService;
+import com.example.umc10th.global.security.entity.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,9 +26,10 @@ public class MemberService {
     private final FoodPreferenceService foodPreferenceService;
     private final MemberTermService memberTermService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
-    public MemberResDTO.SignUpRes signUp(MemberReqDTO.SignUp dto) {
+    public AuthResDTO.SignUp signUp(AuthReqDTO.SignUp dto) {
         String encodedPassword = passwordEncoder.encode(dto.password());
 
         if (memberRepository.findByEmail(dto.email()).isPresent()) {
@@ -40,35 +45,41 @@ public class MemberService {
         return MemberConverter.toSignUp(member);
     }
 
-    public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
-        //DTO에서 유저 ID를 추출
-        Long memberId = dto.id();
-        //DB에서 해당 유저 ID로 데이터 조회
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+    public MemberResDTO.GetInfo getInfo(AuthMember member) {
+
         // 컨버터를 이용해서 응답 DTO 생성 & return
-        return MemberConverter.toGetInfo(member);
+        return MemberConverter.toGetInfo(member.getMember());
     }
 
-    public MemberResDTO.GetPoint getPoint(MemberReqDTO.GetPoint dto) {
-        Long memberId = dto.id();
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+    public MemberResDTO.GetPoint getPoint(AuthMember member) {
 
-        return MemberConverter.toGetPoint(member);
+        return MemberConverter.toGetPoint(member.getMember());
     }
 
     @Transactional
-    public MemberResDTO.UpdateInfo updateInfo(MemberReqDTO.UpdateInfo dto) {
-        Member member = memberRepository.findById(dto.id())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+    public MemberResDTO.UpdateInfo updateInfo(AuthMember authMember) {
+        Member member = authMember.getMember();
 
-        if (dto.nickname() != null) member.setNickname(dto.nickname());
-        if (dto.profileUrl() != null) member.setProfileUrl(dto.profileUrl());
-        if (dto.phoneNumber() != null) member.setPhoneNumber(dto.phoneNumber());
+        if (member.getNickname() != null) member.setNickname(member.getNickname());
+        if (member.getProfileUrl() != null) member.setProfileUrl(member.getProfileUrl());
+        if (member.getPhoneNumber() != null) member.setPhoneNumber(member.getPhoneNumber());
 
         memberRepository.save(member);
 
         return MemberConverter.toUpdateInfo(member);
+    }
+
+    public AuthResDTO.Login login(AuthReqDTO.Login dto) {
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.LOGIN_FAILED));
+
+        if(!passwordEncoder.matches(dto.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.LOGIN_FAILED);
+        }
+
+        AuthMember authMember = new AuthMember(member);
+        String accessToken = jwtUtil.createAccessToken(authMember);
+
+        return MemberConverter.toLogin(accessToken);
     }
 }

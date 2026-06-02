@@ -5,13 +5,6 @@ import lombok.Builder;
 public class MemberResDTO {
 
     @Builder
-    public record SignUpRes(
-            Long memberId,
-            String nickname
-    ) {
-    }
-
-    @Builder
     public record GetInfo(
             String nickname,
             String profileUrl,
