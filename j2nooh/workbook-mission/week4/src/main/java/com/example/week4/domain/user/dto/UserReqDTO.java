@@ -33,6 +33,16 @@ public class UserReqDTO {
     ) {
     }
 
+    // 로그인
+    public record LoginRequest(
+            @NotBlank(message = "이메일은 필수입니다.")
+            String email,
+
+            @NotBlank(message = "비밀번호는 필수입니다.")
+            String password
+    ) {
+    }
+
     // 마이페이지
     public record MyPageRequest(
             @NotNull(message = "유저 ID는 필수입니다.")
