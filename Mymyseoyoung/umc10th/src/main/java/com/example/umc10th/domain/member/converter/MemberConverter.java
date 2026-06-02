@@ -2,6 +2,7 @@ package com.example.umc10th.domain.member.converter;
 
 import com.example.umc10th.domain.member.dto.MemberRequestDTO;
 import com.example.umc10th.domain.member.dto.MemberResponseDTO;
+import com.example.umc10th.domain.member.dto.TokenResponse;
 import com.example.umc10th.domain.member.entity.Food;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.FoodPreference;
@@ -46,10 +47,11 @@ public class MemberConverter {
                 .toList();
     }
 
-    public static MemberResponseDTO.JoinResult toJoinResult(Member member) {
+    public static MemberResponseDTO.JoinResult toJoinResult(Member member, String token) {
         return MemberResponseDTO.JoinResult.builder()
                 .memberId(member.getId())
                 .createdAt(member.getCreatedAt())
+                .accessToken(token)
                 .build();
     }
     public static MemberResponseDTO.GetMyPointInfo toGetMyPointInfo(Member member) {

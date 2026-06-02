@@ -21,7 +21,8 @@ public class MemberResponseDTO {
     @Builder
     public record JoinResult(
             Long memberId,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            String accessToken
     ){}
 
     //내 포인트 조회 응답
