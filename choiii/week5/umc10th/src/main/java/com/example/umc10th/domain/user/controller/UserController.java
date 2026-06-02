@@ -8,8 +8,10 @@ import com.example.umc10th.domain.user.service.UserService;
 import com.example.umc10th.global.api.ApiResponse;
 import com.example.umc10th.global.api.code.BaseSuccessCode;
 import com.example.umc10th.global.api.code.MemberSuccessCode;
+import com.example.umc10th.global.security.entity.AuthMember;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,10 +24,12 @@ public class UserController {
 
     @PostMapping("/me")
     public ApiResponse<UserResponse> getUser(
-            @RequestBody UserGetRequest request
+//            @RequestBody UserGetRequest request
+            @AuthenticationPrincipal AuthMember member
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, userService.getUser(request.userId())
+//        return ApiResponse.onSuccess(code, userService.getUser(request.userId())
+        return ApiResponse.onSuccess(code, userService.getUser(member)
         );
     }
 

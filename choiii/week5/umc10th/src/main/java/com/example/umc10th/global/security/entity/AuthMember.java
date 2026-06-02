@@ -22,12 +22,14 @@ public class AuthMember implements UserDetails {
 
     @Override
     public @Nullable String getPassword() {
-        return user.getPassword();
+//        return user.getPassword();
+        return null;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+//        return user.getEmail();
+        return user.getSocialUid();
     }
 
 }

@@ -2,7 +2,7 @@ package com.example.umc10th.domain.user.entity;
 
 import com.example.umc10th.domain.common.enums.Address;
 import com.example.umc10th.domain.common.enums.Gender;
-import com.example.umc10th.domain.common.enums.SocialProvider;
+import com.example.umc10th.domain.common.enums.SocialType;
 import com.example.umc10th.global.common.BaseEntity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -49,6 +49,13 @@ public class User extends BaseEntity {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "social_type")
+    private SocialType socialType;
+
+    @Column(name = "social_uid")
+    private String socialUid;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
