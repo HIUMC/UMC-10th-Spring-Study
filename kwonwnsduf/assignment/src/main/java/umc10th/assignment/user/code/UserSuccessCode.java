@@ -9,7 +9,9 @@ import umc10th.assignment.global.apiPayload.code.BaseSuccessCode;
 public enum UserSuccessCode implements BaseSuccessCode {
     GET_MY_PAGE(HttpStatus.OK, "USER200_1", "성공적으로 마이페이지를 조회했습니다."),
     UPDATE_USER_INFO(HttpStatus.OK, "USER200_2", "성공적으로 유저 정보를 수정했습니다."),
-    GET_POINT(HttpStatus.OK, "USER200_3", "성공적으로 포인트를 조회했습니다.");
+    GET_POINT(HttpStatus.OK, "USER200_3", "성공적으로 포인트를 조회했습니다."),
+    LOGIN(HttpStatus.OK,"USER200_4","로그인성공"),
+    SIGNUP(HttpStatus.OK,"USER200_4","회원가입성공") ;
 
     private final HttpStatus status;
     private final String code;

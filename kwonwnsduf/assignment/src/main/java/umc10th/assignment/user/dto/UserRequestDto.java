@@ -1,6 +1,11 @@
 package umc10th.assignment.user.dto;
 
 public class UserRequestDto {
+    public record Login(
+            String email,
+            String password
+    ) {
+    }
     // 마이페이지 조회
     public record GetInfo(
             Long id
