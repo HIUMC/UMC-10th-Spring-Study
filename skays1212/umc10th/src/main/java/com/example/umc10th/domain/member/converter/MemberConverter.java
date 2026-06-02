@@ -6,6 +6,7 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.SocialType;
 import com.example.umc10th.domain.mission.enums.Address;
+import com.example.umc10th.global.security.dto.OAuthDTO;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,8 +23,24 @@ public class MemberConverter {
                 .birth(LocalDate.parse(request.getBirthDate(), DateTimeFormatter.ISO_LOCAL_DATE))
                 .address(Address.valueOf(request.getAddress()))
                 .detailAddress("")
-                .social_uid("")
-                .social_type(SocialType.LOCAL)
+                .socialUid("")
+                .socialType(SocialType.LOCAL)
+                .profile_url("")
+                .build();
+    }
+
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .email(dto.getSocialEmail())
+                .password("")
+                .name(dto.getName())
+                .nickname(dto.getName())
+                .gender(Gender.NONE)
+                .birth(LocalDate.of(1900, 1, 1))
+                .address(Address.강남구)
+                .detailAddress("")
+                .socialUid(dto.getSocialUid())
+                .socialType(dto.getSocialType())
                 .profile_url("")
                 .build();
     }
@@ -36,8 +53,14 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResDTO.MyInfoResDTO toMyInfoResDTO(Member member) {
-        return MemberResDTO.MyInfoResDTO.builder()
+    public static MemberResDTO.Login toLogin(String accessToken) {
+        return MemberResDTO.Login.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
+    public static MemberResDTO.GetInfo toGetInfo(Member member) {
+        return MemberResDTO.GetInfo.builder()
                 .memberId(member.getId())
                 .userId(member.getEmail())
                 .name(member.getName())

@@ -49,11 +49,11 @@ public class Member extends BaseEntity {
     private String detailAddress;
 
     @Column(name = "social_uid")
-    private String social_uid;
+    private String socialUid;
 
     @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
-    private SocialType social_type;
+    private SocialType socialType;
 
     @Column(name = "point", nullable = false)
     @Builder.Default
